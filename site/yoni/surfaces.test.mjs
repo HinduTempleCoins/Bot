@@ -81,3 +81,43 @@ test('every surface blurb and note is escaped into the page', () => {
     assert.ok(spec.notes.length >= 1, `${n} says something particular to itself`);
   }
 });
+
+// ── intake is operator-only, and the code enforces it ───────────────────────────────────────────
+
+test('intake mode is operator-only and recorded with its date', async () => {
+  const { INTAKE } = await import('./surfaces.mjs');
+  assert.equal(INTAKE.mode, 'operator-only');
+  assert.match(INTAKE.decidedOn, /^\d{4}-\d{2}-\d{2}$/);
+  assert.match(INTAKE.whoMayPublish, /custodian of records/);
+});
+
+test('nobody may publish when the producer list is empty', async () => {
+  const { producerAllowed } = await import('./surfaces.mjs');
+  for (const s of ['', '  ', 'someone', 'hathor', 'admin']) {
+    assert.equal(producerAllowed(s, { producers: [] }), false, `refused: ${JSON.stringify(s)}`);
+  }
+});
+
+test('only a listed producer is allowed, case-insensitively', async () => {
+  const { producerAllowed } = await import('./surfaces.mjs');
+  const producers = ['operator'];
+  assert.equal(producerAllowed('operator', { producers }), true);
+  assert.equal(producerAllowed('OPERATOR', { producers }), true);
+  assert.equal(producerAllowed(' operator ', { producers }), true);
+  assert.equal(producerAllowed('operator2', { producers }), false);
+  assert.equal(producerAllowed('', { producers }), false);
+  assert.equal(producerAllowed(null, { producers }), false);
+});
+
+test('the producer list comes from the environment and defaults to empty', async () => {
+  const { producersFromEnv } = await import('./surfaces.mjs');
+  assert.deepEqual(producersFromEnv({}), []);
+  assert.deepEqual(producersFromEnv({ YONI_PRODUCERS: '' }), []);
+  assert.deepEqual(producersFromEnv({ YONI_PRODUCERS: 'A, b ,,C ' }), ['a', 'b', 'c']);
+});
+
+test('video and gallery state that no third-party uploads are taken', async () => {
+  const { SURFACES } = await import('./surfaces.mjs');
+  assert.match(SURFACES.video.notes.join(' '), /no third-party uploads/i);
+  assert.match(SURFACES.gallery.notes.join(' '), /provider set of one/i);
+});
