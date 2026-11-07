@@ -92,3 +92,74 @@ test('renderWiki: external links [url text], bare [url], and autolinked URLs —
   assert.match(html, /<a href="https:\/\/credentials\.soapbox\.community" rel="nofollow">/);
   assert.match(html, /<a href="\/wiki\/Internal_Page">Internal Page<\/a>/);   // internal still works
 });
+
+// ── wikitables ─────────────────────────────────────────────────────────────────────────────────
+// 98 articles across this wiki and YoniShrine use {| … |} and every one rendered as raw pipe syntax
+// inside <p> tags until this was implemented. These lock it down.
+
+test('a wikitable renders as a table with header and data cells', () => {
+  const { html } = renderWiki([
+    'Intro paragraph.',
+    '',
+    '{| class="wikitable"',
+    '! Institution !! Licence',
+    '|-',
+    "| '''Met''' || CC0",
+    '|-',
+    '| Rijksmuseum || CC BY 4.0',
+    '|}',
+    '',
+    'After the table.',
+  ].join('\n'));
+  assert.match(html, /<table class=wikitable>/);
+  assert.equal((html.match(/<tr>/g) || []).length, 3);
+  assert.match(html, /<th>Institution<\/th><th>Licence<\/th>/);
+  assert.match(html, /<td><b>Met<\/b><\/td><td>CC0<\/td>/);
+  assert.match(html, /<p>Intro paragraph\.<\/p>/);
+  assert.match(html, /<p>After the table\.<\/p>/);
+});
+
+test('no pipe syntax survives into the output', () => {
+  const { html } = renderWiki('{| class="wikitable"\n! A !! B\n|-\n| 1 || 2\n|}');
+  assert.doesNotMatch(html, /<p>\|/);
+  assert.doesNotMatch(html, /wikitable"<\/p>/);
+  assert.equal(html.includes('!!'), false);
+  assert.equal(html.includes('||'), false);
+});
+
+test('a table scrolls in its own wrapper so the page never does', () => {
+  const { html } = renderWiki('{|\n| a || b\n|}');
+  assert.match(html, /<div class=tablewrap>/);
+});
+
+test('a caption renders, and inline markup works inside cells', () => {
+  const { html } = renderWiki("{|\n|+ The ''ledger''\n|-\n| [[Neith]] || '''yes'''\n|}");
+  assert.match(html, /<caption>The <i>ledger<\/i><\/caption>/);
+  assert.match(html, /<a href="\/wiki\/Neith">Neith<\/a>/);
+  assert.match(html, /<b>yes<\/b>/);
+});
+
+test('cells before any |- still make a row', () => {
+  const { html } = renderWiki('{|\n| a || b\n|}');
+  assert.equal((html.match(/<tr>/g) || []).length, 1);
+  assert.match(html, /<td>a<\/td><td>b<\/td>/);
+});
+
+test('an unterminated table still renders rather than swallowing the rest', () => {
+  const { html } = renderWiki('{|\n! H\n|-\n| v');
+  assert.match(html, /<table class=wikitable>/);
+  assert.match(html, /<th>H<\/th>/);
+  assert.match(html, /<td>v<\/td>/);
+});
+
+test('an empty table emits nothing rather than an empty <table>', () => {
+  const { html } = renderWiki('Before.\n{|\n|}\nAfter.');
+  assert.doesNotMatch(html, /<table/);
+  assert.match(html, /<p>Before\.<\/p>/);
+  assert.match(html, /<p>After\.<\/p>/);
+});
+
+test('a list immediately before a table is closed first', () => {
+  const { html } = renderWiki('* one\n* two\n{|\n| a\n|}');
+  assert.ok(html.indexOf('</ul>') < html.indexOf('<table'), 'the list must close before the table opens');
+});

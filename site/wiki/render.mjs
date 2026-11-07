@@ -94,6 +94,14 @@ const STYLE = `<style>
   /* header anchor targets sit invisibly above the visible heading so #links land below the sticky bar */
   span.hx{display:block;position:relative;top:-72px;visibility:hidden}
   sup.ref{font-family:system-ui,sans-serif;font-size:11px;line-height:0} sup.ref a{color:var(--goldink)}
+  /* wikitables. A reference article's tables are often wider than a phone, so each one scrolls inside
+     its own wrapper rather than making the whole page scroll sideways. */
+  .tablewrap{overflow-x:auto;margin:18px 0;-webkit-overflow-scrolling:touch}
+  table.wikitable{border-collapse:collapse;width:100%;min-width:min(100%,520px);font-size:15px;line-height:1.45}
+  table.wikitable caption{caption-side:top;text-align:left;font-size:13px;color:var(--mut);padding-bottom:6px}
+  table.wikitable th,table.wikitable td{border:1px solid var(--line2);padding:8px 10px;vertical-align:top;text-align:left}
+  table.wikitable th{background:var(--line);font-weight:700}
+  table.wikitable tr:nth-child(even) td{background:rgba(127,127,127,.05)}
   .muted{color:var(--mut)} .faint{color:var(--faint)}
   input.search{font-family:system-ui,sans-serif;background:var(--panel);border:1px solid var(--line2);border-radius:22px;color:var(--fg);padding:11px 16px;width:100%;max-width:440px;font-size:15px}
   input.search:focus{outline:none;border-color:var(--gold);box-shadow:var(--glow)}
@@ -259,9 +267,42 @@ export function renderWiki(text) {
   const usedIds = new Set();
   let list = null; // 'ul' | 'ol'
   const closeList = () => { if (list) { out.push(`</${list}>`); list = null; } };
+
+  // ── wikitables. 98 articles across this wiki and YoniShrine use {| … |} and every one of them was
+  // rendering as raw pipe syntax inside <p> tags, because this renderer never implemented them. A table
+  // is a BLOCK with its own state, like a list: {| opens, |} closes, |- starts a row, ! cells are
+  // headers, | cells are data, |+ is a caption. Cells are split on the double delimiter only — real
+  // MediaWiki also reads `attr | content` inside a cell, which our articles do not use and which would
+  // eat any cell containing a single pipe, so it is deliberately not implemented.
+  let table = null;
+  const cellsOf = (line, th) => {
+    const body = line.replace(th ? /^\s*!\s?/ : /^\s*\|\s?/, '');
+    return body.split(th ? '!!' : '||').map((c) => ({ th, html: inline(c.trim()) }));
+  };
+  const closeTable = () => {
+    if (!table) return;
+    if (table.cur && table.cur.length) table.rows.push(table.cur);
+    const rows = table.rows.filter((r) => r.length)
+      .map((cells) => `<tr>${cells.map((c) => `<${c.th ? 'th' : 'td'}>${c.html}</${c.th ? 'th' : 'td'}>`).join('')}</tr>`)
+      .join('');
+    if (rows) {
+      out.push(`<div class=tablewrap><table class=wikitable>`
+        + (table.caption ? `<caption>${table.caption}</caption>` : '') + rows + `</table></div>`);
+    }
+    table = null;
+  };
   for (let raw of lines) {
     const line = raw.replace(/\r$/, '');
     let m;
+    if (table) {
+      if (/^\s*\|\}/.test(line)) { closeTable(); continue; }
+      if (/^\s*\|\+/.test(line)) { table.caption = inline(line.replace(/^\s*\|\+\s*/, '')); continue; }
+      if (/^\s*\|-/.test(line)) { if (table.cur) table.rows.push(table.cur); table.cur = []; continue; }
+      if (/^\s*!/.test(line)) { if (!table.cur) table.cur = []; table.cur.push(...cellsOf(line, true)); continue; }
+      if (/^\s*\|/.test(line)) { if (!table.cur) table.cur = []; table.cur.push(...cellsOf(line, false)); continue; }
+      continue; // blank or stray line inside a table: ignored rather than emitted as a paragraph
+    }
+    if (/^\s*\{\|/.test(line)) { closeList(); table = { rows: [], cur: null, caption: '' }; continue; }
     // A figure stands alone on its line and is a BLOCK, so it is matched before the [[link]] rule
     // (which would otherwise swallow it) and before any inline escaping.
     if ((m = line.match(/^\s*\[\[Figure:([a-z0-9-]+)(?:\|([^\]]*))?\]\]\s*$/i))) {
@@ -290,6 +331,7 @@ export function renderWiki(text) {
     }
   }
   closeList();
+  closeTable();   // an article that forgets |} still gets its table
   const footnotes = refs.length
     ? `<span class=hx id="references"></span><h2>References</h2><ol class=muted>${refs.map((f, i) => `<li id=ref${i + 1}><code>${esc(f)}</code></li>`).join('')}</ol>`
     : '';
