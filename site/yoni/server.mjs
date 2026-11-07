@@ -31,6 +31,7 @@ import { createServer } from 'node:http';
 import { renderWiki, slugify, titleize } from '../wiki/render.mjs';
 import { policyFor, check as gateCheck, reveal, previewMode, SURFACE_POLICY, LEVELS, rank }
   from '../../integrations/agegate/model.mjs';
+import { surfacePage, compliancePage, surfaceNames, SURFACES, CARD_CONTROLS } from './surfaces.mjs';
 
 const __dir = path.dirname(fileURLToPath(import.meta.url));
 const PORT = +(process.env.PORT || 8161);
@@ -105,7 +106,8 @@ record-keeping, and they do not on their own trigger the state age-verification 
 surfaces on this property declare their own level.</p>
 <ul class=idx>${rows || '<li class=mut>No articles yet.</li>'}</ul>
 <p class=mut><a href="/surfaces">surfaces and what each requires &rarr;</a> &middot;
-<a href="/upload">publishing here &rarr;</a></p>
+<a href="/upload">publishing here &rarr;</a> &middot;
+<a href="/compliance">what this property has to run &rarr;</a></p>
 <div class=card><b>Not legal advice.</b> <span class=mut>These pages describe statutes and decided
 cases. They do not substitute for a lawyer admitted in the relevant jurisdiction.</span></div>`,
     'Reference shelf: law, rights and source material.');
@@ -123,8 +125,10 @@ function articlePage(slug) {
 
 function surfacesPage() {
   const order = [...Object.entries(SURFACE_POLICY)].sort((a, b) => rank(a[1].level) - rank(b[1].level));
+  const built = new Set([...surfaceNames(), 'upload']);
   const rows = order.map(([name, pol]) => `<tr>
-    <td><b>${esc(name)}</b></td><td><code>${esc(pol.level)}</code></td><td class=mut>${esc(pol.reason)}</td></tr>`).join('');
+    <td><b>${built.has(name) ? `<a href="/${esc(name)}">${esc(name)}</a>` : esc(name)}</b></td>
+    <td><code>${esc(pol.level)}</code></td><td class=mut>${esc(pol.reason)}</td></tr>`).join('');
   return shell('Surfaces — YoniShrine', `
 <h1>Surfaces and what each one requires</h1>
 <p class=mut>Every surface on this property declares its own level. Nothing is gated uniformly: a
@@ -184,6 +188,11 @@ keeping ID records in the ordinary course of business.</li>
 refusal is enforced in code rather than promised in a policy. The § 2257 file is the opposite
 obligation and it is deliberately not held here.</p>
 
+<h2>And what the card networks require</h2>
+<p class=mut>Mastercard Rules &sect; 9.4.1, keyed to merchant category code 5967 rather than to how
+explicit the material is:</p>
+<ul>${CARD_CONTROLS.map((c) => `<li>${esc(c)}</li>`).join('')}</ul>
+
 <h2>Before anything can be accepted</h2>
 <ul>
 <li>A named custodian of records, with title and business address, and the § 2257(e) statement on every
@@ -229,6 +238,13 @@ export async function handler(req, res) {
   if (p === '/surfaces') return html(200, surfacesPage());
 
   if (p === '/upload') return html(200, uploadPage(url.searchParams.get('subject') || ''));
+
+  if (p === '/compliance') return html(200, compliancePage({ shell }));
+
+  if (surfaceNames().includes(p.slice(1))) {
+    const page = surfacePage(p.slice(1), { shell, subject: url.searchParams.get('subject') || '' });
+    if (page) return html(200, page);
+  }
 
   if (p.startsWith('/a/')) {
     const page = articlePage(p.slice(3));
