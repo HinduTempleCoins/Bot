@@ -79,3 +79,54 @@ test('an unknown surface fails closed even through the HTTP boundary', async () 
 test('escaping holds at the render edge', () => {
   assert.equal(esc('<script>&"'), '&lt;script&gt;&amp;&quot;');
 });
+
+// ── the surface map and the upload door ─────────────────────────────────────────────────────────
+
+test('/surfaces renders every declared surface with its level', async () => {
+  const r = await call('/surfaces');
+  assert.equal(r.code, 200);
+  for (const name of ['wiki', 'preview', 'gallery', 'video', 'live', 'upload', 'payout']) {
+    assert.match(r.body, new RegExp(`<b>${name}</b>`), `${name} is listed`);
+  }
+  // upload and payout are the id-level doors; the viewer surfaces are not
+  assert.match(r.body, /<b>upload<\/b><\/td><td><code>id<\/code>/);
+  assert.match(r.body, /<b>payout<\/b><\/td><td><code>id<\/code>/);
+  assert.match(r.body, /<b>wiki<\/b><\/td><td><code>none<\/code>/);
+});
+
+test('/surfaces is ordered by level, lowest first', async () => {
+  const r = await call('/surfaces');
+  const levels = [...r.body.matchAll(/<td><code>(none|attested|verified|id)<\/code>/g)].map((m) => m[1]);
+  const order = ['none', 'attested', 'verified', 'id'];
+  const ranks = levels.map((l) => order.indexOf(l));
+  assert.deepEqual(ranks, [...ranks].sort((a, b) => a - b), `not ordered: ${levels.join(',')}`);
+});
+
+test('the upload door requires id and fails closed for an unknown subject', async () => {
+  assert.equal(policyFor('upload').level, 'id');
+  const r = await call('/upload?subject=nobody-has-verified-this');
+  assert.equal(r.code, 200);
+  assert.match(r.body, /Not cleared/);
+  assert.doesNotMatch(r.body, />Cleared\./);
+});
+
+test('the upload door states the 2257 subsections rather than paraphrasing them', async () => {
+  const r = await call('/upload');
+  for (const cite of ['2257\\(b\\)', '2257\\(c\\)', '2257\\(e\\)', '2257\\(f\\)', '2257\\(i\\)', '2257A']) {
+    assert.match(r.body, new RegExp(`§ ${cite}`), `cites § ${cite.replace(/\\\\/g, '')}`);
+  }
+  assert.match(r.body, /custodian of records/i);
+});
+
+test('the upload door keeps the two stores apart and promises no document storage', async () => {
+  const r = await call('/upload');
+  assert.match(r.body, /The age gate/);
+  assert.match(r.body, /§ 2257 records/);
+  // the gate side must say plainly that it never holds the document
+  assert.match(r.body, /Never holds/);
+  assert.match(r.body, /the document, the document number, the date of birth/i);
+});
+
+test('an unknown surface fails closed at id', () => {
+  assert.equal(policyFor('whatever-this-is').level, 'id');
+});
