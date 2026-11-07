@@ -55,6 +55,22 @@ export function wallStrategy({ buyBook = [], sellBook = [], floor, ceiling, wall
 // runner: read VKBT (or given) book, analyse, EMIT DATA (annals feed), print. Dry-run; execution
 // is wired through angelicalist/trader.placeOrder when the operator turns it live.
 export async function run(symbol = 'VKBT', opts = {}) {
+  // REFUSE A SYMBOL THAT IS NOT A TOKEN. An empty book is indistinguishable from a nonexistent token:
+  // both give zero walls, so wallStrategy dutifully proposes a buy wall to defend the floor. The
+  // melek-wallbot unit passed a literal `$t` for five months — systemd does not expand `\$` in
+  // ExecStart — and the bot read the order book of a token that does not exist 22,874 times, emitting
+  // the same PLACE_BUY_WALL intent about nothing every twenty minutes. Nothing told anyone, because
+  // every individual run looked exactly like a quiet market.
+  if (!/^[A-Z][A-Z0-9.]{0,19}$/.test(String(symbol))) {
+    const summary = `REFUSED: "${symbol}" is not a valid Hive-Engine symbol — nothing read, no intent formed`;
+    emitBotData('wall-bot', { summary, data: { symbol, refused: 'malformed symbol' } });
+    return { symbol, refused: 'malformed symbol', buyWalls: [], sellWalls: [], intents: [], summary };
+  }
+  if (!(await market.tokenInfo(symbol).catch(() => null))) {
+    const summary = `REFUSED: token ${symbol} does not exist on Hive-Engine — nothing read, no intent formed`;
+    emitBotData('wall-bot', { summary, data: { symbol, refused: 'unknown token' } });
+    return { symbol, refused: 'unknown token', buyWalls: [], sellWalls: [], intents: [], summary };
+  }
   const [buyBook, sellBook] = await Promise.all([market.buyBook(symbol, 50), market.sellBook(symbol, 50)]);
   const wc = loadTradeConfig().wall;   // WALL_FLOOR / WALL_CEILING / WALL_SIZE defaults, consolidated
   const floor = opts.floor ?? wc.floor;

@@ -25,9 +25,15 @@ export const PRANA_CHAIN_ID_ENV = 'PRANA_CHAIN_ID';
 const PRANA_CHAIN_ID_PLACEHOLDER = '712217'; // PRANA MAINNET (0xADE19). Testnet/alpha is 108369. Env-overridable via PRANA_CHAIN_ID
 // Resolved per-access (a getter, not frozen at import) so setting PRANA_RPC_URL after this module
 // loads — or in an offline test — lights the chain up automatically with no code change.
+// PRANA mainnet's own public RPC. Defaulting to it rather than to [] is the point: with no default,
+// any process without PRANA_RPC_URL set recorded our OWN chain as the one chain with no data — the
+// 12-minute collector did exactly that for five months, because its unit has no EnvironmentFile.
+// Verified 2026-11-07: eth_chainId returns 0xade19 (712217), which is mainnet. Per CLAUDE.md this is
+// deliberately the MAINNET endpoint — never the alpha one.
+export const PRANA_MAINNET_RPC = 'https://rpc.prana.melek.salon';
 export function pranaRpc() {
   const raw = process.env[PRANA_RPC_ENV];
-  return raw ? raw.split(',').map((s) => s.trim()).filter(Boolean) : [];
+  return raw ? raw.split(',').map((s) => s.trim()).filter(Boolean) : [PRANA_MAINNET_RPC];
 }
 export function pranaChainId() {
   return process.env[PRANA_CHAIN_ID_ENV] || PRANA_CHAIN_ID_PLACEHOLDER;
@@ -136,6 +142,17 @@ export async function chainsTvl() {
 }
 
 // native token prices for all listed chains in one coingecko call
+/**
+ * Which CoinGecko ids we asked for and got nothing back for. A chain with no `cg` is excluded —
+ * PRANA has no public market, so having no price is correct for it and is not a gap. Everything
+ * else returning nothing means the id is wrong, retired, or the call failed; all three are worth
+ * seeing rather than silently writing `price: null` into the series for months.
+ */
+export function missingPriceIds(prices = {}) {
+  const want = [...new Set(Object.values(CHAINS).map((c) => c.cg).filter(Boolean))];
+  return want.filter((id) => !(prices?.[id] && typeof prices[id].usd === 'number'));
+}
+
 export async function nativePrices() {
   // skip chains with no coingecko id (e.g. PRANA — no public market yet) so the request stays clean
   const ids = [...new Set(Object.values(CHAINS).map(c => c.cg).filter(Boolean))].join(',');

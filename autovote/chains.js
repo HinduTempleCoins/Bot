@@ -94,7 +94,11 @@ export const CHAINS = {
     id: 'blurt',
     label: 'BLURT (mainnet, beta)',
     network: 'mainnet',
-    rpcs: ['https://rpc.blurt.world', 'https://blurtard.com'],
+    // Both previous endpoints (rpc.blurt.world, blurtard.com) are NXDOMAIN — they do not resolve at
+    // all, so selecting BLURT here was a dead product for every user who picked it. rpc.beblurt.com is
+    // the endpoint this repo already uses successfully in cheetah/xchain-corpus, holder-conversion and
+    // hathor-follower; verified live returning head_block_number 65,148,158 on 2026-11-07.
+    rpcs: ['https://rpc.beblurt.com', 'https://beblurt.com'],
     chainId: 'cd8d90f29ae273abec3eaa7731e25934c63eb654d55080caff2ebb7f5df6381f',
     addressPrefix: 'BLT',
     authMethods: ['whalevault', 'postingkey'],

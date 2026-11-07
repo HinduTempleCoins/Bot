@@ -27,20 +27,34 @@ const WRAPPED_TOKEN_SEL = '0xdb110aac'; // wrappedToken(bytes32)
 //   json-prop  — POST jsonrpc {method,params}, ok if result satisfies `check(result)`
 export const CHECKS = [
   { name: 'Ecosystem home', group: 'Web', kind: 'contains', url: 'https://soapbox.community/', needle: 'SoapBox' },
-  { name: 'Tokens portal', group: 'Web', kind: 'http', url: 'https://tokens.alpha.melek.salon/' },
-  { name: 'Akasha wallet', group: 'Web', kind: 'http', url: 'https://akasha.alpha.soapbox.community/' },
-  { name: 'PRANAScan explorer', group: 'Web', kind: 'http', url: 'https://pranascan.alpha.soapbox.community/' },
-  { name: 'MELEK social app', group: 'Web', kind: 'http', url: 'https://alpha.melek.salon/' },
-  { name: 'KulaSwap DEX', group: 'DeFi', kind: 'contains', url: 'https://alpha.kula.money/', needle: 'KulaSwap' },
-  { name: 'Auto / SoapBox', group: 'Social', kind: 'http', url: 'https://auto.alpha.melek.salon/' },
+  { name: 'Tokens portal (alpha)', group: 'Web', kind: 'http', url: 'https://tokens.alpha.melek.salon/' },
+  { name: 'Akasha wallet (alpha)', group: 'Web', kind: 'http', url: 'https://akasha.alpha.soapbox.community/' },
+  { name: 'PRANAScan explorer (alpha)', group: 'Web', kind: 'http', url: 'https://pranascan.alpha.soapbox.community/' },
+  { name: 'MELEK social app (alpha)', group: 'Web', kind: 'http', url: 'https://alpha.melek.salon/' },
+  { name: 'KulaSwap DEX (alpha)', group: 'DeFi', kind: 'contains', url: 'https://alpha.kula.money/', needle: 'KulaSwap' },
+  { name: 'Auto / SoapBox (alpha)', group: 'Social', kind: 'http', url: 'https://auto.alpha.melek.salon/' },
   { name: 'Mining pool', group: 'Chain', kind: 'http', url: 'https://pool.soapbox.community/' },
   { name: 'Witness school', group: 'Social', kind: 'http', url: 'https://witness.melek.salon/' },
-  { name: 'SoapBox Staking', group: 'DeFi', kind: 'contains', url: 'https://staking.alpha.melek.salon/api/state', needle: '"ok":true' },
-  { name: 'APIS Paymaster', group: 'DeFi', kind: 'contains', url: 'https://paymaster.alpha.melek.salon/api/manifest', needle: 'SIGNS nothing' },
-  { name: 'PRANA gas faucet', group: 'Chain', kind: 'http', url: 'https://faucet.alpha.soapbox.community/' },
+  { name: 'SoapBox Staking (alpha)', group: 'DeFi', kind: 'contains', url: 'https://staking.alpha.melek.salon/api/state', needle: '"ok":true' },
+  { name: 'APIS Paymaster (alpha)', group: 'DeFi', kind: 'contains', url: 'https://paymaster.alpha.melek.salon/api/manifest', needle: 'SIGNS nothing' },
+  { name: 'PRANA gas faucet (alpha)', group: 'Chain', kind: 'http', url: 'https://faucet.alpha.soapbox.community/' },
   { name: 'PRANA RPC', group: 'Chain', kind: 'json-prop', rpc: 'https://rpc.prana.melek.salon', method: 'eth_chainId', params: [], want: '0xADE19' },
-  { name: 'MELEK RPC', group: 'Chain', kind: 'json-prop', rpc: 'https://alpha.melek.salon/rpc', method: 'condenser_api.get_dynamic_global_properties', params: [], want: 'head_block_number' },
-  { name: 'Bridge (wMELEK registered)', group: 'Bridge', kind: 'eth-call', rpc: 'https://rpc.prana.alpha.melek.salon', to: BRIDGE, data: WRAPPED_TOKEN_SEL + MELEK_TOKEN_ID.slice(2), want: 'nonzero-address' },
+  // MAINNET FIRST, AND NAMED. This board previously had exactly one chain check, called it
+  // "MELEK RPC", and pointed it at alpha.melek.salon — the TESTNET. It would therefore show
+  // "MELEK RPC ✅" while MELEK mainnet was dark, which is the worst thing a status board can do.
+  // CLAUDE.md is explicit: mainnet only, never Alpha. Alpha surfaces may still be checked, but
+  // every one of them has to say so in its name.
+  { name: 'MELEK mainnet RPC', group: 'Chain', kind: 'json-prop', rpc: 'https://melek.salon/rpc', method: 'condenser_api.get_dynamic_global_properties', params: [], want: 'head_block_number' },
+  { name: 'MELEK testnet RPC (alpha)', group: 'Chain', kind: 'json-prop', rpc: 'https://alpha.melek.salon/rpc', method: 'condenser_api.get_dynamic_global_properties', params: [], want: 'head_block_number' },
+  // Deliberately still ALPHA, and now labelled as such. eth_getCode for this address on PRANA
+  // mainnet (712217) returns '0x' — the GrapheneDepositBridge is deployed on alpha (108369) ONLY,
+  // where it has 9,746 bytes of code. Repointing this check at mainnet would turn a correct check
+  // into a broken one. The mainnet bridge address lives in the GRAPHENE_BRIDGE_ADDRESS env var and
+  // is not in the repo, so it is read from env here and this falls back to the alpha pair.
+  { name: 'Bridge (wMELEK registered, alpha)', group: 'Bridge', kind: 'eth-call',
+    rpc: process.env.GRAPHENE_BRIDGE_RPC || 'https://rpc.prana.alpha.melek.salon',
+    to: process.env.GRAPHENE_BRIDGE_ADDRESS || BRIDGE,
+    data: WRAPPED_TOKEN_SEL + MELEK_TOKEN_ID.slice(2), want: 'nonzero-address' },
 ];
 
 async function probe(check, timeoutMs = 8000) {
