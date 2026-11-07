@@ -48,6 +48,10 @@ const PORT = +(process.env.PORT || 8161);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || 'https://yonishrine.com').replace(/\/+$/, '');
 const ARTICLES_DIR = process.env.YONI_ARTICLES_DIR || path.join(__dir, 'articles');
+// Articles here cite articles in the public Library of Ashurbanipal, which is a different host. An
+// [[x]] that resolves to a file in THIS directory stays on this site; anything else goes to the
+// Library. See localizeLinks — renderWiki emits /wiki/<slug>, which this server does not route.
+const LIBRARY_URL = (process.env.YONI_LIBRARY_URL || 'https://wiki.soapbox.community').replace(/\/+$/, '');
 // Secure cookies always, except when explicitly checking the box over plain http.
 const SECURE_COOKIES = process.env.YONI_INSECURE_COOKIES !== '1';
 
@@ -116,24 +120,91 @@ ${STYLE}</head><body>
 <a href="/surfaces">Surfaces</a> &middot; <a href="/upload">Publish</a></span></header>
 <main>${body}</main></body></html>`;
 
+// What each article actually is, for the front page. A slug with no note still lists, with its
+// title only — the front page must never silently drop an article just because nobody wrote a line
+// for it. Keep these to one clause; the article itself is the long version.
+const ARTICLE_NOTES = {
+  Actress_or_Prostitute_The_Legal_Line:
+    ['law', 'what makes a payment an acting fee instead of a sex-work offence — People v. Freeman, and why it does not travel'],
+  Paid_for_Her_Time_Fee_Agreement_and_Transport:
+    ['law', 'fee-for-time versus fee-for-an-act, why an escort service is not a brothel, and the Mann Act\u2019s dominant-motive rule'],
+  The_Federal_Age_Floor_for_Filming:
+    ['law', '18 U.S.C. \u00a7 2257 and \u00a7 2257A — the records every producer owes, and exactly where "sexually explicit" begins'],
+  DMCA_and_Takedown_in_Adult_Media:
+    ['law', 'notice, counter-notice, repeat-infringer policy, and the remedies when material goes out against the subject\u2019s will'],
+  Blurring_Click_to_Reveal_and_Per_Surface_Thresholds:
+    ['law', 'why a blur, a click-through and a verified check are three different legal objects'],
+  Fine_Art_Nude_Sources_and_Rights:
+    ['sources', 'museum collections that license the nude for commercial reuse, graded by what each institution actually permits'],
+  Classical_Erotology_Corpus_and_Rights:
+    ['sources', 'the classical erotic corpus — editions, translations and the copyright position of each'],
+  The_Womb_the_Fish_and_the_Phallus:
+    ['history', 'Christian rebirth language as worship of the female generative aspect: the font as the Virgin\u2019s womb, in a world that hung phalluses in doorways'],
+  The_Midwife_the_Oracle_and_the_Green_One:
+    ['history', 'the midwife-witch is mostly a myth — midwives were the court\u2019s examiners; and the goddess at Buto who received Horus from Isis'],
+};
+const SECTION_TITLES = {
+  law: ['Law and rights', 'what the statutes and the decided cases actually say'],
+  sources: ['Sources and corpus', 'where the material comes from and what may be done with it'],
+  history: ['History and religion', 'the older argument this place is named out of'],
+};
+
 function hubPage() {
   const arts = listArticles();
-  const cards = [
-    ['/archive', 'Eidola', `${arts.length} articles on law, rights and sources — open, no check`],
-    ['/surfaces', 'Surfaces', 'every surface here and the level it requires'],
-    ['/gallery', 'Gallery', 'stills — needs a check'],
-    ['/video', 'Video', 'moving image — needs a check'],
-    ['/live', 'Live', 'cams — needs a check'],
-    ['/upload', 'Publish', 'what publishing here requires'],
-    ['/apply', 'Apply', 'apply to produce'],
-    ['/compliance', 'Compliance', 'what this property has to run'],
-  ].map(([href, title, blurb]) => `<li><a href="${esc(href)}">${esc(title)}</a>
-    <div class=mut>${esc(blurb)}</div></li>`).join('');
+  const notesFor = (slug) => ARTICLE_NOTES[slug] || ['history', ''];
+  const groups = { law: [], sources: [], history: [] };
+  for (const a of arts) groups[notesFor(a.slug)[0] in groups ? notesFor(a.slug)[0] : 'history'].push(a);
+
+  const shelf = Object.entries(SECTION_TITLES).map(([key, [heading, sub]]) => {
+    const rows = groups[key].map((a) => `<li><a href="/a/${esc(a.slug)}">${esc(a.title)}</a>
+      <div class=mut>${esc(notesFor(a.slug)[1])}</div></li>`).join('');
+    if (!rows) return '';
+    return `<h3>${esc(heading)}</h3><p class=mut>${esc(sub)}</p><ul class=idx>${rows}</ul>`;
+  }).join('');
+
+  // Surfaces, with the level each one demands, straight off the policy rather than retyped here.
+  const built = new Set([...surfaceNames(), 'upload']);
+  const surfaceRows = [...Object.entries(SURFACE_POLICY)]
+    .sort((a, b) => rank(a[1].level) - rank(b[1].level))
+    .map(([name, pol]) => `<tr>
+      <td><b>${built.has(name) ? `<a href="/${esc(name)}">${esc(name)}</a>` : esc(name)}</b></td>
+      <td><code>${esc(pol.level)}</code></td><td class=mut>${esc(pol.reason)}</td></tr>`).join('');
+
   return shell('YoniShrine', `
 <h1>YoniShrine</h1>
-<p class=mut>An archive and a set of surfaces. Each surface declares the level of age assurance it
-requires, and nothing is gated uniformly &mdash; the reading room is open, the media is not.</p>
-<ul class=idx>${cards}</ul>`, 'An archive and a set of surfaces, each gated at the level it actually requires.');
+<p>An archive and a set of surfaces. The reading room is open. The media is not, and each surface
+declares the level of age assurance it requires rather than one gate covering the whole site.</p>
+
+<h2>Eidola &mdash; the reading room</h2>
+<p class=mut><a href="/archive">${arts.length} articles</a>, open, no check. Every claim in them is
+graded: what a primary source says, what scholars argue, and what is only repeated in popular writing
+are marked as three different things.</p>
+${shelf}
+
+<h2>The surfaces</h2>
+<p class=mut>What exists here and what each one asks for before it opens. <code>none</code> is open,
+<code>attested</code> is a declaration, <code>verified</code> is a real check &mdash;
+<a href="/gate">done on our own face-age model</a>, on this hardware, with the image deleted after the
+estimate and never stored.</p>
+<table><tr><th>surface</th><th>needs</th><th>why</th></tr>${surfaceRows}</table>
+<p class=mut><a href="/surfaces">the surfaces page</a> has the long form of this table.</p>
+
+<h2>Publishing here</h2>
+<ul class=idx>
+  <li><a href="/upload">Publish</a>
+    <div class=mut>what publishing here requires &mdash; the records, the review before anything is
+    visible, and why the page is readable without a check</div></li>
+  <li><a href="/apply">Apply to produce</a>
+    <div class=mut>intake is operator-only for now; an application is how that changes, and it asks
+    for no identity documents</div></li>
+  <li><a href="/compliance">Compliance</a>
+    <div class=mut>\u00a7 2257 records, the card-network rules this property runs under, and what is
+    still outstanding</div></li>
+</ul>
+
+<div class=card><b>Not legal advice.</b> <span class=mut>The law pages describe statutes and decided
+cases. They do not substitute for a lawyer admitted in the relevant jurisdiction.</span></div>`,
+    'An archive and a set of surfaces, each gated at the level it actually requires.');
 }
 
 function archivePage() {
@@ -157,11 +228,26 @@ They do not substitute for a lawyer admitted in the relevant jurisdiction.</span
     'Eidola: the law, the rights and the sources, open to read.');
 }
 
+/**
+ * renderWiki emits every [[wikilink]] as /wiki/<slug>, which is the public Library's route and NOT
+ * one this server has. Left alone, every internal link in every article here is a 404. So: a slug
+ * that names a file in this directory becomes /a/<slug>; anything else is assumed to live in the
+ * Library and is sent there absolutely. Only the href is touched, never the link text.
+ */
+export function localizeLinks(html, dir = ARTICLES_DIR) {
+  return String(html == null ? '' : html).replace(
+    /href="\/wiki\/([A-Za-z0-9_:-]+)"/g,
+    (_, slug) => (readArticle(slug, dir) != null
+      ? `href="/a/${slug}"`
+      : `href="${LIBRARY_URL}/wiki/${slug}"`),
+  );
+}
+
 function articlePage(slug) {
   const src = readArticle(slug);
   if (src == null) return null;
   let html = '';
-  try { html = renderWiki(src).html; } catch { html = '<p>Could not render this page.</p>'; }
+  try { html = localizeLinks(renderWiki(src).html); } catch { html = '<p>Could not render this page.</p>'; }
   const title = titleize(slug);
   return shell(`${title} — YoniShrine`, `<h1>${esc(title)}</h1>${html}
 <p class=mut><a href="/archive">← Eidola</a></p>`, title);

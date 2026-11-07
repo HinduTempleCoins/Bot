@@ -1,0 +1,131 @@
+'''The womb, the fish and the phallus''' sets out a claim about early Christianity and then tests it against the sources. The claim: the rebirth language at the centre of Christian initiation — the font, the second birth, the Church as mother — is not a metaphor laid over an abstract doctrine. It is '''generative''' imagery, and specifically '''female''' generative imagery, in a Mediterranean religious landscape whose other cults worshipped the generative organ as '''male'''. Rome hung bronze phalluses in doorways to ward off harm. The new cult put a womb at the door instead, and made joining it a birth.
+
+''This article distinguishes three grades of claim throughout: what the primary sources say, what scholars argue, and what is asserted mainly in popular writing. Those are not the same thing and the article does not blur them.''
+
+== 1. The landscape: Rome worshipped a phallus, and said so ==
+
+This is not a polemical framing. It is ordinary Roman religion, and the Romans were explicit about it.
+
+* '''Fascinus''' — in Roman religion and magic, the '''embodiment of the divine phallus'''. Not a rude joke but a god. Pliny the Elder records that a phallus representing Fascinus was attached to a general's chariot at a triumph, to guard him against envy. ''(Pliny is cited here from secondary sources; check the Natural History directly before relying on the detail.)''
+* '''Tintinnabula''' — bronze wind chimes, commonly cast as an ithyphallic figure or a winged phallus, hung to turn away the evil eye; the bells were themselves apotropaic because ringing was thought to frighten spirits. A complete example was excavated at '''Viminacium''' in Serbia and described by archaeologists as an apotropaic amulet.
+* '''Priapus''' — a fertility god whose attribute is an exaggerated phallus, his statues set to guard gardens. The fresco of Priapus in the House of the Vettii at Pompeii is the best-known surviving example and is read by scholars as apotropaic humour.
+* '''Mutunus Tutunus''' — a phallic marriage deity, sometimes identified with Priapus. '''The detail that matters for this article:''' Roman brides are said to have straddled his phallus as part of the marriage rite, and the account survives because '''the Church Fathers attacked it''', reading the act as an obscene loss of virginity.
+
+That last point is the hinge. The Fathers were not describing a distant curiosity. They were arguing against a living rite in which the generative power was a male organ a bride sat upon — and they were building an initiation in which the generative power was a womb a convert came out of.
+
+== 2. The womb at the centre, in the Church's own words ==
+
+The strongest evidence for the claim is not from a critic of Christianity. It is from a Pope.
+
+'''Leo the Great''', ''Sermon 24'' (Christmas):
+
+<code>And each one is a partaker of this spiritual origin in regeneration; and to every one when he is re-born, the water of baptism is like the Virgin's womb.</code>
+
+Not ''resembles''. Not ''calls to mind''. The reasoning Leo gives is that the same Spirit who filled Mary fills the font, so that what the Virgin's womb received, the font receives. In ''Tractatus 25'' he completes the structure: by the Spirit Christ is born from the body of his unsullied Mother, and by the same Spirit '''the Christian is reborn from the womb of holy Church'''. The Vatican's own Marian literature cites these Christmas homilies for exactly that comparison.
+
+So the architecture, stated doctrinally rather than poetically:
+
+* The '''Church is the mother''' — ''Mater Ecclesia''. The font is her womb; the newly baptised are her children.
+* The '''people are the body of Christ''' — ''Corpus Christi''. "Now you are the body of Christ, and individually members of it" (1 Corinthians 12:27), developed as the doctrine of the Mystical Body.
+
+Hold both at once and the shape is unmistakable. '''What is born out of the womb of the Church is the body of the Son.''' Membership is gestational. The convert does not sign, swear or enlist; the convert is '''born''', from a mother, through water. A religion can hardly place the female generative act closer to its centre than by making it the only way in.
+
+''One attribution to flag: an encyclopedia entry states that '''Irenaeus''' of Lyon called the baptismal font a womb in the late second century, which would push the image a full two centuries before Leo. I could not confirm that in a primary text and it should be treated as unverified until someone checks it. The same goes for a similar comparison attributed to Didymus of Alexandria.''
+
+== 3. The fish: what is actually known ==
+
+The ichthys is the symbol everyone thinks they know the origin of, and the honest account is less tidy than the popular one.
+
+* The '''acrostic''' is ΙΧΘΥΣ — ''Ἰησοῦς Χριστός, Θεοῦ Υἱός, Σωτήρ'' — Jesus Christ, Son of God, Saviour. The Greek word it spells is simply "fish".
+* '''Dating is disputed.''' Clement of Alexandria, around 200 CE, is cited for the earliest solid evidence of the fish as a Christian sign. The acrostic ''as an acrostic'' appears in the '''Sibylline Oracles''' (8.217–250), where the initial letters of the lines spell out the phrase. Some popular sources claim a first-century date; that is not what the evidence shows.
+* '''Serious scholars doubt the acrostic came first.''' One line of criticism holds that the connection of Jesus to the fish is '''late and secondary''', and that ''Σωτήρ'' — "Saviour" — looks '''tacked on to complete the word'''. On that reading the fish was a Christian sign for other reasons and the acrostic was fitted to it afterwards, which is the reverse of the story on the back of the car.
+* '''Tertullian''', early third century, gives the reason that actually survives in the texts, and it is '''baptismal''': believers are "little fish", born in water, after the image of Christ. The fish is in the water because the Christian is born in water.
+* Other readings are on the record: the round form has been proposed as a '''loaf of bread''' rather than a fish, and at Ephesus the five letters superimposed form an eight-spoked wheel.
+
+Note what the Tertullian line does to this article's argument. The fish is not primarily a secret password. '''It is a birth image''' — a creature of the water, named for the element the second birth happens in. That sits with section 2 rather than against it.
+
+== 4. The vesica piscis: where the evidence stops ==
+
+The ''vesica piscis'' is the pointed oval made by two overlapping circles, and it is the shape of the '''mandorla''' that frames Christ and the Virgin in Christian art. A widely repeated claim holds that the shape originated as a '''vulva''' symbol, a yoni, carried into Christian iconography from older goddess religion.
+
+'''This article does not assert that, because the evidence for it is not there.'''
+
+* The '''geometry''' is beyond dispute: the construction is Euclid, ''Elements'' Book I, Proposition 1, about 300 BCE.
+* The '''use in Christian art''' is beyond dispute: the mandorla frames holy figures, and is well attested.
+* The '''vulva origin''' is asserted chiefly in popular and esoteric writing — Barbara Walker's ''The Woman's Encyclopedia of Myths and Secrets'' (1983) and the goddess-movement authors who follow her. A search of the available material turns up '''no peer-reviewed or art-historical study''' establishing it. The accompanying folk etymology — that the name means "vessel of the fish" because female secretions were said to smell of fish — is a folk etymology and nothing more; ''vesica piscis'' is Latin for "fish's bladder" and describes the shape.
+
+The argument in section 2 does not need the vesica piscis and is weaker if it leans on it. '''A papal sermon calling the font the Virgin's womb is worth more than a thousand pages about an almond.'''
+
+== 5. Carl Ruck: the thesis, stated accurately ==
+
+'''Carl A. P. Ruck''' is Professor of Classics at Boston University and an authority on the ecstatic rites of Dionysus. His relevant works:
+
+* ''The Road to Eleusis'' (1978), with '''R. Gordon Wasson''' and '''Albert Hofmann''' — the chemist who synthesised LSD — and Blaise Daniel Staples. The argument: the ''kykeon'' drunk at the Eleusinian Mysteries contained a psychoactive ingredient.
+* ''The Apples of Apollo'' (2000), with Clark Heinrich and Staples. The argument relevant here: pagan traditions were woven into early Christian rites, '''particularly the Eucharist''', through the symbolic use of mushrooms and other visionary substances; ''Amanita muscaria'' is traced through Greek and biblical myth and into Renaissance painting, including the Isenheim Altarpiece.
+* ''Sacred Mushrooms of the Goddess: Secrets of Eleusis'' (2006); ''Mushrooms, Myth and Mithras: The Drug Cult that Civilized Europe'' with Mark Hoffman and José Alfredo González Celdrán; ''Entheogens, Myth, and Human Consciousness'' (2012).
+
+'''What Ruck argues and what he does not.''' The thesis is about '''continuity of ritual''' — that the Eucharist inherits a visionary sacrament from the cults around it — and about mushroom symbolism in Christian art and text. It is '''not''' the claim, often attributed to this literature, that Jesus was himself a mushroom. Overstating it is how a serious and testable argument gets dismissed in one sentence. It is a minority position in classics and should be cited as Ruck's thesis, not as settled history.
+
+Where it touches this article: if the surrounding mystery cults were fertility cults with a consumed sacrament, then a rite of eating the body and being born from water is continuous with them rather than a break — and the question of ''which'' generative principle is at the centre, male or female, is a real historical question rather than a modern projection.
+
+== 6. Vaticanus: three etymologies and a god of the newborn's cry ==
+
+The name of the hill is genuinely contested, and the contest is more interesting than any single answer.
+
+* '''From ''vates''''' — a seer or prophet, and ''vaticinari'', to prophesy. This is the ancient explanation: Roman writers tied the name to prophecies given on the hill, and '''Varro''' gives an account involving a tutelary deity and the speech-power of a ''vates''. Dictionary-style sources still derive it this way.
+* '''Etruscan''' — modern reference works more often say the name descends from an Etruscan settlement, ''Vatica'' or ''Vaticum'', in the district the Romans called the '''Ager Vaticanus'''. On this account the etymology is uncertain and probably pre-Latin.
+* '''A personal name''' — ''Vaticanus'' appears in the consular ''fasti'' from the mid-fifth century BC, though its relation to the place name is unknown.
+
+And then the detail that is easy to miss. There was a minor Roman deity '''Vaticanus''', discussed alongside '''Vagitanus''', associated with ''vagitus'' — '''the crying of a newborn infant'''. The god opened the baby's mouth for its first cry.
+
+That is worth stating plainly and then stating carefully. It is '''documented''' that a deity of this name was linked to an infant's first cry. It is '''not''' established that this is the origin of the hill's name, and it should not be presented as though it were. But it means the word carries, in the Roman sources themselves, an association with '''newborns''' — which is a strange thing to find sitting under the next section.
+
+== 7. The necropolis under the Vatican, and the children in it ==
+
+There is a Roman cemetery under the Vatican, it is open to visitors, and a great many of the people buried in it were very small.
+
+* The '''Necropolis of the Via Triumphalis''' lies beneath the Vatican. Roughly '''250 graves''' in more than '''40 tombs''' have been found. A sector was uncovered by chance in '''1956''' during excavation of the Vatican ''Autoparco''; a further sector, "Santa Rosa", during construction of a car park in '''2003'''; a project to link the two began in '''2009'''.
+* '''Many of the burials are of infants and children under five.''' The ordinary and sufficient explanation is Roman infant mortality, which was appalling by any modern standard. This is not a hidden fact — it is in the Vatican Museums' own material and the published excavation literature.
+* A particular '''child's grave contained an egg''', which Vatican officials suggested may have symbolised hope of rebirth. ''A review in the'' American Journal of Archaeology ''of Liverani and Spinola's volume is sharper about it: the reviewer notes the "infant" appears closer to six years old, that no scale appears in the published photograph, and that no evaluation of the skeleton is cited. Treat the egg burial as real and its interpretation as thinly supported.''
+* A marble shrine commemorates '''Tiberius Natronius Venustus''', a child of about four and a half.
+* In November '''2023''' the Vatican Museums reported that remains of people buried between the first century BC and the fourth century AD had been excavated, studied and returned to the site, with the work ongoing.
+
+'''What this is and is not.''' It is a pagan-era Roman burial ground, in continuous use for centuries before the basilica, containing the graves of many small children because that is what a Roman cemetery contains. It is not evidence of anything done to those children. Anyone who tells you otherwise is describing infant mortality and calling it a crime.
+
+The resonance is still worth recording, because this article is about imagery and not about accusation. A hill whose name is tied in Roman sources to a god of '''the newborn's first cry'''; a cemetery under it '''full of newborns'''; and, built on top, an institution whose central rite is '''being born again''' from the womb of a mother Church. Three things that have nothing causally to do with each other and keep using the same vocabulary.
+
+== 8. The ledger ==
+
+What this article claims, graded.
+
+{| class="wikitable"
+! Claim !! Status
+|-
+| Rome worshipped the phallus as a divine power, in household and civic cult || '''Documented''' — fascinus, tintinnabula, Priapus, Mutunus Tutunus
+|-
+| The Church Fathers attacked a rite in which a bride straddled a phallic deity || '''Documented''', and survives because they attacked it
+|-
+| A Pope taught that the baptismal font ''is'' the Virgin's womb || '''Documented''' — Leo the Great, Sermon 24; Tractatus 25
+|-
+| The Church is the mother and the faithful are the body of Christ || '''Doctrine''' — ''Mater Ecclesia''; 1 Cor 12:27 and the Mystical Body
+|-
+| The fish is a baptismal birth image before it is a password || '''Supported''' — Tertullian; and scholars who call the acrostic secondary
+|-
+| The ichthys acrostic is first-century || '''Not supported''' — evidence points to c. 200 and the Sibylline Oracles
+|-
+| The vesica piscis originated as a vulva symbol || '''Not established''' — popular writing only, no scholarly support found
+|-
+| Early Christian rite is continuous with entheogenic mystery cult || '''Ruck's thesis''' — a minority position, cite as his
+|-
+| Jesus was a mushroom || '''Not Ruck's claim''' and not this article's
+|-
+| "Vaticanus" derives from ''vates'', prophet || '''Ancient explanation''', contested; Etruscan origin now often preferred
+|-
+| A Roman deity Vaticanus was linked to a newborn's first cry || '''Documented''', but not established as the hill's etymology
+|-
+| A necropolis under the Vatican holds many infants and children || '''Documented''' — Via Triumphalis
+|-
+| Those children were harmed by anyone || '''No evidence whatsoever''' — this is Roman infant mortality
+|}
+
+The argument that survives all of that is the narrow one, and it is enough: in a world that hung a phallus over the door for luck, '''the cult that won put a womb at the entrance and made every member something that had been born out of it.''' Whether that was inherited, invented, or both is the open question. That it is there, in the plainest possible language, in a sermon by a Pope, is not in doubt.

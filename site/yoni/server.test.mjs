@@ -2,7 +2,7 @@
 // Library, that traversal is refused, and that the age gate is per surface rather than per site.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { handler, listArticles, readArticle, esc, policyFor, safeNext } from './server.mjs';
+import { handler, listArticles, readArticle, esc, policyFor, safeNext, localizeLinks } from './server.mjs';
 
 function call(url) {
   const req = { method: 'GET', url };
@@ -42,7 +42,42 @@ test('the root is a hub that reaches every surface, and is not the article list'
   for (const href of ['/archive', '/surfaces', '/gallery', '/video', '/live', '/upload', '/apply', '/compliance']) {
     assert.ok(r.body.includes(`href="${href}"`), `the hub does not link ${href}`);
   }
-  assert.doesNotMatch(r.body, /\/a\/Classical_Erotology/, 'the hub should not be the article index');
+  // The front page says what is actually here, so it DOES name the articles — but it is still a hub
+  // and not a bare index: it carries the per-surface levels and the publishing doors as well.
+  assert.match(r.body, /\/a\/Classical_Erotology/, 'the hub should name the articles');
+  assert.match(r.body, /\/a\/Paid_for_Her_Time/, 'the hub should name a newer article too');
+  assert.ok(r.body.includes('<th>needs</th>'), 'the hub should carry the surface/level table');
+  assert.ok(r.body.includes('Publishing here'), 'the hub should carry the publishing doors');
+  for (const heading of ['Law and rights', 'Sources and corpus', 'History and religion']) {
+    assert.ok(r.body.includes(heading), `the hub should group the shelf: ${heading}`);
+  }
+});
+
+test('the front page lists every article that exists, grouped, with no orphans', async () => {
+  const r = await call('/');
+  for (const a of listArticles()) {
+    assert.ok(r.body.includes(`href="/a/${a.slug}"`), `the front page drops ${a.slug}`);
+  }
+});
+
+test('an article\u2019s [[wikilinks]] resolve — local to /a/, foreign to the Library', () => {
+  const local = localizeLinks('<a href="/wiki/The_Womb_the_Fish_and_the_Phallus">x</a>');
+  assert.ok(local.includes('href="/a/The_Womb_the_Fish_and_the_Phallus"'), local);
+  // Not a file in this directory: it lives in the public Library, so it must go there absolutely.
+  const foreign = localizeLinks('<a href="/wiki/Solar_Theory_and_Euhemerism">y</a>');
+  assert.match(foreign, /href="https?:\/\/[^"]+\/wiki\/Solar_Theory_and_Euhemerism"/, foreign);
+  // Never leave a /wiki/ href behind, because this server does not route /wiki/.
+  assert.ok(!/href="\/wiki\//.test(local + foreign), 'a bare /wiki/ href would 404 here');
+  // Link text is untouched.
+  assert.ok(localizeLinks('<a href="/wiki/Neith">Neith</a>').includes('>Neith</a>'));
+});
+
+test('no rendered article leaves a dead /wiki/ link on the page', async () => {
+  for (const a of listArticles()) {
+    const r = await call(`/a/${a.slug}`);
+    assert.equal(r.code, 200, a.slug);
+    assert.ok(!/href="\/wiki\//.test(r.body), `${a.slug} has a dead /wiki/ link`);
+  }
 });
 
 test('an article renders through the wiki renderer', async () => {
