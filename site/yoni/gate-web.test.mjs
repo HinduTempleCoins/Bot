@@ -70,7 +70,10 @@ test('a tampered, foreign or malformed token is worth nothing', async () => {
   const out = await attest('subject-three', { env: ENV });
   const good = out.token;
   const bad = [
-    `${good}x`, good.replace(/.$/, 'A'), 'ag1.abc.def', 'nonsense', '',
+    // NB: flip the last char to something it is NOT. A flat .replace(/.$/, 'A') silently
+    // produces the UNTAMPERED token whenever it already ends in 'A' — about 1 in 64 base64url
+    // HMACs — and the assertion then fails because a valid token is, correctly, still valid.
+    `${good}x`, good.replace(/.$/, (c) => (c === 'A' ? 'B' : 'A')), 'ag1.abc.def', 'nonsense', '',
   ];
   for (const t of bad) {
     assert.equal(levelFor(reqWith(`${GATE_COOKIE}=${encodeURIComponent(t)}`), { env: ENV }), 'none', `rejected: ${t.slice(0, 12)}`);

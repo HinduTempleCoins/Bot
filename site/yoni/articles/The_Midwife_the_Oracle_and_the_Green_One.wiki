@@ -1,0 +1,219 @@
+'''The midwife, the oracle and the Green One''' is about two things that turn out to be one thing: how the woman who attends a birth became a figure of suspicion in Europe, and how the goddess who attends a birth was recorded in Egypt. The second half carries a correction to this library's own pages.
+
+''This article grades every claim. What a primary source says, what scholars argue, and what is repeated mainly in popular writing are three different things, and the article marks which is which rather than blending them.''
+
+== 1. The midwife-witch, as the story is usually told ==
+
+The received version runs like this: the witch hunts were a campaign against women healers, the midwife was the witch-hunters' chief target, and the persecution cleared the ground for male medicine. It is told most influentially in '''Barbara Ehrenreich and Deirdre English''', ''Witches, Midwives, and Nurses: A History of Women Healers'' (1973), a pamphlet of the women's health movement, and it has been repeated for fifty years.
+
+'''The story is largely false, and it was dismantled by a historian who was sympathetic to its politics.'''
+
+'''David Harley''', "Historians as Demonologists: The Myth of the Midwife-witch", ''Social History of Medicine'' 3:1 (April 1990), 1–26 — the citation is given in full because this article leans on it. Harley's findings, as reported in the abstract and in the secondary literature that cites it:
+
+* The midwife-witch '''is''' found in the writings of some demonologists, under the influence of the ''Malleus Maleficarum''. That part is real. It is a claim about what the theorists wrote.
+* '''In few of the vast number of trials were midwives actually accused.''' The theory did not translate into prosecutions.
+* For England, the case for the midwife-witch '''rests on only two famous examples'''.
+* For Scotland, the count of midwives among the accused runs to about '''fourteen''' — roughly one per cent or less of those accused.
+* Historians were led astray by a tradition descending from '''Margaret Murray''', whose work is discredited and which treated witches, wise women and midwives as interchangeable categories.
+
+The article is reprinted in Brian Levack's ''Witchcraft, Healing, and Popular Diseases'', which is where most readers will find it.
+
+'''On the numbers, the popular version is also wrong, and by a very large factor.''' The figure of "nine million" women killed circulates widely and has no scholarly standing. Current estimates for executions across early modern Europe:
+
+{| class="wikitable"
+|+ Scholarly estimates of executions for witchcraft, early modern Europe
+! Source !! Estimate !! Note
+|-
+| '''Ronald Hutton''' || ~40,000–50,000 || Revises Levack downward
+|-
+| '''Brian Levack''', 3rd ed. || ~45,000 || Lowered from 60,000 in the first two editions
+|-
+| '''Levack''', trials (not executions) || ~110,000 || Trials, not convictions or executions
+|-
+| Anne Llewellyn Barstow || ~100,000 || Adjusts upward for lost records
+|-
+| Nachman Ben-Yehuda || 200,000–500,000 || The high end; an outlier
+|-
+| ''Popular "nine million"'' || ''no scholarly support'' || Off by a factor of roughly 200
+|}
+
+Levack himself calls counting executions an imprecise exercise, because many trial records did not survive. The honest statement is '''tens of thousands''', with real uncertainty, and a majority — but not the whole — of the victims women.
+
+== 2. The inversion: midwives were the court's instrument, not mainly its target ==
+
+This is the part that makes the received story not merely inaccurate but backwards. Where midwives appear most often in the records of witchcraft prosecution, they appear '''on the side of the court'''.
+
+* '''Lancashire, 1634.''' On the order of '''King Charles I's Privy Council''', a panel of surgeons and midwives examined women accused of witchcraft; their signed certificate reported on four of them, the midwives signing alongside the royal surgeons. This is the clearest documented case, and the midwives are the examiners.
+* '''Salem, 1692.''' The bodily searches of the accused were performed by '''midwives and matrons, by order of the sheriff''' — not by physicians. The method described in the accounts: a pin or needle pressed into a suspect spot, and flesh that did not bleed or feel designated a witch's mark.
+* '''Maryland.''' In the case of Mary Lee, her body was searched for the mark before a ship's captain was called to look at what had been found.
+* '''Beyond the searches,''' midwives testified as expert witnesses — in infanticide cases, and on "monstrous births", which were taken as evidence of intercourse with the devil.
+
+So the midwife's position was '''structurally ambiguous and professionally powerful'''. She was the one person the court could send to look at a woman's body and be believed. That is authority, and it is the opposite of what the 1973 account describes.
+
+'''Why the true version is more interesting than the false one.''' A story in which midwives were hunted makes them victims of an external force. A story in which midwives were deputised makes the question harder and better: what happens to a body of knowledge held by women when the courts need it, use it, and certify it — and what happens to the women who decline to serve? The ambiguity is the history. The martyrology flattens it.
+
+''What this article does not claim:'' that no midwife was ever accused, or that nothing was taken from midwives. Midwives occasionally appear among the accused, in small numbers. And the displacement of midwives by male practitioners is real history — but it belongs mainly to the '''eighteenth century''' and the rise of the ''accoucheur'', after the trials, and it ran through licensing, oaths and lying-in hospitals rather than through witchcraft courts. ''That last point is stated here from general knowledge and is not sourced in this article; treat it as a pointer for someone to verify, not as established by anything above.''
+
+== 3. The ''Malleus'', stated accurately ==
+
+The ''Malleus Maleficarum'' (first printed Speyer, 1487; drafted 1486; Heinrich Kramer, possibly with Jakob Sprenger) '''does''' single out midwives. Part II, Question 1, Chapter 13 concerns injuries done to children by witch midwives — killing them, and blasphemously offering them to devils. The text carries the claim that one executed woman confessed to killing more than forty infants by piercing their heads as they emerged from the womb.
+
+'''Two things follow, and only two.'''
+
+# A demonological literature existed that named the midwife as a specific danger, with a specific mechanism: she is present at the threshold, alone with the newborn, and can act before the child is baptised. That is why she, of all women, was the theorists' object.
+# '''It did not become a prosecution pattern.''' Section 1 is the evidence for that, and it is the whole weight of Harley's paper.
+
+Quoting the ''Malleus'' to prove that midwives were hunted is quoting a theory to prove a practice. ''The chapter and its content here come from secondary sources; check a critical edition before relying on the wording.''
+
+== 4. The threshold is the point ==
+
+Hold sections 1–3 together and the shape is clear, and it is the reason this article sits in this library at all.
+
+'''The midwife's office is to stand at the boundary between not-born and born.''' She is the only person present at the moment a life begins. She handles the mother's body with authority, she judges whether the child lives, and before she is anything else she is a '''witness''' — the one who can say what happened in a room no one else entered.
+
+That is why the demonologists reached for her, and that is why the courts deputised her. '''Both uses are the same recognition.''' A society that locates danger at a threshold will always have an intense, unresolved relationship with whoever is stationed there.
+
+Which brings this to Egypt, where the same office is a goddess.
+
+== 5. Buto: the goddess who receives the child from its mother ==
+
+'''Herodotus, Book II''' (Macaulay), on the shrine in the Delta. Two passages, verbatim, because the exact wording carries the entire argument.
+
+'''II.152''' — Psammetichos, driven out by the eleven kings, sends for a prophecy:
+
+<code>and when he had sent to the Oracle of Leto in the city of Buto, where the Egyptians have their most truthful Oracle, there was given to him the reply that vengeance would come when men of bronze appeared from the sea.</code>
+
+'''II.155–156''' — the account of the shrine itself and the story attached to the floating island of Chemmis:
+
+<code>This Oracle which is in Egypt is sacred to Leto, and it is established in a great city near that mouth of the Nile which is called Sebennytic … the name of this city where the Oracle is found is Buto</code>
+
+<code>Leto, being one of the eight gods who came into existence first, and dwelling in the city of Buto where she has this Oracle, received Apollo from Isis as a charge and preserved him, concealing him in the island which is said now to be a floating island, at that time when Typhon came after him seeking everywhere and desiring to find the son of Osiris.</code>
+
+<code>Now they say that Apollo and Artemis are children of Dionysos and of Isis, and that Leto became their nurse and preserver; and in the Egyptian tongue Apollo is Oros, Demeter is Isis, and Artemis is Bubastis.</code>
+
+Read the role words, because Herodotus is precise and the popular summaries are not.
+
+* '''She is not the mother.''' '''Isis''' is the mother. The goddess at Buto '''"received Apollo from Isis as a charge"'''.
+* Her verbs are '''"received … as a charge"''', '''"preserved him"''', '''"concealing him"''', and she '''"became their nurse and preserver"'''.
+* '''"Oros" is Horus''', on Herodotus's own authority — "in the Egyptian tongue Apollo is Oros". The child she takes is Horus.
+* She is '''"one of the eight gods who came into existence first"''' — primordial, first-generation.
+* And the same goddess, in the same temple, holds '''"their most truthful Oracle"'''.
+
+'''That is the midwife's office, raised to a goddess.''' Take the child from the mother at the moment of danger; keep it alive; hide it from the thing hunting it; and speak true about what is to come. Attendance at a birth and prophecy are not two jobs here. They are one goddess in one building.
+
+''A correction to a widespread summary:'' encyclopedia entries state that '''Plutarch''' has Isis entrust the infant Horus to Leto at Buto. '''Plutarch does not say that.''' In ''De Iside et Osiride'' 18 (Babbitt) Isis "proceeded to her son Horus, who was being reared in Buto" — Buto is the place, and no attendant is named. The Leto passage is at '''38''', where Horus is the one "who they say was brought up by Leto in the marshes round about Buto" (Babbitt) or "nursed by Latona in the marshy grounds about Buto" (Goodwin). Plutarch supports the fostering role; he does not contain the entrusting scene. '''Herodotus is the source that matters, and he is stronger than the paraphrase that displaced him.'''
+
+== 6. Who the Egyptian goddess is, and who the Greeks said she was ==
+
+The goddess of '''Per-Wadjet''' — "House of Wadjet", which the Greeks called '''Buto''' — is '''Wadjet''', the cobra goddess, tutelary deity of Lower Egypt and the '''uraeus''' on the king's brow. She is one of the goddesses titled '''Eye of Ra''', the sun god's female relative acting as his emissary and enforcer. Her name derives from the root ''wadj'', "green".
+
+The equation with Leto is '''ancient testimony, not modern conjecture''', and it has at least two independent witnesses:
+
+{| class="wikitable"
+|+ The ancient record on the goddess of Buto
+! Source !! What it actually provides !! Grade
+|-
+| '''Herodotus''' II.152, 155–156 || Names the goddess "Leto", the oracle "most truthful", and the role: received Horus from Isis, nurse and preserver || '''Primary, verbatim above'''
+|-
+| '''Pliny''', ''Natural History'' || Buto as the chief seat of the goddess "Buto", "whom the Greeks identified with Leto or Latona" || Primary, quoted here from secondary sources
+|-
+| '''Claudius Ptolemy''', ''Geography'' 4.5.48 || '''Locates''' Boutos as metropolis of the Phthenotic nome. Does '''not''' make the Leto equation || Primary, and narrower than usually credited
+|-
+| Greeks equated Wadjet with Leto (general) || Reported in reference works || Secondary summary
+|}
+
+'''A correction this library owes itself.''' This library's page [[Solar Theory and Euhemerism]] says "Ptolemy's pairing of Wadjet with Leto is one such record". '''That attribution is too generous to Ptolemy.''' Ptolemy locates the city; the pairing is '''Herodotus's''', with Pliny as a second witness. The claim is not weakened by the correction — it is strengthened, because Herodotus is earlier, more detailed and gives the functional description that the whole argument turns on. But the citation in that page should be fixed.
+
+== 7. Why Leto is the wrong Greek name, and the sense in which it is not ==
+
+The Institute's position is that '''Wadjet is Theia rather than Leto''' (see [[Solar Theory and Euhemerism]], where the operation of identifying deities across pantheons is named: ''interpretatio graeca'', a documented ancient practice, so the burden is to argue the '''particular''' equation against the ancient one already on record).
+
+Here is that argument, and it rests on Herodotus's own words rather than on resemblance.
+
+'''What the ancient identification got right.''' The Greeks were matching a '''function''', and they matched it correctly. Leto in Greek myth is a goddess hunted while bearing her children, who finds refuge on a '''floating island''' — Delos — and whose children are the luminaries' archer-twins. The goddess at Buto hides a hunted child on a '''floating island''' — Chemmis. That is a real structural correspondence and it is why the equation was made. '''The identification is not careless and it is not completely wrong.'''
+
+'''What it got wrong, on Herodotus's own evidence.''' Two things, and both are in the text quoted above.
+
+# '''Generation.''' Herodotus's goddess is '''"one of the eight gods who came into existence first"'''. Greek '''Leto is not first-generation''' — she is a daughter of the Titans Coeus and Phoebe, one generation below the primordials. '''Theia is''' first-generation: a daughter of Uranus and Gaia, of the first generation of Titans. On Herodotus's own description of her precedence, Leto is the wrong slot and Theia is the right one.
+# '''Maternity.''' Greek Leto's defining attribute is that she '''is the mother''' of Apollo and Artemis. Herodotus's goddess is emphatically '''not''' the mother — she "received Apollo from Isis as a charge", and Herodotus says plainly that Apollo and Artemis "are children of Dionysos and of Isis". '''The Greek name imports a maternity that the Egyptian account denies.''' Herodotus preserved the correct relation and then applied a name that contradicts it, which is exactly the kind of seam ''interpretatio graeca'' leaves behind.
+
+'''Why Theia fits what is left.''' Strip the false maternity and what remains is a primordial goddess of '''light''', associated with '''sight and true speech''', who attends rather than bears.
+
+* '''Theia''' is the Titaness of sight and of the shining ether of the bright sky; Hesiod's ''Theogony'' is the first text to name her and her genealogy. With Hyperion she is the mother of '''Helios, Selene and Eos''' — she is the one the luminaries come out of, which is a generative relation to '''light itself''' rather than to a pair of cult gods.
+* '''Wadjet''' is an '''Eye of Ra''' — which is to say, light, and specifically the sun's own instrument of sight. And she holds '''the most truthful oracle in Egypt'''.
+* '''Homeric Hymn 31''' calls the mother of the sun '''Euryphaessa''', "wide-shining" — taken as a byname of Theia.
+
+'''The etymology, graded honestly, because it is the weakest link and also the most tempting one.''' Theoi.com derives '''Theia''' from ''thea'', "sight", and connects ''theiazo'', "to prophesy" — which would make her name mean, near enough, ''the one who sees and foretells'', and would land exactly on the oracle at Buto. '''Other sources derive the name instead from ''theios'', simply "divine".''' These are different claims and the available material does not resolve them. '''This article therefore does not rest anything on the etymology.''' The argument above runs on generation and maternity, which are textual, and would stand if the name turned out to mean nothing more than "goddess".
+
+'''Summary of the correction.''' The ancient identifiers saw a hunted child, a floating island, and a goddess of light who speaks true, and they reached for the nearest Greek name. They reached one generation too low and picked a mother instead of an attendant. Note that the light-and-prophecy traits they were tracking do sit in Leto's immediate family — her mother is '''Phoebe''', "bright", the name attached to the Delphic oracle. '''They had the right family and the wrong generation.'''
+
+== 8. Wadj is not djed ==
+
+Because the two get conflated constantly, including by people arguing positions this library holds:
+
+* '''''Wadj''''' — the '''papyrus stem/column'''. The word is glossed "green", with associated senses of flourishing, youth, and health; it is the root of '''Wadjet's''' name, hence "the Green One". The ''wadj'' amulet is a papyrus-stem shape.
+* '''''Djed''''' — a '''different sign and a different word''': the pillar with four crossbars, meaning "stable" or "enduring". '''Its reading as the backbone of Osiris is later''', absorbed into the Osiris cult as that cult came to dominate Egyptian ideas of death and rebirth.
+
+They are not variants of one symbol. An argument that moves from Wadjet to the djed via "the pillar" has changed words in the middle, and loses whatever it was carrying. ''The glosses here are from general reference sources; check Faulkner or another scholarly dictionary before relying on them.''
+
+== 9. Where the evidence stops ==
+
+Stated plainly, so no one builds on sand.
+
+* '''Wadjet as a goddess of childbirth''' and '''as protectress of women in labour''' — repeated on popular sites, and in the search available for this article the clearest version traced to '''a social-media post'''. '''Not established here.''' Note that the argument in sections 5 and 7 does not need it: Herodotus's "received … as a charge … nurse and preserver" supplies the attendant role from a primary text, which is better evidence than the epithet would be.
+* '''Wadjet as nurse of the infant Horus''' in Egyptian sources — the Metropolitan Museum describes her as "another protectress of Horus" and links that to Buto's nearness to the marshes where Isis hid her son, which is solid. The stronger "she nursed him" phrasing comes from popular reference sites. The '''Greek''' testimony for the nursing role is firm (Herodotus, above); the '''Egyptian''' textual basis should be checked by someone with the Pyramid and Coffin Text material.
+* '''The oracle at Per-Wadjet''' — well attested, and from the best possible source: Herodotus calls it the most truthful oracle in Egypt. Claims about its mechanism are not covered here.
+* '''Theia's etymology''' — disputed, as set out in section 7. Nothing rests on it.
+* '''The ''Malleus'' wording''' and the '''Pliny''' wording — both quoted here at second hand.
+* '''Site of Buto''' — the sources conflict: Tell al-Fara'in near Desouk in current reference works, "Kem Kasir" in Smith's 1854 dictionary. Unresolved, and irrelevant to the argument.
+
+== 10. The ledger ==
+
+{| class="wikitable"
+|+ Every claim in this article, graded
+! Claim !! Grade !! Rests on
+|-
+| Demonologists named the midwife as a specific danger || '''Established''' || ''Malleus'' II.1.13; Harley concedes it
+|-
+| Few midwives were actually prosecuted as witches || '''Established''' || Harley 1990; England rests on 2 cases, Scotland ~14, ~1%
+|-
+| The midwife-witch story descends from Murray via Ehrenreich & English || '''Established''' || Harley 1990
+|-
+| Midwives served as court-ordered examiners of the accused || '''Established''' || Lancashire 1634 Privy Council panel; Salem 1692 by sheriff's order
+|-
+| Executions numbered in the tens of thousands, not millions || '''Established''' || Hutton ~40–50k; Levack ~45k; "nine million" unsupported
+|-
+| Midwives were displaced by male practitioners in the 18th c. || ''Unverified here'' || Stated from general knowledge; flagged in §2
+|-
+| The oracle of Leto at Buto was Egypt's most truthful || '''Primary''' || Herodotus II.152, quoted
+|-
+| The Buto goddess received Horus from Isis and was not his mother || '''Primary''' || Herodotus II.156, quoted
+|-
+| "Oros" = Horus || '''Primary''' || Herodotus II.156, explicit
+|-
+| The Buto goddess was primordial, of the first eight || '''Primary''' || Herodotus II.156, quoted
+|-
+| Plutarch has Isis entrust Horus to Leto || '''False as usually stated''' || §18 names no attendant; §38 gives fostering only
+|-
+| Herodotus, not Ptolemy, makes the Wadjet–Leto pairing || '''Established''' || Herodotus II.155–156; Ptolemy ''Geog.'' 4.5.48 only locates Boutos
+|-
+| Leto is second-generation, Theia first-generation || '''Established''' || Leto: Coeus and Phoebe. Theia: Uranus and Gaia
+|-
+| The Leto identification imports a maternity Herodotus denies || '''Argument''', on primary text || Herodotus II.156 against Greek Leto's defining attribute
+|-
+| Wadjet is an Eye of Ra || '''Established''' || Standard Egyptology; Met Museum
+|-
+| Theia is Titaness of sight and heavenly light, mother of the luminaries || '''Established''' || Hesiod ''Theogony''; Homeric Hymn 31 (Euryphaessa)
+|-
+| Theia's name means "sight/prophecy" rather than "divine" || '''Disputed — not relied on''' || Theoi vs. other sources; unresolved
+|-
+| Wadjet as childbirth goddess || '''Weakly sourced — not claimed''' || Popular sites only; not needed
+|-
+| ''Wadj'' (papyrus, "green") is distinct from ''djed'' (pillar, "enduring") || '''Established''' || Distinct signs and words; Osiris backbone is a later reading
+|}
+
+== See also ==
+
+* [[Solar Theory and Euhemerism]] — the method, the naming collision, and the citation this article corrects
+* [[Neith]] — the other Greek–Egyptian identification with two ancient witnesses, and the full ''interpretatio graeca'' table at Herodotus II.59
+* [[The Womb the Fish and the Phallus]] — the same question of female generative imagery, in the Christian material

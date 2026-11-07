@@ -1,0 +1,170 @@
+'''Paid for her time: fee, agreement and the transport element''' is about three distinctions American law actually draws and that popular discussion collapses. '''What the fee was agreed to buy''' is the element that makes prostitution an offence — not the fact that money changed hands and sex happened. '''Who keeps the fee''' is what separates a woman working for herself from a promotion or brothel offence. And '''what the trip was for''' is the element that makes interstate transport a federal crime — the law reaches the person who moves someone ''in order'' to accomplish it, not travel that happens to precede sex.
+
+''This is legal education, not legal advice, and it is not a plan. Statutes differ by state, prosecutors charge aggressively in this area, and the sections quoted below were read from mirrors current as of 1 January 2026. Anyone with actual exposure needs a lawyer licensed where they are, working from the current session laws.''
+
+== 1. The element is the agreement, not the payment ==
+
+Start with the operative text, because the whole question is in the verb.
+
+'''Texas Penal Code § 43.02(a)''' — the seller's offence:
+
+<code>A person commits an offense if the person knowingly offers or agrees to receive a fee from another … to engage in sexual conduct</code>
+
+'''§ 43.021(a)''' — the buyer's offence, carved out of old § 43.02(b) by '''H.B. 1540''' (Acts 2021, 87th Leg., ch. 807, § 29):
+
+<code>A person commits an offense if the person knowingly offers or agrees to pay a fee to another person … for the purpose of engaging in sexual conduct with that person or another</code>
+
+'''Read what the statute requires and what it does not.'''
+
+* It requires an '''offer or agreement'''. The offence is complete at the bargain — which is why these cases are made by undercover officers and why no sex need occur at all.
+* It requires that the fee be '''"to engage in sexual conduct"''' (seller) or '''"for the purpose of engaging in sexual conduct"''' (buyer). '''The fee has to be the consideration for the sex act.'''
+* It does '''not''' criminalise paying a person money, spending time with a person who has been paid, or having sex with a person who has at some point been paid for something else.
+
+'''So the structural claim is correct: paying a woman for her time is not an offence under this section, and sex that she decides on separately is not the thing the fee bought.''' The element fails because there is no agreement to exchange a fee for sexual conduct. That is not a loophole or a clever reading — it is the text.
+
+'''And here is the part that matters just as much.''' A court does not take the parties' label for the bargain. '''The agreement is a question of fact''', proved by circumstances: what was said, what the advertising offered, whether the price varied with the act, whether the "time" had any content other than the sex, whether the money was handled before or after, what the escort service's own instructions were. "For my time" is a formula police and prosecutors know by heart, and '''calling a bargain something it is not does not change what it is'''.
+
+The honest statement of the rule, therefore:
+
+{| class="wikitable"
+|+ When the fee-for-time structure holds and when it does not
+! Situation !! Element met? !! Why
+|-
+| Fee is for a fixed block of time; sex not offered, priced or promised; she decides independently || '''No agreement for sexual conduct''' || The consideration is the time. The statute's object is absent
+|-
+| Fee nominally "for time", but the arrangement priced, promised or scheduled sex acts || '''Agreement present''' || Courts look at the bargain, not its name
+|-
+| Price varies by act, or a second payment is made for the act || '''Agreement present''' || The variation proves what the money bought
+|-
+| Advertising or agency script offers sex; the "time" wording is added afterward || '''Agreement present''' || The offer is itself the offence under § 43.02(a)
+|}
+
+'''The distinction is real in law and thin in practice''', and both halves of that sentence are true. What makes it hold is that the time genuinely is the product and the sex genuinely is not part of the deal — in the advertising, in the pricing, in what anyone was told. What breaks it is a single priced act.
+
+== 2. An escort service is not a brothel, and the statutes say so by their own terms ==
+
+Three different offences, three different targets. This is where the law is clearest and where popular discussion is worst.
+
+'''§ 43.03(a) — promotion of prostitution.''' Note the opening clause, which is doing enormous work:
+
+<code>A person commits an offense if, acting other than as a prostitute receiving compensation for personally rendered prostitution services, he or she knowingly:</code>
+
+and then, the two ways to commit it:
+
+<code>receives money or other property pursuant to an agreement to participate in the proceeds of prostitution;</code>
+
+<code>solicits another to engage in sexual conduct with another person for compensation.</code>
+
+Third-degree felony; second degree on a prior; first degree where a person under 18 is involved.
+
+'''§ 43.04 — aggravated promotion:'''
+
+<code>A person commits an offense if he knowingly owns, invests in, finances, controls, supervises, or manages … a prostitution enterprise that uses two or more prostitutes.</code>
+
+'''A felony of the first degree.''' ''(Two mirrors give first degree; one secondary source claimed H.B. 29 (2017) made it second. The mirrors do not support that, and one was verified in May 2025, so confirm against the session laws.)''
+
+'''What follows from the text:'''
+
+* '''A woman who keeps her own fee is not a promoter.''' The § 43.03 carve-out — "acting other than as a prostitute receiving compensation for personally rendered prostitution services" — excludes her from that section by its own first clause. Promotion is an offence aimed at '''the person who takes a share of someone else's proceeds'''. A woman working for herself is, as a matter of statutory structure, '''not''' running a brothel, and that distinction is written into the statute rather than argued around it.
+* '''"Prostitution enterprise that uses two or more prostitutes" is the brothel element.''' A service that books time with independent adults is not that, unless it is. The grading tells you what the legislature was aiming at: an organisation, operating at scale, taking the proceeds.
+* '''The agency is the exposed party, not the client and not usually the woman.''' Where an escort service crosses into this territory it does so through § 43.03's "participate in the proceeds" or "solicits another … for compensation" — that is, by '''selling the act''' or '''taking a cut of it'''. A booking fee for time, by an agency that does not sell or price sex, is not within the text. ''Whether a given fee structure is inside or outside is exactly the contested question, and it is fact-specific.''
+
+'''Licensing is a separate layer and must not be confused with the criminal law.''' Escort services are commonly licensed or regulated as businesses — and in Texas, sexually oriented businesses carry their own permitting, zoning and taxation regime. A business can be '''perfectly lawful under Chapter 43 and still unlawful for operating without a licence''', or lawful on both counts and still shut down by zoning. ''The specific Texas licensing provisions were not verified for this article; they are flagged, not stated.''
+
+== 3. The transport element: ''Mortensen'' is the case ==
+
+Federal law does not criminalise travel, and it does not criminalise travel followed by sex. It criminalises '''transporting or enticing someone for the purpose'''.
+
+'''18 U.S.C. § 2421(a)''' — transportation generally, as it now reads:
+
+<code>Whoever knowingly transports any individual in interstate or foreign commerce … with intent that such individual engage in prostitution, or in any sexual activity for which any person can be charged with a criminal offense, or attempts to do so, shall be fined under this title or imprisoned not more than 10 years, or both.</code>
+
+'''§ 2422(a)''' — coercion and enticement:
+
+<code>Whoever knowingly persuades, induces, entices, or coerces any individual to travel in interstate or foreign commerce … to engage in prostitution, or in any sexual activity for which any person can be charged with a criminal offense</code>
+
+'''The intent language is the whole statute.''' And the Supreme Court said so, in a case whose facts are far worse than any ordinary situation and which the defendants still won.
+
+=== Mortensen v. United States, 322 U.S. 369 (1944) ===
+
+''(Murphy, J. The opinion text here is quoted from the Caselaw Access Project.)''
+
+'''The facts are the point.''' The petitioners were a married couple who '''operated a house of prostitution''' in Grand Island, Nebraska. They planned a car trip to Salt Lake City to visit Mrs. Mortensen's parents. '''Two women they employed as prostitutes asked to be taken along for a vacation''', and they agreed. The four drove to Yellowstone, then Salt Lake City, stayed at a tourist camp four or five days, visited the parents; the women "went to shows and around in the parks". They all drove back to Grand Island and on arrival went straight to the house. '''The next day one of the women resumed work; the other did so a week or ten days later.'''
+
+The couple were convicted of transporting the two women from Salt Lake City to Grand Island for the purpose of prostitution. '''The Supreme Court reversed.''' Its statement of the rule:
+
+<code>The statute thus aims to penalize only those who use interstate commerce with a view toward accomplishing the unlawful purposes. To constitute a violation of the Act, it is essential that the interstate transportation have for its object or be the means of effecting or facilitating the proscribed activities.</code>
+
+<code>An intention that the women or girls shall engage in the conduct outlawed by § 2 must be found to exist before the conclusion of the interstate journey and must be the dominant motive of such interstate movement. And the transportation must be designed to bring about such result. Without that necessary intention and motivation, immoral conduct during or following the journey is insufficient to subject the transporter to the penalties of the Act.</code>
+
+And on these facts:
+
+<code>It may be assumed that petitioners anticipated that the two girls would resume their activities as prostitutes upon their return to Grand Island. But we do not think it is fair or permissible under the evidence adduced to infer that this interstate vacation trip, or any part of it, was undertaken by petitioners for the purpose of, or as a means of effecting or facilitating, such activities.</code>
+
+<code>The sole purpose of the journey from beginning to end was to provide innocent recreation and a holiday for petitioners and the two girls. It was a complete break or interlude in the operation of petitioners' house of ill fame and was entirely disassociated therefrom.</code>
+
+<code>What Congress has outlawed by the Mann Act, however, is the use of interstate commerce as a calculated means for effectuating sexual immorality.</code>
+
+'''Four holdings worth stating separately, because each one does work:'''
+
+# '''The unlawful intent must be the ''dominant motive'' of the movement.''' Not a motive. Not a foreseen consequence. The dominant one.
+# '''It must exist before the journey ends.''' Intent formed afterward is not this offence.
+# '''The transportation must be "designed to bring about such result."''' The travel has to be the instrument.
+# '''Sex afterwards does not retroactively taint the trip.''' "[I]mmoral conduct during or following the journey is insufficient" — and the Court assumed the defendants expected exactly that, and reversed anyway.
+
+'''So the structural claim about travel is correct, and it is the Supreme Court's.''' A person who travels on her own, for her own reasons — a booking, a shoot, a job as a model or an actress in a video, a holiday — has not been transported for the proscribed purpose, and the person who did not move her for that purpose has not committed the offence. '''The federal statute reaches the mover's purpose.'''
+
+'''Two cautions, stated plainly because they are where people get hurt.'''
+
+* '''''Mortensen'' is about the Mann Act's purpose element. It is not a safe harbour for anything else.''' Modern prosecutions in this area run primarily under '''18 U.S.C. § 1591''' (sex trafficking by force, fraud or coercion, or of a minor), where the government need not prove a transport purpose at all, and where '''force, fraud, coercion, or a person under 18 changes everything'''. Travel is not the hinge there. Consent is not a defence where a minor is involved, and a '''minor requires no proof of force, fraud or coercion'''.
+* '''Paying for the travel is evidence.''' ''Mortensen'' turned on whose purpose the journey served; a trip booked, paid for and scheduled by the person who then profits is far easier for a prosecutor to characterise than a trip someone took on her own initiative. '''The cleaner the independence, the less there is to argue about''' — and that is a statement about evidence, not a technique.
+
+== 4. The three questions, in order ==
+
+'''What did the fee buy?''' If the consideration was time, company, a performance, or a modelling or acting engagement, and sexual conduct was not offered, priced or promised, § 43.02 / § 43.021's element is absent. If a sex act was the thing bargained for, the offence is complete at the bargain, whatever it was called.
+
+'''Who keeps it?''' A woman receiving compensation for her own personally rendered services is excluded from the promotion section by its own opening clause. '''Promotion and brothel-keeping are offences about other people's proceeds and about enterprises of two or more.''' That is the line between working and running an operation.
+
+'''Why did she travel?''' Federal transport liability attaches to the '''mover's dominant purpose''', fixed before the journey ends, with the travel designed to accomplish it. '''Sex after a trip does not make the trip a crime''' — the Supreme Court held that on facts involving actual brothel operators and their actual employees.
+
+'''What none of this touches.''' Force, fraud and coercion. A person under 18. Those are § 1591 and the state trafficking statutes, and every distinction in this article is irrelevant there — which is the correct result, and is the reason the distinctions above are worth stating precisely rather than loosely. '''A law that cannot tell a paid performance from a purchased sex act also cannot tell a consenting adult from a trafficked child'''; precision is what makes the serious offence enforceable.
+
+== 5. The ledger ==
+
+{| class="wikitable"
+|+ Claims in this article, graded
+! Claim !! Grade !! Rests on
+|-
+| The offence is the agreement to exchange a fee for sexual conduct || '''Statutory text''' || Tex. Penal Code § 43.02(a), § 43.021(a), quoted
+|-
+| The offence is complete at the offer or agreement; no act required || '''Statutory text''' || "offers or agrees" in both sections
+|-
+| Paying for time, without an agreement for sexual conduct, does not meet the element || '''Correct on the text''' || § 43.02(a) requires the fee be "to engage in sexual conduct"
+|-
+| The existence of that agreement is a fact question, and labels do not control || '''Established, general principle''' || How the element is proved; no case quoted here
+|-
+| Buyer's offence is a state jail felony in Texas; seller's base is a Class B misdemeanor || '''Statutory text''' || § 43.021(b); § 43.02(c). H.B. 1540 (2021)
+|-
+| A woman keeping her own fee is outside the promotion section || '''Statutory text''' || § 43.03(a) opening clause, quoted
+|-
+| Brothel liability requires an enterprise "using two or more prostitutes" || '''Statutory text''' || § 43.04(a), quoted
+|-
+| § 43.04 is a first-degree felony || ''Best reading; verify'' || Two mirrors say first degree; one secondary source claimed second
+|-
+| Escort-service licensing is a separate regime from Chapter 43 || ''Flagged, not verified'' || Not sourced in this article
+|-
+| § 2421 requires intent that the person engage in prostitution or chargeable sexual activity || '''Statutory text''' || 18 U.S.C. § 2421(a), quoted
+|-
+| Unlawful intent must be the "dominant motive" of the interstate movement || '''Supreme Court holding''' || ''Mortensen'', 322 U.S. 369, 374 region — quoted
+|-
+| Intent must exist before the journey concludes || '''Supreme Court holding''' || ''Mortensen'', quoted
+|-
+| Sexual conduct after a journey does not establish the offence || '''Supreme Court holding''' || ''Mortensen'', quoted; defendants were brothel operators and still won
+|-
+| § 1591 does not require a transport purpose, and a minor needs no force/fraud/coercion || '''Established''' || Statutory structure; not quoted here
+|}
+
+== See also ==
+
+* [[Actress or Prostitute The Legal Line]] — the production side: ''People v. Freeman'', § 2257 records, and what makes a payment an acting fee
+* [[The Federal Age Floor for Filming]] — the age and records floor that sits underneath all of it
