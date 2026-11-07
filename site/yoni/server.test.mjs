@@ -85,13 +85,17 @@ test('escaping holds at the render edge', () => {
 test('/surfaces renders every declared surface with its level', async () => {
   const r = await call('/surfaces');
   assert.equal(r.code, 200);
+  // built surfaces render as links inside the <b>; ones with no door yet render as plain text
   for (const name of ['wiki', 'preview', 'gallery', 'video', 'live', 'upload', 'payout']) {
-    assert.match(r.body, new RegExp(`<b>${name}</b>`), `${name} is listed`);
+    assert.match(r.body, new RegExp(`<b>(?:<a href="/${name}">)?${name}`), `${name} is listed`);
+  }
+  for (const name of ['preview', 'gallery', 'video', 'live', 'upload']) {
+    assert.match(r.body, new RegExp(`<a href="/${name}">${name}</a>`), `${name} links to its door`);
   }
   // upload and payout are the id-level doors; the viewer surfaces are not
-  assert.match(r.body, /<b>upload<\/b><\/td><td><code>id<\/code>/);
-  assert.match(r.body, /<b>payout<\/b><\/td><td><code>id<\/code>/);
-  assert.match(r.body, /<b>wiki<\/b><\/td><td><code>none<\/code>/);
+  assert.match(r.body, /upload<\/a><\/b>\s*<\/td>\s*<td><code>id<\/code>/);
+  assert.match(r.body, /<b>payout<\/b>\s*<\/td>\s*<td><code>id<\/code>/);
+  assert.match(r.body, /<b>wiki<\/b>\s*<\/td>\s*<td><code>none<\/code>/);
 });
 
 test('/surfaces is ordered by level, lowest first', async () => {
