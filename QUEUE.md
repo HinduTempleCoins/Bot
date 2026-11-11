@@ -21,6 +21,9 @@ Plain status. ✅ verified live · ▶ in progress · ☐ to do · — needs you
 ## ☐ Backlog — buildable now (the agent wave targets these)
 #176 standing self-fix loop · #259/#269 PRANA tooling around the chain · #261 payments/checkout · #262 codespace sibling-repos hub · #264 condenser on the spare ARM box · #265 Cheetah live-chain loop in the VM · #281 auto-fill blank site fields · #284 fetched-then-discarded data audit · #296 full new-user stitch · #308 welcome landing page.
 
+## ☐ Queued by operator — MELEK Ride international (2026-11-11)
+- ☐ **How the other rideshare companies do it country by country** — operator: *"look at how the Other Companies do it in Countries all over the World, so we can see how to do it in other Countries. Just queue that up for Later."* What to come back with, per country: whether a private-hire/TNC licence is required of the *platform* and of each driver, the vehicle inspection + age rules, the insurance floor (and who must carry it), background-check law, VAT/withholding on fares, whether paying a driver in a token is lawful or whether a fiat rail is mandatory, and data-residency rules for the licence/insurance details we hold. Start with the markets Uber/Bolt/Grab/DiDi/inDrive actually operate in and copy the structure they use, not the marketing. Launch one metro first.
+
 ## — Needs you (decisions)
 - Tiny-LLM model per box · angelicalist go-live · Server-1 reboot vs move to melek-5 · #302 account-recovery policy · #251–253 OAuth app registration · #184 free gov API keys.
 

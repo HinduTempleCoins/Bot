@@ -1,0 +1,15 @@
+{
+  "name": "melek-ride-app",
+  "version": "0.1.0",
+  "private": true,
+  "description": "MELEK Ride (rider) — Capacitor shell for move.melek.salon/ride. Request rides, pay the fare from your own MELEK account.",
+  "scripts": {
+    "add:android": "cap add android",
+    "sync": "cap sync",
+    "open:android": "cap open android",
+    "build:android": "cd android && ./gradlew bundleRelease"
+  },
+  "dependencies": { "@capacitor/core": "^6.0.0", "@capacitor/android": "^6.0.0", "@capacitor/geolocation": "^6.0.0" },
+  "devDependencies": { "@capacitor/cli": "^6.0.0" },
+  "comment": "webDir 'www' is a placeholder (the shell loads server.url). Needs foreground location only — a rider is looking at the app while they ride. No background location, no pedometer."
+}
