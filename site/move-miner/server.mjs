@@ -25,6 +25,12 @@ import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { moveWeight, moveBudgetForEpoch, economySummary } from '../../integrations/games/move-economy.mjs';
 import { recordMine, standingFor, epochNow, forgetAccount } from '../../integrations/games/move-ledger.mjs';
+import { recordDrive, driverStanding, forgetDriver } from '../../integrations/games/drive-ledger.mjs';
+import { driveEconomySummary, gasEquivalent } from '../../integrations/games/drive-economy.mjs';
+// MELEK Ride is a TAB of MELEK Move on the web (one site, one sign-in) and a SEPARATE app in the
+// stores (rider payments and driver payouts cannot live in a fitness listing) — see apps/ride,
+// apps/ride-driver. Mounting its handler here is what makes /ride a tab rather than another site.
+import { handler as rideHandler } from '../melek-ride/server.mjs';
 import { validAccountName } from '../../signup/welcome-grant.mjs';
 import { startLogin as signerStart, finishLogin as signerFinish, currentAccount, logoutCookie, signerSignupUrl, safeReturn } from '../../integrations/melek-signer-session.mjs';
 
@@ -53,8 +59,9 @@ export async function deleteAccount({ account: proven } = {}) {
   const account = String(proven || '').trim().toLowerCase();
   if (!validAccountName(account)) return { ok: false, reason: 'sign in with MELEK first to prove this is your account' };
   const r = forgetAccount(account);
+  const d = forgetDriver(account);   // the drive lane keeps its own ledger — erase that too
   return {
-    ok: true, account, removed: r.removed,
+    ok: true, account, removed: r.removed, removedDrive: d.removed,
     note: 'Your off-chain reward standing has been erased from our records. Your public MELEK chain account remains on the blockchain — a public ledger we do not control or store — and your funds stay in your own wallet, controlled by your own keys, which we never held.',
   };
 }
@@ -118,6 +125,10 @@ export const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
   .logo{width:38px;height:38px} h1{font-size:20px;margin:0} h1 small{display:block;color:var(--mut);font-size:12px;font-weight:400}
   .mode{margin-left:auto;font-size:11px;padding:3px 9px;border-radius:999px;border:1px solid var(--bd);color:var(--mut)}
   .mode.live{color:var(--green);border-color:var(--green)} .mode.demo{color:var(--gold);border-color:var(--gold)}
+  .apptabs{display:flex;gap:8px;margin:0 0 4px}
+  .apptabs>*{flex:1;text-align:center;padding:9px;border-radius:10px;border:1px solid var(--bd);background:var(--panel);
+    color:var(--mut);font-size:14px;text-decoration:none}
+  .apptabs>[aria-current]{color:var(--fg);border-color:var(--gold)}
   .card{background:var(--panel);border:1px solid var(--bd);border-radius:16px;padding:16px;margin:12px 0}
   .card h2{font-size:15px;margin:0 0 10px;display:flex;align-items:center;gap:8px}
   .big{font-size:44px;font-weight:800;letter-spacing:-1px;text-align:center;margin:4px 0}
@@ -146,6 +157,11 @@ export const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
   <h1>MELEK Move <small>Step counter · explore · MELEK rewards</small></h1>
   <span class="mode" id=mode>…</span>
 </header>
+
+<nav class=apptabs aria-label="MELEK Move sections">
+  <span aria-current=page>Move</span>
+  <a href="/ride">Ride</a>
+</nav>
 
 <div class=card id=createCard>
   <h2>✨ Sign in with MELEK</h2>
@@ -187,6 +203,34 @@ export const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
     <button id=mine class=green disabled>Claim this zone</button>
   </div>
   <div class=out id=geoOut></div>
+</div>
+
+<div class=card>
+  <h2>\u{1F4B0} Your MELEK this hour</h2>
+  <div class=sub>Both ways of earning, side by side. <b>Walking</b> pays the reward zones you claim;
+    <b>driving</b> pays the distance you cover. They are two separate chain reward pools \u2014 driving does not
+    take anything from walkers \u2014 and both settle on-chain when the hour closes.</div>
+  <div id=earnBoth>enter your MELEK username to see your standing</div>
+  <div class=row style="margin-top:10px"><button id=refreshEarn>Refresh my earnings</button></div>
+</div>
+
+<div class=card>
+  <h2>\u{1F697} Earn for Driving <span style="font-weight:400;color:var(--mut);font-size:12px">(MELEK Drive \u2014 gas money for the miles you already drive)</span></h2>
+  <div class=sub>Walking charges the step boost. <b>Driving pays its own lane</b> \u2014 MELEK Drive records your
+    miles and pays MELEK at the end of the hour, out of its own chain reward pool. What it is for is
+    <b>gas</b>: the MELEK your miles earn is meant to go back in the tank.</div>
+  <div class=big id=drivemiles>0.0</div>
+  <div class=sub id=drivesub>miles this drive \u2014 <span id=drivemph>0</span> mph</div>
+  <div class=row>
+    <button id=driveStart class=primary>Start drive</button>
+    <button id=driveStop disabled>End drive</button>
+  </div>
+  <div class=out id=driveOut></div>
+  <div class=hint><b>Already driving for a rideshare or delivery app?</b> Start a drive here before your
+    shift and leave it running \u2014 your Uber, Lyft, DoorDash or Instacart miles are miles, and this lane
+    pays them. Set it before you pull out; don't touch the phone while you're moving.
+    <a href="/ride">MELEK Ride \u2014 take fares on our own app \u2192</a> (a verified MELEK Ride trip earns more
+    per mile than a shift we can't check).</div>
 </div>
 
 <footer>Move, explore, and collect <b>MELEK</b> fitness rewards. Your phone counts steps and reads where
@@ -346,6 +390,62 @@ if(window.MelekSteps&&typeof window.MelekSteps.start==='function'){
   try{ $('startSteps').textContent='Counting (device)'; $('stepsub').textContent='counting your steps from the device sensor…';
     window.MelekSteps.start(function(n){ if(typeof n==='number'&&n>=0) setSteps(n); }); }catch(e){}
 }
+// ── MELEK Drive: accumulate miles from the GPS track and post samples to the drive lane ──────────
+// A sample is posted every DRIVE_FLUSH_MI miles (and on End drive) so a long shift settles into the
+// hour it happened in. The page sends distance + elapsed time; the server classifies and weights it.
+const DRIVE_FLUSH_MI=2;
+let dvWatch=null,dvLast=null,dvMiles=0,dvSince=0,dvPending=0,dvMph=0;
+const mi=(a,b,c,d)=>{const R=3958.7613,r=x=>x*Math.PI/180,dLat=r(c)-r(a),dLng=r(d)-r(b);
+ const h=Math.sin(dLat/2)**2+Math.cos(r(a))*Math.cos(r(c))*Math.sin(dLng/2)**2;return 2*R*Math.asin(Math.min(1,Math.sqrt(h)))};
+async function dvFlush(){
+ const who=W.value.trim().toLowerCase();
+ if(!who||dvPending<=0)return;
+ const secs=Math.max(1,(Date.now()-dvSince)/1000);
+ const body={account:who,miles:dvPending,seconds:secs,stake:+(($('stake')||{}).value||0),source:'shift'};
+ dvPending=0;dvSince=Date.now();
+ try{const r=await (await fetch('/api/drive',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)})).json();
+  if(r.ok){$('driveOut').innerHTML='<b>'+r.milesCounted+' mi</b> counted \u00b7 this hour: '+r.milesThisHour+' mi \u00b7 projected <b>'+r.projectedMelek+' MELEK</b>'+(r.gas&&r.gas.gallons!=null?' \u2248 '+r.gas.gallons+' gal':'')+(r.gas&&r.gas.gallons==null?' <span style="color:var(--mut)">(no MELEK market price yet, so no dollar figure)</span>':'');}
+  else $('driveOut').textContent=r.reason||'not counted';
+ }catch(e){$('driveOut').textContent='could not reach the server \u2014 miles are kept for the next try';}
+}
+$('driveStart').onclick=()=>{
+ if(!navigator.geolocation){$('driveOut').textContent='geolocation unavailable on this device';return}
+ dvLast=null;dvMiles=0;dvPending=0;dvSince=Date.now();
+ $('driveStart').disabled=true;$('driveStop').disabled=false;$('driveOut').textContent='recording \u2014 put the phone down';
+ dvWatch=navigator.geolocation.watchPosition(p=>{
+  const c=p.coords;
+  if(dvLast){const d=mi(dvLast.lat,dvLast.lng,c.latitude,c.longitude);
+   const dt=Math.max(1,(p.timestamp-dvLast.t)/1000);
+   if(d>0.005){dvMiles+=d;dvPending+=d;dvMph=d/(dt/3600);
+    $('drivemiles').textContent=dvMiles.toFixed(1);$('drivemph').textContent=Math.round(dvMph);
+    if(dvPending>=DRIVE_FLUSH_MI)dvFlush();}}
+  dvLast={lat:c.latitude,lng:c.longitude,t:p.timestamp};
+ },()=>{$('driveOut').textContent='location unavailable \u2014 allow location to record a drive'},{enableHighAccuracy:true,maximumAge:5000,timeout:20000});
+};
+$('driveStop').onclick=async()=>{
+ if(dvWatch!=null){navigator.geolocation.clearWatch(dvWatch);dvWatch=null}
+ $('driveStart').disabled=false;$('driveStop').disabled=true;
+ await dvFlush();
+};
+// ── both lanes in one place: zones (walking) and distance (driving) ──────────────────────────────
+const KV=(k,v)=>'<div style="display:flex;justify-content:space-between;font-size:13px;padding:4px 0;border-bottom:1px dashed var(--bd)"><span>'+k+'</span><b>'+v+'</b></div>';
+async function earnBoth(){
+ const who=W.value.trim().toLowerCase();
+ if(!who){$('earnBoth').textContent='enter your MELEK username to see your standing';return}
+ const get=async u=>{try{return await (await fetch(u)).json()}catch(e){return{ok:false}}};
+ const [walk,drive]=await Promise.all([get('/api/standing?account='+encodeURIComponent(who)),get('/api/drive-standing?account='+encodeURIComponent(who))]);
+ let h='';
+ if(walk&&walk.ok)h+=KV('Walking \u2014 reward zones','<span style="color:var(--green)">'+walk.projectedMelek+'</span> MELEK')+KV('Walkers sharing the lane',walk.miners);
+ if(drive&&drive.ok){h+=KV('Driving \u2014 '+drive.milesThisHour+' mi','<span style="color:var(--green)">'+drive.projectedMelek+'</span> MELEK')+KV('Drivers sharing the lane',drive.drivers);
+  if(drive.gas&&drive.gas.gallons!=null)h+=KV('The driving lane in gas',drive.gas.gallons+' gal');}
+ const total=((walk&&walk.projectedMelek)||0)+((drive&&drive.projectedMelek)||0);
+ h+=KV('<b>Both lanes</b>','<b>'+(Math.round(total*1000)/1000)+' MELEK</b>');
+ if(drive&&drive.gas&&drive.gas.gallons==null)h+='<div class=hint>MELEK has no market price yet, so there is no dollar or gallon figure to print here \u2014 only the MELEK itself.</div>';
+ $('earnBoth').innerHTML=h;
+}
+$('refreshEarn').onclick=earnBoth;
+W.addEventListener('change',earnBoth);
+earnBoth();
 if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(()=>{});}
 </script></body></html>`;
 
@@ -438,7 +538,7 @@ export async function handler(req, res) {
     const method = (req.method || 'GET').toUpperCase();
 
     if (path === '/health') return json(res, 200, { ok: true, live: liveMode(), epoch: epochNow(), geoPrecision: GEO_PRECISION() });
-    if (path === '/economy') return json(res, 200, { ok: true, ...economySummary() });
+    if (path === '/economy') return json(res, 200, { ok: true, ...economySummary(), drive: driveEconomySummary() });
     if (path === '/manifest.webmanifest') { res.writeHead(200, { 'content-type': 'application/manifest+json' }); return res.end(MANIFEST); }
     if (path === '/sw.js') { res.writeHead(200, { 'content-type': 'text/javascript', 'cache-control': 'no-store' }); return res.end(SW); }
     if (path === '/icon.svg') { res.writeHead(200, { 'content-type': 'image/svg+xml', 'cache-control': 'public,max-age=86400' }); return res.end(ICON); }
@@ -496,6 +596,32 @@ export async function handler(req, res) {
       if (!Number.isFinite(n) || n <= 0) return json(res, 422, { ok: false, reason: 'steps must be a positive number' });
       return json(res, 200, { ok: true, steps: n, boost: stepBoost(n), note: 'steps are the boost — mine a cell to earn your MELEK slice' });
     }
+
+    // ── MELEK Ride (the rideshare tab) — one site, one sign-in; its own store app ──
+    if (path === '/ride' || path.startsWith('/ride/')) return rideHandler(req, res);
+
+    // ── MELEK DRIVE: the drive lane. Miles, not steps; paid from the chain's OWN "drive" reward fund
+    // by the drive_pay attested op (90.000 MELEK/hour). Not the Move pool — the Move pool is unchanged.
+    if (path === '/api/drive' && method === 'POST') {
+      let b = {}; try { b = JSON.parse((await readBody(req)) || '{}'); } catch { return json(res, 400, { ok: false, reason: 'bad json' }); }
+      const account = moveUser(req) || String(b.account || b.player || '').trim().toLowerCase();
+      if (!validAccountName(account)) return json(res, 422, { ok: false, reason: 'account must be a valid MELEK account name (sign in with MELEK, or create one on MELEK-Signer)' });
+      const r = recordDrive({
+        account, miles: b.miles, seconds: b.seconds, avgMph: b.avgMph,
+        stake: Math.max(0, Number(b.stake) || 0), source: b.source,
+      });
+      if (!r.ok) return json(res, 422, r);
+      return json(res, 200, {
+        ...r, gas: gasEquivalent({ melek: r.projectedMelek }),
+        model: 'stake-weighted share of the hourly MELEK Drive pool (90.000 MELEK/hr from the chain \'drive\' reward fund — its own pool, not the Move pool); finalizes + pays on-chain hourly via drive_pay',
+      });
+    }
+    if (path === '/api/drive-standing') {
+      const account = (url.searchParams.get('account') || '').trim().toLowerCase();
+      if (!validAccountName(account)) return json(res, 422, { ok: false, reason: 'account must be a valid MELEK account name' });
+      return json(res, 200, driverStanding(account));
+    }
+    if (path === '/drive-economy') return json(res, 200, { ok: true, ...driveEconomySummary() });
 
     // THE EARN: geo-mine → stake-weighted move-weight → recorded into this hour's MELEK pool ledger.
     if (path === '/api/geomine' && method === 'POST') {

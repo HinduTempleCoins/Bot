@@ -219,3 +219,94 @@ test('delete-account: needs a MELEK-Signer session; erases ONLY the signed-in ac
   const sb = cap(); await handler(req('/api/standing?account=' + B), sb.res);
   assert.ok(JSON.parse(sb.o.body).accountWeight > 0, 'another walker is untouched');
 });
+
+// ── MELEK DRIVE: the drive lane inside the Move app ───────────────────────────────────────────────
+process.env.DRIVE_DATA = fileURLToPath(new URL(`./.test-drive-${process.pid}.json`, import.meta.url));
+after(() => { try { unlinkSync(process.env.DRIVE_DATA); } catch {} });
+
+test('the page carries the MELEK Drive card: gas framing, rideshare apps, the Ride tab', async () => {
+  const { res, o } = cap(); await handler(req('/'), res);
+  assert.match(o.body, /MELEK Drive/);
+  assert.match(o.body, /gas/i);
+  assert.match(o.body, /Uber, Lyft, DoorDash or Instacart/);
+  assert.match(o.body, /href="\/ride"/, 'MELEK Ride is reachable as a tab of Move');
+  assert.match(o.body, /don't touch the phone/i);
+});
+
+test('/api/drive records driving miles and reports the gas equivalent', async () => {
+  const c = cap(); await handler(req('/api/drive', 'POST', { account: 'dee-driver', miles: 12, seconds: 1200, stake: 0, source: 'shift' }), c.res);
+  assert.equal(c.o.code, 200);
+  const j = JSON.parse(c.o.body);
+  assert.equal(j.ok, true);
+  assert.equal(j.lane, 'drive');
+  assert.equal(j.milesCounted, 12);
+  assert.ok(j.projectedMelek > 0);
+  assert.equal(j.gas.usd, null, 'no MELEK market price, so no dollar figure is invented');
+  assert.match(j.model, /drive_pay/);
+});
+
+test('/api/drive refuses walking speeds, impossible speeds and bad accounts', async () => {
+  const walk = cap(); await handler(req('/api/drive', 'POST', { account: 'dee-driver', miles: 1, seconds: 1800 }), walk.res);
+  assert.equal(walk.o.code, 422);
+  assert.equal(JSON.parse(walk.o.body).lane, 'walk');
+  const fly = cap(); await handler(req('/api/drive', 'POST', { account: 'dee-driver', miles: 400, seconds: 900 }), fly.res);
+  assert.equal(fly.o.code, 422);
+  const bad = cap(); await handler(req('/api/drive', 'POST', { account: '0xabc', miles: 12, seconds: 1200 }), bad.res);
+  assert.equal(bad.o.code, 422);
+});
+
+test('a signed-in walker\'s drive miles go to the SESSION account, not a typed one', async () => {
+  const c = capH(); await handler(reqH('/api/drive', 'POST', { account: 'someone-else', miles: 12, seconds: 1200 }, { cookie: sess('dee-driver') }), c.res);
+  assert.equal(c.o.code, 200);
+  assert.equal(JSON.parse(c.o.body).account, 'dee-driver');
+});
+
+test('/api/drive-standing and /drive-economy expose the lane', async () => {
+  const s = cap(); await handler(req('/api/drive-standing?account=dee-driver'), s.res);
+  assert.equal(s.o.code, 200);
+  assert.ok(JSON.parse(s.o.body).accountWeight > 0);
+  const e = cap(); await handler(req('/drive-economy'), e.res);
+  const j = JSON.parse(e.o.body);
+  assert.equal(j.fund, 'drive', 'its own pool, not the Move pool');
+  assert.equal(j.driveCapPerHour, j.fundInflowPerHour, 'the drive cap equals the drive fund inflow');
+  assert.equal(j.walkLaneTouched, false);
+  const eco = cap(); await handler(req('/economy'), eco.res);
+  assert.equal(JSON.parse(eco.o.body).drive.driveCapPerHour, 90);
+});
+
+test('MELEK Ride is mounted at /ride (a tab of Move, one sign-in)', async () => {
+  const p = cap(); await handler(req('/ride'), p.res);
+  assert.equal(p.o.code, 200);
+  assert.match(p.o.body, /MELEK Ride/);
+  const r = cap(); await handler(req('/ride/api/rates'), r.res);
+  assert.equal(JSON.parse(r.o.body).platformFeePct, 0.1);
+});
+
+test('deleting an account erases BOTH ledgers (walk and drive)', async () => {
+  await handler(req('/api/geomine', 'POST', { account: 'dee-driver', lat: 3, lng: 3, steps: 1000 }), cap().res);
+  await handler(req('/api/drive', 'POST', { account: 'dee-driver', miles: 10, seconds: 900 }), cap().res);
+  const ok = capH(); await handler(reqH('/api/delete-account', 'POST', {}, { cookie: sess('dee-driver') }), ok.res);
+  assert.equal(ok.o.code, 200);
+  const j = JSON.parse(ok.o.body);
+  assert.ok(j.removed >= 1, 'walk ledger cleared');
+  assert.ok(j.removedDrive >= 1, 'drive ledger cleared too');
+  const s = cap(); await handler(req('/api/drive-standing?account=dee-driver'), s.res);
+  assert.equal(JSON.parse(s.o.body).accountWeight, 0);
+});
+
+test('the page has a real tab row: Move here, Ride next to it', async () => {
+  const { res, o } = cap(); await handler(req('/'), res);
+  assert.match(o.body, /class=apptabs/);
+  assert.match(o.body, /<span aria-current=page>Move<\/span>/);
+  assert.match(o.body, /<a href="\/ride">Ride<\/a>/);
+});
+
+test('the page offers "Earn for Driving" beside the walking earnings, in one panel', async () => {
+  const { res, o } = cap(); await handler(req('/'), res);
+  assert.match(o.body, /Earn for Driving/);
+  assert.match(o.body, /Your MELEK this hour/);
+  assert.match(o.body, /id=earnBoth/);
+  assert.match(o.body, /api\/drive-standing/);
+  assert.match(o.body, /Walking \\u2014 reward zones|Walking/);
+  assert.match(o.body, /Both lanes/);
+});

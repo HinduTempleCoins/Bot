@@ -1,0 +1,18 @@
+{
+  "appId": "community.soapbox.ridedriver",
+  "appName": "MELEK Ride Driver",
+  "webDir": "www",
+  "server": {
+    "url": "https://move.melek.salon/ride",
+    "cleartext": false,
+    "allowNavigation": ["signer.melek.salon", "move.melek.salon"],
+    "androidScheme": "https"
+  },
+  "android": { "allowMixedContent": false },
+  "plugins": {
+    "BackgroundGeolocation": {
+      "note": "a driver's phone must keep reporting position with the screen off — a foreground service with a persistent notification, declared in Play Console as a location foreground service. This is the one capability the rider app does NOT need."
+    }
+  },
+  "comment": "SEPARATE store app from both MELEK Move and MELEK Ride: drivers get PAID, which brings its own Play/App Store declarations (financial features, payout), plus background location. Same website, same sign-in."
+}

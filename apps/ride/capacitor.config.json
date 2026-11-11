@@ -1,0 +1,13 @@
+{
+  "appId": "community.soapbox.ride",
+  "appName": "MELEK Ride",
+  "webDir": "www",
+  "server": {
+    "url": "https://move.melek.salon/ride",
+    "cleartext": false,
+    "allowNavigation": ["signer.melek.salon", "move.melek.salon"],
+    "androidScheme": "https"
+  },
+  "android": { "allowMixedContent": false },
+  "comment": "SEPARATE store app from MELEK Move on purpose: a rider app takes payments (and a USD card rail later), which cannot live inside a Health & Fitness listing. Same website, same sign-in — different listing, different declarations."
+}
