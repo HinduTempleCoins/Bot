@@ -138,8 +138,8 @@ export function registerBuiltIns() {
   REGISTRY.clear();
   registerGame({
     id: 'melek-move', name: 'MELEK Move', icon: '🚶', category: 'move-to-earn', chain: 'melek',
-    blurb: 'Geomining move-to-earn: walk to earn a stake-weighted share of 15% of the MELEK blog pool.',
-    reward: { token: 'MELEK', cashable: true, realValue: true, model: 'stake-weighted geomining; 15% of blog pool (~2,106 MELEK/day)' },
+    blurb: 'Geomining move-to-earn: walk to earn a stake-weighted share of the chain\'s own Move reward fund — 15% of MELEK emission.',
+    reward: { token: 'MELEK', cashable: true, realValue: true, model: 'stake-weighted geomining; the chain\'s "move" fund takes 15% of emission (3,240.000 MELEK/day in) and pays up to 150.000 MELEK per closed hour' },
     compliance: { note: 'Earns the native MELEK coin (real value). Reward model is emission-bounded (Σ payouts ≤ epoch budget); geomining reward economics reviewed with counsel before any fiat framing.' },
     assets: { standard: 'none', collections: [] }, entry: '/move', walletScopes: ['melek-account'],
     module: 'integrations/games/move-economy.mjs',
