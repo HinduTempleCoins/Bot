@@ -2,8 +2,8 @@
 //
 // The drive twin of move-settle-run.mjs. Each closed hour the drive attester broadcasts ONE `drive_pay`
 // custom_json — { epoch, pay:[[acct,weightInt],...] } — signed by the attester's ACTIVE authority; the
-// chain draws a capped slice (135.000 MELEK/epoch) from the chain's OWN "drive" reward fund — 15% of
-// emission, carved from the proposal fund plus half the mining reward, NOT the Move pool — splits it
+// chain draws a capped slice (108.000 MELEK/epoch) from the chain's OWN "drive" reward fund — 12% of
+// emission, carved from most of the proposal fund plus half the mining reward, NOT the Move pool — splits it
 // pro-rata by drive-weight straight to each driver's liquid balance, and advances
 // dgpo.last_drive_pay_epoch. No MELEK of ours is spent, no relay account, no transfer per driver.
 //

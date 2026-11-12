@@ -271,7 +271,7 @@ test('/api/drive-standing and /drive-economy expose the lane', async () => {
   assert.equal(j.driveCapPerHour, j.fundInflowPerHour, 'the drive cap equals the drive fund inflow');
   assert.equal(j.walkLaneTouched, false);
   const eco = cap(); await handler(req('/economy'), eco.res);
-  assert.equal(JSON.parse(eco.o.body).drive.driveCapPerHour, 135);
+  assert.equal(JSON.parse(eco.o.body).drive.driveCapPerHour, 108);
 });
 
 test('MELEK Ride is mounted at /ride (a tab of Move, one sign-in)', async () => {

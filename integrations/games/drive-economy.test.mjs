@@ -7,10 +7,10 @@ import {
 } from './drive-economy.mjs';
 
 test('the drive lane has its OWN fund, and its cap equals that fund\'s inflow', () => {
-  assert.equal(DRIVE_FUND_PCT(), 0.15);                     // 15%: the proposal carve + half the mining slice
-  assert.equal(DRIVE_FUND_INFLOW_PER_HOUR(), 135);          // 0.15 x 1 MELEK/block x 21,600/day / 24
+  assert.equal(DRIVE_FUND_PCT(), 0.12);                     // 12%: most of the proposal carve + half the mining slice
+  assert.equal(DRIVE_FUND_INFLOW_PER_HOUR(), 108);          // 0.12 x 1 MELEK/block x 21,600/day / 24
   assert.equal(DRIVE_EPOCH_CAP(), DRIVE_FUND_INFLOW_PER_HOUR(), 'cap = inflow: cannot drain, cannot hoard');
-  assert.equal(driveBudgetForEpoch(), 135);
+  assert.equal(driveBudgetForEpoch(), 108);
 });
 
 test('the walk lane is NOT touched — this is not a share of the Move pool', () => {
@@ -83,7 +83,7 @@ test('driveEconomySummary states the fund, its source and the cap', () => {
   assert.equal(s.lane, 'drive');
   assert.equal(s.fund, 'drive');
   assert.equal(s.driveCapPerHour, s.fundInflowPerHour);
-  assert.equal(s.fundSharePct, 0.15);
+  assert.equal(s.fundSharePct, 0.12);
   assert.equal(s.miningSlicePct, 0.05, 'block pay goes 10% -> 5%');
-  assert.equal(s.proposalSlicePct, 0, 'the treasury carve goes to zero');
+  assert.equal(s.proposalSlicePct, 0.03, 'the DAO keeps a permanent 3%');
 });

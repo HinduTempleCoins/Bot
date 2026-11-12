@@ -24,6 +24,13 @@
 import { createServer } from 'node:http';
 
 import { loadStagesDoc } from '../../tutorial/composers.mjs';
+// The DAO lives on this page because finishing these Instructions is how a seat in it is earned
+// (operator, 2026-11-12). The membership module itself does no I/O: the chain read and the roll
+// record are injected here, and both have offline seams so the tests never touch a network.
+import { daoSummary, membershipFor, enroll, roll, MEMBERSHIP_STAGES } from '../../integrations/melek-dao.mjs';
+import { fetchUserActivity } from '../../tutorial/chain-reader.mjs';
+import { signerBroadcast } from '../../autovote/signer-castvote.mjs';
+import { currentAccount } from '../../integrations/melek-signer-session.mjs';
 
 // ── The Reading Path: book topics, alongside the on-chain stages (operator: "the tutorials should
 // have like Book Topics and Things also"). Each topic is a compiled book you can read free, plus the
@@ -53,6 +60,46 @@ const SITE_NAME = 'MELEK Tutorial';
 // committed tutorial/stages.json through tutorial/composers.mjs:loadStagesDoc().
 let _reader = loadStagesDoc;
 export function __setReader(fn) { _reader = typeof fn === 'function' ? fn : loadStagesDoc; }
+
+// Chain activity for stage detection. Default = the real reader; tests inject.
+const defaultActivityReader = (account) => fetchUserActivity(account);
+let _activity = defaultActivityReader;
+export function __setActivityReader(fn) { _activity = typeof fn === 'function' ? fn : defaultActivityReader; }
+
+// The roll record: Hathor signs it through MELEK-Signer with a POSTING-role token — never a WIF on
+// this host, and never the active authority, because a roll record moves no value.
+async function defaultBroadcastJson(op) {
+  const token = process.env.MELEK_SIGNER_TOKEN || process.env.MELEK_DAO_TOKEN || '';
+  if (!token) return { ok: false, reason: 'no signer token on this host — the seat cannot be recorded yet' };
+  try {
+    return await signerBroadcast({ token, ops: [op], signerUrl: process.env.MELEK_SIGNER_URL || undefined, clientId: 'melek-dao', role: 'posting' });
+  } catch (e) {
+    return { ok: false, reason: String((e && e.message) || e).slice(0, 160) };
+  }
+}
+let _broadcastJson = defaultBroadcastJson;
+export function __setBroadcastJson(fn) { _broadcastJson = typeof fn === 'function' ? fn : defaultBroadcastJson; }
+
+// The member's MELEK POWER delegation needs the ACTIVE authority, so it is NOT wired by default: the
+// seat is granted and the delegation is reported as pending rather than silently claimed.
+let _delegate = null;
+export function __setDelegate(fn) { _delegate = typeof fn === 'function' ? fn : null; }
+
+const daoDeps = () => {
+  const d = { fetchActivity: (a) => _activity(a), broadcastJson: (op, rec) => _broadcastJson(op, rec) };
+  if (_delegate) d.delegate = (x) => _delegate(x);
+  return d;
+};
+const json = (res, code, obj) => {
+  res.writeHead(code, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' });
+  res.end(JSON.stringify(obj));
+};
+const readBody = (req) => new Promise((resolve) => {
+  let b = ''; let n = 0;
+  req.on('data', (c) => { n += c.length; if (n > 64 * 1024) { b = ''; req.destroy(); return; } b += c; });
+  req.on('end', () => resolve(b));
+  req.on('error', () => resolve(''));
+});
 
 // ── house-style helpers ───────────────────────────────────────────────────────────────────────
 export const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -148,6 +195,55 @@ function bookTopicsHtml() {
     <ol class=topics>${rows}</ol>`;
 }
 
+// ── the DAO, earned by finishing the Instructions ─────────────────────────────────────────────────
+export function daoCardHtml() {
+  const d = daoSummary();
+  return `<div class=orient>
+    <strong>Finish all of these and you are in the MELEK DAO.</strong>
+    <p class=muted style="margin:6px 0 0">The DAO is the chain's proposal fund — @${esc(d.dao)} receives
+      ${esc(Math.round(d.fundSharePct * 100))}% of every block (${esc(d.inflowPerDay.toFixed(3))} MELEK a day), anyone with a seat can
+      propose a draw against it, and stakeholders vote. A seat is not bought and it is not handed out:
+      it is earned by finishing every one of the ${esc(d.membership.stagesRequired)} stages below, and each stage is read off the
+      chain, so no one can talk their way onto the roll.</p>
+    <p class=muted style="margin:6px 0 0"><a href="/dao">The DAO, the roll, and where you stand &rarr;</a></p>
+  </div>`;
+}
+
+function daoPage(summary, list) {
+  const stages = MEMBERSHIP_STAGES.map((k) => `<li><code>${esc(k)}</code></li>`).join('');
+  const members = (list.members || []).length
+    ? list.members.map((m) => `<li>@${esc(m.account)}${m.delegatedMp ? ` · ${esc(m.delegatedMp)} MP delegated` : ''}</li>`).join('')
+    : '<li class=muted>No one has finished every stage yet. The roll is empty, and it says so.</li>';
+  const body = `<h1>The MELEK DAO</h1>
+    <p>${esc(summary.whatItIs)}</p>
+    <div class=orient><strong>The fund.</strong>
+      <p class=muted style="margin:6px 0 0">@${esc(summary.dao)} takes ${esc(Math.round(summary.fundSharePct * 100))}% of emission —
+        ${esc(summary.inflowPerHour.toFixed(3))} MELEK an hour, ${esc(summary.inflowPerDay.toFixed(3))} a day. ${esc(summary.fundNote)}</p>
+    </div>
+    <div class=orient><strong>How you get a seat.</strong>
+      <p class=muted style="margin:6px 0 0">${esc(summary.membership.earnedBy)} — ${esc(summary.membership.verification)}.</p>
+      <ol>${stages}</ol>
+      <p class=muted style="margin:6px 0 0">A seat gives you two things, and only two:</p>
+      <ul>${summary.membership.gives.map((g) => `<li>${esc(g)}</li>`).join('')}</ul>
+      <p class=muted style="margin:6px 0 0">It costs ${esc(summary.membership.costs)}.</p>
+    </div>
+    <div class=orient><strong>The roll — ${esc(list.count)} member(s).</strong><ul>${members}</ul></div>
+    <div class=orient><strong>Where do I stand?</strong>
+      <p class=muted style="margin:6px 0 0">Your progress is read from the chain:
+        <code>/api/dao/membership?account=yourname</code>. When every stage is done,
+        <code>POST /api/dao/enroll</code> records the seat.</p>
+    </div>
+    <p class=muted><a href="/">&larr; back to the Instructions</a></p>`;
+  return `<!doctype html><html lang=en><head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>The MELEK DAO — earned by finishing the Instructions</title>
+${STYLE}</head><body>
+<header class=topbar><a class=brand href="/">📖 MELEK <span>tutorial</span></a></header>
+<main class=wrap>${body}</main>
+<footer>The MELEK Witness · a seat in the DAO is earned on-chain, stage by stage.</footer>
+</body></html>`;
+}
+
 // ── page shell ──────────────────────────────────────────────────────────────────────────────────
 function page(lessons) {
   const count = Array.isArray(lessons) ? lessons.length : 0;
@@ -164,6 +260,7 @@ function page(lessons) {
       <a href="https://pentecaust.com/metatron">The Writing Room</a> ·
       <a href="https://hathor.live">Meet Hathor</a>
     </div>
+    ${daoCardHtml()}
     ${renderTutorialHtml(lessons)}
     ${bookTopicsHtml()}`;
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
@@ -201,6 +298,26 @@ export async function handler(req, res) {
     if (path === '/health') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end('ok'); }
 
     if (path === '/') return sendHtml(res, page(loadLessons()));
+
+    // ── the DAO ────────────────────────────────────────────────────────────────────────────────
+    if (path === '/dao') return sendHtml(res, daoPage(daoSummary(), roll()));
+    if (path === '/api/dao') return json(res, 200, { ok: true, ...daoSummary() });
+    if (path === '/api/dao/roll') return json(res, 200, roll());
+    if (path === '/api/dao/membership') {
+      const who = String(url.searchParams.get('account') || currentAccount(req) || '').trim().toLowerCase();
+      if (!who) return json(res, 422, { ok: false, reason: 'account required (or sign in with MELEK)' });
+      const m = await membershipFor(who, daoDeps());
+      return json(res, m.ok ? 200 : 422, m);
+    }
+    if (path === '/api/dao/enroll' && (req.method || 'GET').toUpperCase() === 'POST') {
+      let b = {}; try { b = JSON.parse((await readBody(req)) || '{}'); } catch { b = {}; }
+      // A signed-in member enrols THEMSELVES; a typed name is accepted too, because eligibility is
+      // read off the chain and cannot be faked by whoever submits the form.
+      const who = String(currentAccount(req) || b.account || '').trim().toLowerCase();
+      if (!who) return json(res, 422, { ok: false, reason: 'account required (or sign in with MELEK)' });
+      const r = await enroll(who, daoDeps());
+      return json(res, r.ok ? 200 : 422, r);
+    }
 
     res.writeHead(302, { location: '/' });
     return res.end();
