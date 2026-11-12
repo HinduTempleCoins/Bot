@@ -3,14 +3,16 @@
 // MELEK Move pays WALKING out of the chain's "move" reward fund (move-economy.mjs). MELEK Drive pays
 // DRIVING out of its OWN chain-level reward fund, "drive" — operator, 2026-11-11: the drive lane is NOT
 // the Move pool, and it is funded by hardforking further emission into it from elsewhere in the split.
-// At the MELEK Drive flip (MELEK_DRIVE_ATTESTER_PAY_TIME) the proposal(SPS) fund's 10% of emission
-// becomes the drive fund's 10%, and the walk lane is left exactly as it was:
+// Operator, 2026-11-12: "We are going to take some of the Mining Rewards for Driving." So at the MELEK
+// Drive flip (MELEK_DRIVE_ATTESTER_PAY_TIME) the drive fund takes 15% of emission from two places —
+// the whole proposal(SPS) carve (10 points) and half the mining/block-producer slice (5 points):
 //
 //   walk  "move"  fund: 15% of emission, 150.000/epoch cap   (unchanged)
-//   drive "drive" fund: 10% of emission,  90.000/epoch cap   (new — 0.10 x 21,600 / 24 = 90.000/hr)
+//   drive "drive" fund: 15% of emission, 135.000/epoch cap   (new — 0.15 x 21,600 / 24 = 135.000/hr)
+//   mining (block pay):  10% -> 5%        proposal(SPS): 10% -> 0%
 //
 // The drive cap equals the drive fund's own inflow, so that fund neither drains under a full hour nor
-// grows without bound. Content, vesting, witness pay and the walk lane do not move at all.
+// grows without bound. Content, vesting and the walk lane do not move at all.
 //
 // WHAT THIS MODULE IS: the pure economic engine for the drive lane — the walk/drive classifier, the
 // per-mile drive-weight (the rshares analog the drive cap is split by), the anti-cheat bounds, and the
@@ -26,10 +28,10 @@ const num = (k, d) => { const v = Number(env(k, d)); return Number.isFinite(v) ?
 
 // ── the drive lane's own budget — mirrors the chain constants in config.hpp ────────────────────────
 /** The drive fund's share of emission (chain: MELEK_DRIVE_FUND_PERCENT). */
-export const DRIVE_FUND_PCT = () => num('DRIVE_FUND_PCT', 0.1);
+export const DRIVE_FUND_PCT = () => num('DRIVE_FUND_PCT', 0.15);
 /** MELEK drawn per closed hour for the drive lane (chain: MELEK_DRIVE_EPOCH_PAY_CAP_AMOUNT). */
-export const DRIVE_EPOCH_CAP = () => num('DRIVE_EPOCH_CAP', 90);
-/** The drive fund's inflow: 10% of a flat 1.000 MELEK/block at 21,600 blocks/day = 90.000 MELEK/hour. */
+export const DRIVE_EPOCH_CAP = () => num('DRIVE_EPOCH_CAP', 135);
+/** The drive fund's inflow: 15% of a flat 1.000 MELEK/block at 21,600 blocks/day = 135.000 MELEK/hour. */
 export const DRIVE_FUND_INFLOW_PER_HOUR = () => DRIVE_FUND_PCT() * num('MELEK_BLOCK_REWARD', 1) * num('MELEK_BLOCKS_PER_DAY', 21600) / 24;
 /** The walk lane, for contrast — untouched by this flip. */
 export const WALK_EPOCH_CAP = () => num('MOVE_EPOCH_CAP', 150);
@@ -153,11 +155,13 @@ export function driveEconomySummary() {
     lane: 'drive',
     fund: 'drive',
     fundSharePct: DRIVE_FUND_PCT(),
-    fundSource: 'the proposal(SPS) carve, moved to the drive fund at the MELEK Drive flip — NOT the Move pool',
+    fundSource: 'the proposal(SPS) carve (10 points) + half the mining/block-producer slice (5 points), moved to the drive fund at the MELEK Drive flip — NOT the Move pool',
     driveCapPerHour: DRIVE_EPOCH_CAP(),
     fundInflowPerHour: DRIVE_FUND_INFLOW_PER_HOUR(),
     walkCapPerHour: WALK_EPOCH_CAP(),
     walkLaneTouched: false,
+    miningSlicePct: 0.05,          // block pay after the flip: 10% -> 5%
+    proposalSlicePct: 0,           // the treasury carve goes to zero
     driveBudgetPerHour: driveBudgetForEpoch(),
     speedBandMph: [DRIVE_MIN_MPH(), DRIVE_MAX_MPH()],
     milesCapPerHour: DRIVE_MILES_CAP(),
@@ -165,7 +169,7 @@ export function driveEconomySummary() {
     rideBoost: DRIVE_RIDE_BOOST(),
     shiftBoost: DRIVE_SHIFT_BOOST(),
     stakeWeighted: true,
-    note: 'MELEK Drive has its OWN chain reward fund, "drive" (10% of emission = 90.000 MELEK/hr), split by stake-weighted drive-weight per mile and paid on-chain hourly by the drive_pay attested op. It is not the Move pool, and the Move pool is unchanged.',
+    note: 'MELEK Drive has its OWN chain reward fund, "drive" (15% of emission = 135.000 MELEK/hr, carved from the proposal fund and half the mining reward), split by stake-weighted drive-weight per mile and paid on-chain hourly by the drive_pay attested op. It is not the Move pool, and the Move pool is unchanged.',
   };
 }
 

@@ -1,6 +1,6 @@
 # The MELEK Drive hardfork — drive-and-earn, and MELEK Ride
 
-**Status (2026-11-11):** off-chain half **built and tested**; chain half **written, not compiled, not
+**Status (2026-11-12):** off-chain half **built and tested**; chain half **written, not compiled, not
 deployed**. Nothing in here has produced a paid mile yet. Read §5 before reporting any of it as live.
 
 MELEK Move already pays **walking**: 15% of block emission goes to a chain-level `"move"` reward fund,
@@ -20,39 +20,43 @@ Ride**.
 ## 1. Where the money comes from — Drive gets its own pool
 
 **Operator, 2026-11-11: the drive lane is not the MELEK Move pool.** It is funded by hardforking further
-emission into a reward fund of its own, from elsewhere in the split. So the walk lane is left exactly
-as it is, and MELEK Drive gets a second chain-level fund, `"drive"`.
+emission into a reward fund of its own, from elsewhere in the split. **Operator, 2026-11-12: "We are
+going to take some of the Mining Rewards for Driving."** So the walk lane is left exactly as it is, and
+MELEK Drive gets a second chain-level fund, `"drive"`, carved from two places — the whole proposal/SPS
+carve and half the mining (block-producer) slice.
 
-The split after HF24 is content 50 / **move 15** / vesting 15 / witness 10 / **proposal (SPS) 10**. At
-the Drive flip, the proposal fund's ten points become the drive fund's ten points:
+The live split, read off the chain today (`content_reward_percent` 5000, `vesting_reward_percent` 1500,
+`sps_fund_percent` 1000, the Move fund's 15% from HF24, witness the residual):
 
-| Slice | Before | After the flip |
+| Slice | Now | After the flip |
 |---|---|---|
-| content (blog) | 50% | 50% |
+| content (blogging) | 50% | 50% |
 | move (walking) | 15% | **15% — unchanged** |
 | vesting (stakers) | 15% | 15% |
-| witness (block pay) | 10% | 10% |
+| witness (mining / block pay) | 10% | **5%** |
 | proposal → treasury | 10% | **0%** |
-| **drive (driving)** | — | **10%** |
+| **drive (driving)** | — | **15%** |
 
-Nothing is taken from bloggers, stakers, block producers or walkers. What changes is that a
-*discretionary treasury carve becomes an automatic, distributed driver reward*. At a flat 1.000
-MELEK/block and 21,600 blocks/day:
+Nothing is taken from bloggers, stakers or walkers. Two things change: a *discretionary treasury carve
+becomes an automatic, distributed driver reward*, and *half the block-producer reward is redirected to
+the people driving*. At a flat 1.000 MELEK/block and 21,600 blocks/day:
 
 ```
-0.10 × 1.000 × 21,600 = 2,160.000 MELEK/day = 90.000 MELEK/hour
+0.15 × 1.000 × 21,600 = 3,240.000 MELEK/day = 135.000 MELEK/hour
 ```
 
-so the per-epoch drive cap is **90.000** — exactly the drive fund's own inflow, which is why that fund
+so the per-epoch drive cap is **135.000** — exactly the drive fund's own inflow, which is why that fund
 can neither be drained by a full hour nor grow without bound. The walk lane keeps its 15% inflow and
 its 150.000 cap.
 
-**This is the one number to confirm before it ships.** Taking it from the proposal fund is the choice
-with the least collateral damage — it is operator-controlled spend either way, and it leaves chain
-security and everybody's pay untouched — but it is a choice, and the operator may want the carve bigger
-or sourced differently. Moving it is `MELEK_DRIVE_FUND_PERCENT` plus the matching reduction in
-`process_funds`, with the cap kept equal to whatever inflow those two imply. Nothing is deployed, so
-this is still free to change.
+The mining slice is **not a third constant**: `process_funds` pays the witness the residual, so zeroing
+the proposal fund and taking 15 points for drive leaves exactly 5 points for mining, and the five
+slices cannot stop summing to 100%. Resizing the drive lane is `MELEK_DRIVE_FUND_PERCENT` plus the
+matching cap; mining absorbs the difference automatically.
+
+**What this costs the chain's security budget:** block pay halves, from 0.100 to 0.050 MELEK per block
+(2,160 → 1,080 MELEK/day across 21 slots). The witnesses carrying that cut are, today, almost entirely
+the operator's own. Vesting rewards — the other thing a staking witness earns — do not move.
 
 ## 2. The chain change
 
@@ -64,16 +68,17 @@ Three files in the chain tree, all following the `move_pay` precedent exactly:
 #define MELEK_DRIVE_ATTESTER_PAY_TIME    1796083200           // 2026-12-01T00:00:00 UTC
 #define MELEK_DRIVE_ATTESTER             ("moveoracle")       // ACTIVE authority that signs drive_pay
 #define STEEM_DRIVE_REWARD_FUND_NAME     ("drive")            // the drive lane's OWN reward fund
-#define MELEK_DRIVE_FUND_PERCENT         (10*STEEM_1_PERCENT) // 10% of emission, from the proposal carve
-#define MELEK_DRIVE_EPOCH_PAY_CAP_AMOUNT (int64_t( 90000 ))   // 90.000 MELEK/epoch (= its own inflow)
+#define MELEK_DRIVE_FUND_PERCENT         (15*STEEM_1_PERCENT) // 15%: proposal carve + half the mining slice
+#define MELEK_DRIVE_EPOCH_PAY_CAP_AMOUNT (int64_t( 135000 ))  // 135.000 MELEK/epoch (= its own inflow)
 ```
 
 **`libraries/chain/database.cpp`** — in `process_funds`, past the gate: the proposal slice goes to zero,
-a `drive_fund` slice of `MELEK_DRIVE_FUND_PERCENT` is taken in its place, the `"drive"` reward fund is
+a `drive_fund` slice of `MELEK_DRIVE_FUND_PERCENT` (15%) is taken — ten of those points from the
+zeroed proposal carve and five out of the witness residual, which is where the mining cut comes from — the `"drive"` reward fund is
 created on the first block past the gate (deterministic — every node creates it at the same block,
 mirroring how the Move fund was created at the HF24 apply) and credited each block, and `drive_fund` is
-added to the supply totals. The witness residual is unchanged, because ten points simply moved from one
-non-witness slice to another.
+added to the supply totals. The witness residual drops from ten points to five — that is the mining
+reward the operator redirected into driving.
 
 **`libraries/chain/include/steem/chain/global_property_object.hpp`** — a second monotonic guard,
 `uint32_t last_drive_pay_epoch = 0`, appended to the object and to its `FC_REFLECT` list (same shape as
@@ -86,7 +91,7 @@ non-witness slice to another.
 2. parse `{ "epoch": <uint32>, "pay": [ ["acct", <weight> ], … ] }`;
 3. assert `epoch > dgpo.last_drive_pay_epoch` (its own guard, independent of walking);
 4. sum the weights in `uint128`;
-5. draw `min(MELEK_DRIVE_EPOCH_PAY_CAP_AMOUNT, fund balance)` from the `"drive"` fund — and refuse the
+5. draw `min(MELEK_DRIVE_EPOCH_PAY_CAP_AMOUNT, fund balance)` (135.000) from the `"drive"` fund — and refuse the
    op outright if that fund does not exist yet, rather than reaching into another lane's money;
 6. credit each driver `draw × w / total` to **liquid** balance, skipping unknown and zero rows rather
    than failing the batch;
@@ -176,10 +181,10 @@ otherwise.
 
 ## 5. What is actually done, and what is not
 
-**Built and verified (`node --test`, offline):** the drive economy and ledger (20 tests), the ride
-engine including coverage (30 tests), the ride HTTP surface (15 tests), the Move app's drive lane, the
-two-lane earnings panel and the `/ride` mount (9 added tests). The full repo suite runs green with all
-of it in: **19,136 tests, 0 failures**. Two real defects were caught by those tests and fixed: a null sample threw instead of
+**Built and verified (`node --test`, offline):** the drive economy and ledger, the ride engine
+including coverage, the ride HTTP surface, and the Move app's drive lane / two-lane earnings panel /
+`/ride` mount — **92 tests, 0 failures, re-run 2026-11-12** after the funding change to 15%. The full
+repo suite ran green with the whole feature in at **19,146 tests, 0 failures**. Two real defects were caught by those tests and fixed: a null sample threw instead of
 soft-failing, and a missing `lat`/`lng` coerced to 0,0 — a real point in the Atlantic — instead of
 being refused.
 
@@ -192,11 +197,23 @@ is a working copy on this machine, not the chain host, and this repo does not bu
 exists and refuses to mark trips paid without it); the box timer for `drive-settle-run.mjs`; the
 `moveoracle` attester's handling of the second lane; any international compliance work.
 
+**Read off the live chain, 2026-11-12 — what is NOT yet proven anywhere:**
+
+- The walk lane has **never paid out**. `move_pay` has been live on mainnet since HF25
+  (2026-10-07) and the attester `moveoracle` has broadcast **nothing** — its only two ops ever are its
+  own creation and one incoming transfer. The Drive lane is a twin of a pipeline that has not run in
+  production, so settling one real `move_pay` hour is the free rehearsal for all of this.
+- `moveoracle` holds **0.000000 VESTS**, and no zero-vest account on this chain has ever broadcast an
+  op. Whether it can sustain one `custom_json` per hour is untested; a small delegation from `hathor`
+  (196.357300 VESTS) is cheap insurance before either lane settles.
+- MELEK mainnet has **five power-up operations in its entire history** (largest from a user: 299.000),
+  so nothing here has been stressed by real traffic yet.
+
 **Order to make it real:**
 
 1. Apply the chain patch on the chain host, build, deploy to the **testnet**, and settle a `drive_pay`
    hour — the first evidence worth reporting.
 2. Wire the fare verifier, then run one real trip end to end with a real signed fare.
-3. Timer for `drive-settle-run.mjs` beside the existing move settle timer (same JIT-key rule: the
-   attester's active key comes from the vault per run, never to disk).
+3. Install the hourly settle timer — the `drive-settle.service` / `.timer` / wrapper are written and
+   staged (same JIT-key rule: the attester's active key comes from the vault per run, never to disk).
 4. Then the store listings, one metro at a time.
