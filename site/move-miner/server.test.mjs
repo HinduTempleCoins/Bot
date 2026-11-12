@@ -71,8 +71,9 @@ test('/health and /economy expose the model', async () => {
   ({ res, o } = cap()); await handler(req('/economy'), res);
   const ec = JSON.parse(o.body);
   assert.equal(ec.stakeWeighted, true);
-  assert.ok(ec.moveBudgetPerHour > 0);             // 15% of the blog pool, in MELEK
-  assert.match(ec.note, /15% of the blog pool/);
+  assert.equal(ec.moveBudgetPerHour, 150);         // the chain's per-hour draw from the "move" fund
+  assert.equal(ec.moveFundInflowPerHour, 135);     // what flows into that fund
+  assert.match(ec.note, /not a share of the blog pool/);
 });
 
 test('POST /api/geomine records a stake-weighted move-weight + projected MELEK', async () => {
@@ -87,7 +88,8 @@ test('POST /api/geomine records a stake-weighted move-weight + projected MELEK',
   assert.ok(j.weight > 0);
   assert.ok(j.standing.projectedMelek > 0);         // a real MELEK slice this hour
   assert.ok(j.standing.hourlyPool > 0);
-  assert.match(j.model, /15% of the blog pool|stake-weighted/i);
+  assert.match(j.model, /stake-weighted/i);
+  assert.match(j.model, /150\.000 MELEK/, 'the hourly pool a walker is told about is the chain\'s cap');
 });
 
 test('more stake → bigger move-weight (vote-weight mechanics)', async () => {

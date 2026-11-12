@@ -8,7 +8,10 @@
 //
 // REWARD MODEL (operator, locked):
 //   • currency = MELEK (the live MELEK mainnet coin) — NOT a token/PoL/EVM claim.
-//   • budget   = 15% of the blog pool (blog = 65% of emission). ~87.75 MELEK/hour at defaults.
+//   • budget   = the chain's OWN "move" reward fund (15% of EMISSION, HF24). Each closed hour the
+//               chain draws up to MELEK_MOVE_EPOCH_PAY_CAP_AMOUNT = 150.000 MELEK from it and splits
+//               THAT by walk-weight (HF25 move_pay). It is not a share of the blog pool: the old
+//               "15% of the blog pool" = 87.75/hour understated the hourly pool by 41.5%.
 //   • split    = stake-weighted, like vote weight: weight = (stake+floor) × geoBase × stepBoost × diminish.
 //   • recipient= a MELEK Graphene ACCOUNT NAME from signup (NOT a 0x address).
 //   • payout   = an on-chain MELEK transfer at hour close (the box settle timer; zero WIF here).
@@ -231,8 +234,9 @@ export const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
 </div>
 
 <footer>Move, explore, and collect <b>MELEK</b> fitness rewards. Your phone counts steps and reads where
-  you stand; we record your stake-weighted share of this hour's reward pool — <b>15% of the blog pool</b>,
-  the same MELEK that rewards writers — and send it to your account when the hour closes. MELEK is the
+  you stand; we record your stake-weighted share of this hour's reward pool — up to <b>150.000 MELEK an
+  hour</b> from the chain's own Move fund, which takes 15% of every block — and the chain pays it to your
+  account when the hour closes. MELEK is the
   coin of the <b>live MELEK mainnet</b>. No keys ever leave your phone. <a href="/privacy">Privacy policy</a></footer>
 </div>
 <script>
@@ -648,7 +652,7 @@ export async function handler(req, res) {
         diminish: Math.round(diminish * 100) / 100, mineIndex: idx,
         weight: Math.round(weight),
         standing: { accountWeight: rec.accountWeight, totalWeight: rec.totalWeight, hourlyPool: rec.hourlyPool, projectedMelek: rec.projectedMelek, miners: rec.miners },
-        model: 'stake-weighted share of the hourly Move pool (15% of the blog pool, in MELEK); finalizes + pays on-chain hourly',
+        model: 'stake-weighted share of the hourly Move pool (up to 150.000 MELEK from the chain\'s own "move" reward fund, which takes 15% of emission); finalizes + pays on-chain hourly',
       });
     }
 
