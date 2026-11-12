@@ -7,10 +7,10 @@ import {
 } from './drive-economy.mjs';
 
 test('the drive lane has its OWN fund, and its cap equals that fund\'s inflow', () => {
-  assert.equal(DRIVE_FUND_PCT(), 0.12);                     // 12%: most of the proposal carve + half the mining slice
-  assert.equal(DRIVE_FUND_INFLOW_PER_HOUR(), 108);          // 0.12 x 1 MELEK/block x 21,600/day / 24
+  assert.equal(DRIVE_FUND_PCT(), 0.15);                     // 15%: 3 content + 5 mining + 7 proposal
+  assert.equal(DRIVE_FUND_INFLOW_PER_HOUR(), 135);          // 0.15 x 1 MELEK/block x 21,600/day / 24
   assert.equal(DRIVE_EPOCH_CAP(), DRIVE_FUND_INFLOW_PER_HOUR(), 'cap = inflow: cannot drain, cannot hoard');
-  assert.equal(driveBudgetForEpoch(), 108);
+  assert.equal(driveBudgetForEpoch(), 135);
 });
 
 test('the walk lane is NOT touched — this is not a share of the Move pool', () => {
@@ -19,7 +19,8 @@ test('the walk lane is NOT touched — this is not a share of the Move pool', ()
   assert.equal(s.fund, 'drive');
   assert.equal(s.walkLaneTouched, false);
   assert.match(s.fundSource, /NOT the Move pool/);
-  assert.match(s.fundSource, /mining/, 'the operator put the new points on the mining slice');
+  assert.match(s.fundSource, /mining/, 'the operator put points on the mining slice');
+  assert.match(s.fundSource, /blogging 50% -> 47%/, 'and 3 more points on blogging');
   assert.match(s.note, /OWN chain reward fund/);
 });
 
@@ -83,7 +84,10 @@ test('driveEconomySummary states the fund, its source and the cap', () => {
   assert.equal(s.lane, 'drive');
   assert.equal(s.fund, 'drive');
   assert.equal(s.driveCapPerHour, s.fundInflowPerHour);
-  assert.equal(s.fundSharePct, 0.12);
+  assert.equal(s.fundSharePct, 0.15);
   assert.equal(s.miningSlicePct, 0.05, 'block pay goes 10% -> 5%');
   assert.equal(s.proposalSlicePct, 0.03, 'the DAO keeps a permanent 3%');
+  assert.equal(s.contentSlicePct, 0.47, 'blogging gives up 3 points');
+  // the three carves plus the untouched lanes still account for the whole emission
+  assert.equal(s.contentSlicePct + 0.15 + 0.15 + s.miningSlicePct + s.proposalSlicePct + s.fundSharePct, 1);
 });

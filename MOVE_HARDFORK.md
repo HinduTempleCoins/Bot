@@ -21,40 +21,50 @@ Ride**.
 
 **Operator, 2026-11-11: the drive lane is not the MELEK Move pool.** It is funded by hardforking further
 emission into a reward fund of its own, from elsewhere in the split. **Operator, 2026-11-12: "We are
-going to take some of the Mining Rewards for Driving,"** then **"Keep like 3% in the DAO."** So the walk
-lane is left exactly as it is, MELEK Drive gets a second chain-level fund, `"drive"`, carved from two
-places — most of the proposal/SPS carve and half the mining (block-producer) slice — and the DAO keeps
-a permanent 3% endowment.
+going to take some of the Mining Rewards for Driving,"** then **"Keep like 3% in the DAO,"** then
+**"Take 3% more from Blogging."** So the walk lane is left exactly as it is, MELEK Drive gets a second
+chain-level fund, `"drive"`, carved from three places — 3 points of content, half the mining
+(block-producer) slice, and most of the proposal/SPS carve — and the DAO keeps a permanent 3%
+endowment.
 
 The live split, read off the chain today (`content_reward_percent` 5000, `vesting_reward_percent` 1500,
 `sps_fund_percent` 1000, the Move fund's 15% from HF24, witness the residual):
 
 | Slice | Now | After the flip |
 |---|---|---|
-| content (blogging) | 50% | 50% |
+| content (blogging) | 50% | **47%** |
 | move (walking) | 15% | **15% — unchanged** |
 | vesting (stakers) | 15% | 15% |
 | witness (mining / block pay) | 10% | **5%** |
 | proposal → the DAO (`@melek.dao`) | 10% | **3%** |
-| **drive (driving)** | — | **12%** |
+| **drive (driving)** | — | **15%** |
 
-Nothing is taken from bloggers, stakers or walkers. Two things change: *most of a discretionary
-treasury carve becomes an automatic, distributed driver reward*, and *half the block-producer reward is
-redirected to the people driving*. The DAO keeps 3% — **648.000 MELEK/day, 27.000/hour** — and the
-balance already sitting in `@melek.dao` is not touched by the flip; only the rate it grows at changes.
-At a flat 1.000 MELEK/block and 21,600 blocks/day:
+**Stakers and walkers are untouched** — vesting stays at 15% and the Move fund at 15%. Three slices
+pay for the drive lane: blogging gives 3 points, mining gives half its slice, and the treasury carve
+gives 7 of its 10. The DAO keeps 3% — **648.000 MELEK/day, 27.000/hour** — and the balance already
+sitting in `@melek.dao` is not touched by the flip; only the rate it grows at changes. At a flat
+1.000 MELEK/block and 21,600 blocks/day:
 
 ```
-0.12 × 1.000 × 21,600 = 2,592.000 MELEK/day = 108.000 MELEK/hour
+0.15 × 1.000 × 21,600 = 3,240.000 MELEK/day = 135.000 MELEK/hour
 ```
 
-so the per-epoch drive cap is **108.000** — exactly the drive fund's own inflow, which is why that fund
+so the per-epoch drive cap is **135.000** — exactly the drive fund's own inflow, which is why that fund
 can neither be drained by a full hour nor grow without bound. The walk lane keeps its 15% inflow and
 its 150.000 cap.
 
-The mining slice is **not a third constant**: `process_funds` pays the witness the residual, so setting
-the proposal fund to 3 and taking 12 points for drive leaves exactly 5 points for mining, and the five
-slices cannot stop summing to 100%. Resizing the drive lane is `MELEK_DRIVE_FUND_PERCENT` plus the
+What each lane becomes per day, at 21,600 MELEK/day of emission:
+
+| Lane | Before | After | Change |
+|---|---|---|---|
+| blogging | 10,800.000 | 10,152.000 | −648.000 (−6% of the blog pool) |
+| mining (21 witnesses) | 2,160.000 | 1,080.000 | −1,080.000 (halved) |
+| the DAO | 2,160.000 | 648.000 | −1,512.000 |
+| **driving** | — | **3,240.000** | the sum of the three |
+
+The mining slice is **not a constant at all**: `process_funds` pays the witness the residual, so
+content 47 + vesting 15 + move 15 + sps 3 + drive 15 leaves exactly 5 points for mining — no third
+edit, and no way for the six slices to stop summing to 100%. Resizing the drive lane is `MELEK_DRIVE_FUND_PERCENT` plus the
 matching cap; mining absorbs the difference automatically.
 
 **What this costs the chain's security budget:** block pay halves, from 0.100 to 0.050 MELEK per block
@@ -71,15 +81,16 @@ Three files in the chain tree, all following the `move_pay` precedent exactly:
 #define MELEK_DRIVE_ATTESTER_PAY_TIME    1796083200           // 2026-12-01T00:00:00 UTC
 #define MELEK_DRIVE_ATTESTER             ("moveoracle")       // ACTIVE authority that signs drive_pay
 #define STEEM_DRIVE_REWARD_FUND_NAME     ("drive")            // the drive lane's OWN reward fund
-#define MELEK_DRIVE_FUND_PERCENT         (12*STEEM_1_PERCENT) // 12%: 7 points of proposal + 5 of mining
+#define MELEK_DRIVE_FUND_PERCENT         (15*STEEM_1_PERCENT) // 15%: 3 content + 5 mining + 7 proposal
 #define MELEK_DAO_FUND_PERCENT           ( 3*STEEM_1_PERCENT) // the DAO keeps 3% of emission
-#define MELEK_DRIVE_EPOCH_PAY_CAP_AMOUNT (int64_t( 108000 ))  // 108.000 MELEK/epoch (= its own inflow)
+#define MELEK_CONTENT_FUND_PERCENT_V2    (47*STEEM_1_PERCENT) // blogging 50% -> 47% at the flip
+#define MELEK_DRIVE_EPOCH_PAY_CAP_AMOUNT (int64_t( 135000 ))  // 135.000 MELEK/epoch (= its own inflow)
 ```
 
-**`libraries/chain/database.cpp`** — in `process_funds`, past the gate: the proposal slice becomes
-`MELEK_DAO_FUND_PERCENT` (3%), a `drive_fund` slice of `MELEK_DRIVE_FUND_PERCENT` (12%) is taken — seven
-of those points from the proposal carve and five out of the witness residual, which is where the mining
-cut comes from — the `"drive"` reward fund is
+**`libraries/chain/database.cpp`** — in `process_funds`, past the gate: content becomes
+`MELEK_CONTENT_FUND_PERCENT_V2` (47%), the proposal slice becomes `MELEK_DAO_FUND_PERCENT` (3%), and a
+`drive_fund` slice of `MELEK_DRIVE_FUND_PERCENT` (15%) is taken — three points from content, seven from
+the proposal carve and five out of the witness residual, which is where the mining cut comes from — the `"drive"` reward fund is
 created on the first block past the gate (deterministic — every node creates it at the same block,
 mirroring how the Move fund was created at the HF24 apply) and credited each block, and `drive_fund` is
 added to the supply totals. The witness residual drops from ten points to five — that is the mining
@@ -96,7 +107,7 @@ reward the operator redirected into driving.
 2. parse `{ "epoch": <uint32>, "pay": [ ["acct", <weight> ], … ] }`;
 3. assert `epoch > dgpo.last_drive_pay_epoch` (its own guard, independent of walking);
 4. sum the weights in `uint128`;
-5. draw `min(MELEK_DRIVE_EPOCH_PAY_CAP_AMOUNT, fund balance)` (108.000) from the `"drive"` fund — and refuse the
+5. draw `min(MELEK_DRIVE_EPOCH_PAY_CAP_AMOUNT, fund balance)` (135.000) from the `"drive"` fund — and refuse the
    op outright if that fund does not exist yet, rather than reaching into another lane's money;
 6. credit each driver `draw × w / total` to **liquid** balance, skipping unknown and zero rows rather
    than failing the batch;
@@ -237,7 +248,7 @@ and `/api/dao`, `/api/dao/membership?account=…`, `/api/dao/roll`, `POST /api/d
 
 **Built and verified (`node --test`, offline):** the drive economy and ledger, the ride engine
 including coverage, the ride HTTP surface, and the Move app's drive lane / two-lane earnings panel /
-`/ride` mount — **tests re-run 2026-11-12** after the funding change to 12% + 3% DAO. The full
+`/ride` mount — **tests re-run 2026-11-12** after the funding settled at content 47 / mining 5 / DAO 3 / drive 15. The full
 repo suite ran green with the whole feature in at **19,146 tests, 0 failures**. Two real defects were caught by those tests and fixed: a null sample threw instead of
 soft-failing, and a missing `lat`/`lng` coerced to 0,0 — a real point in the Atlantic — instead of
 being refused.
