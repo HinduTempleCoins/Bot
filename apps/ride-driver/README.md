@@ -50,7 +50,8 @@ earnings refreshed — and shows both lanes' projected MELEK in one panel.
 1. **The fare.** The rider signs one transaction at the end of the trip: the driver's share straight to
    the driver's account, plus the platform fee. Non-custodial — we never hold the fare.
 2. **The MELEK Drive lane.** The same trip's miles are filed as a **verified** drive sample, which earns
-   a share of the chain's hourly drive cap (90.000 MELEK/hour from the chain's own "drive" reward fund, paid by the
+   a share of the chain's hourly drive cap (135.000 MELEK/hour from the chain's own "drive" reward fund — carved from the
+   proposal fund plus half the mining reward — paid by the
    `drive_pay` op). A verified MELEK Ride trip is worth more per mile than a self-reported shift on
    somebody else's app, because this one can be checked.
 
