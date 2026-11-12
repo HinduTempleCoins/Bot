@@ -6,13 +6,16 @@ import { unlinkSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
 process.env.RIDE_DATA = fileURLToPath(new URL(`./.test-ride-${process.pid}.json`, import.meta.url));
+// The rider's walk credit lands in the MOVE ledger, so point that at a temp file too: a test must
+// never write the real one, even if a case forgets to inject the recorder.
+process.env.MOVE_DATA = fileURLToPath(new URL(`./.test-ride-move-${process.pid}.json`, import.meta.url));
 process.env.MELEK_SESSION_SECRET = 'ride-test-secret';
 process.env.RIDE_REVIEWERS = 'hathor, review-two';
 delete process.env.RIDE_AUTO_APPROVE;
 delete process.env.MELEK_SIGNER_PUBLIC_URL; delete process.env.MELEK_SIGNER_SIGNUP_URL; delete process.env.MELEK_SIGNER_SIGN_URL;
-after(() => { try { unlinkSync(process.env.RIDE_DATA); } catch {} });
+after(() => { try { unlinkSync(process.env.RIDE_DATA); } catch {} try { unlinkSync(process.env.MOVE_DATA); } catch {} });
 
-const { handler, isReviewer, signTransferUrl, __setVerifyTransfer, __setRecordDrive } = await import('./server.mjs');
+const { handler, isReviewer, signTransferUrl, __setVerifyTransfer, __setRecordDrive, __setRecordRiderWalk } = await import('./server.mjs');
 const { mintSession, SESSION_COOKIE } = await import('../../integrations/melek-login.mjs');
 const sess = (a) => `${SESSION_COOKIE}=${mintSession(a, { provider: 'melek' })}`;
 
@@ -39,7 +42,7 @@ const APP = {
   vehicle: { make: 'Toyota', model: 'Corolla', year: 2016, color: 'silver', plate: 'ABC1234', seats: 4 },
   licenceNumber: 'TX-9988776', licenceState: 'TX', insurer: 'State Farm', policyNumber: 'P-55512', policyExpires: '2027-03-01',
 };
-beforeEach(() => { writeFileSync(process.env.RIDE_DATA, '{}'); __setVerifyTransfer(null); __setRecordDrive(null); });
+beforeEach(() => { writeFileSync(process.env.RIDE_DATA, '{}'); writeFileSync(process.env.MOVE_DATA, '{}'); __setVerifyTransfer(null); __setRecordDrive(null); __setRecordRiderWalk(null); });
 
 test('GET /ride serves the app — both tabs, the apply form, the board', async () => {
   const r = await call('/ride');
@@ -172,15 +175,21 @@ test('end to end: request → accept → start → end → the rider signs → p
   assert.equal(unverified.code, 422);
   assert.match(unverified.j.reason, /no on-chain verifier/);
 
-  const filed = [];
+  const filed = [], walked = [];
   __setVerifyTransfer(async () => ({ ok: true }));
   __setRecordDrive((s) => { filed.push(s); return { ok: true, projectedMelek: 0.42 }; });
+  __setRecordRiderWalk((c) => { walked.push(c); return { ok: true, accountWeight: 999 }; });
   const paid = await call('/ride/api/confirm', 'POST', { tripId: id, trxId: 'trx-good' }, RIDER);
   assert.equal(paid.code, 200);
   assert.equal(paid.j.trip.status, 'completed');
   assert.equal(filed.length, 1);
   assert.equal(filed[0].source, 'ride');
   assert.equal(filed[0].miles, 10);
+  // the same trip credits the RIDER into the walk lane — 10 mi at 25% of 2,000 steps/mi
+  assert.equal(walked.length, 1);
+  assert.equal(walked[0].account, RIDER);
+  assert.equal(walked[0].stepEquivalent, 5000);
+  assert.equal(paid.j.riderWalk.recorded, true);
 
   const dash = await call('/ride/api/driver/dashboard', 'GET', undefined, DRIVER);
   assert.equal(dash.j.totals.trips, 1);
@@ -261,3 +270,41 @@ test('the driver pane carries the two-lane earnings panel and the apply region f
   assert.match(r.body, /api\/geomine/, 'the Drive app does the geolocation mining');
   assert.match(r.body, /api\/drive-standing/);
 });
+
+
+test('GET /ride/api/rates tells a rider their ride credits the walk lane', async () => {
+  const r = await call('/ride/api/rates');
+  assert.equal(r.code, 200);
+  assert.equal(r.j.walkLane.riderEarns, true);
+  assert.equal(r.j.walkLane.pct, 0.25);
+  assert.equal(r.j.walkLane.maxMilesPerTrip, 25);
+  assert.match(r.j.walkLane.how, /MELEK Move walk lane/);
+});
+
+test('the default walk recorder puts real weight in the move ledger, once, for the rider', async () => {
+  // no __setRecordRiderWalk here: the REAL recorder runs, against the temp MOVE_DATA set above.
+  const { standingFor } = await import('../../integrations/games/move-ledger.mjs');
+  const rider = 'walkrider';            // MELEK names are 3-16 chars: a longer one is rejected
+  const { id, paid } = await paidTripFor(rider);
+  assert.ok(id, 'the trip was never created');
+  assert.equal(paid.code, 200, paid.body);
+  const st = standingFor(rider);
+  assert.ok(st.accountWeight > 0, 'the rider holds walk weight after the fare is confirmed');
+});
+
+// Drives a whole trip to the point of a confirmed fare, for the rider named — same flow as the
+// end-to-end test above, which is the one that is known to work.
+async function paidTripFor(rider) {
+  await call('/ride/api/driver/apply', 'POST', APP, DRIVER);
+  await call('/ride/api/admin/review', 'POST', { account: DRIVER, decision: 'approved' }, 'hathor');
+  await call('/ride/api/driver/online', 'POST', DALLAS, DRIVER);
+  const rq = await call('/ride/api/request', 'POST', { pickup: DALLAS, dropoff: { lat: 32.86, lng: -96.9 } }, rider);
+  const id = rq.j && rq.j.trip && rq.j.trip.id;
+  await call('/ride/api/accept', 'POST', { tripId: id }, DRIVER);
+  await call('/ride/api/advance', 'POST', { tripId: id, to: 'in_progress' }, DRIVER);
+  await call('/ride/api/complete', 'POST', { tripId: id, miles: 10, minutes: 20 }, DRIVER);
+  __setVerifyTransfer(async () => ({ ok: true }));
+  __setRecordDrive(() => ({ ok: true }));
+  const paid = await call('/ride/api/confirm', 'POST', { tripId: id, trxId: 'trx-walk' }, rider);
+  return { id, paid };
+}

@@ -23,7 +23,7 @@ import { createServer } from 'node:http';
 import { fileURLToPath } from 'node:url';
 import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
-import { moveWeight, moveBudgetForEpoch, economySummary } from '../../integrations/games/move-economy.mjs';
+import { moveWeight, moveBudgetForEpoch, economySummary, GEO_REWARD, stepBoost, diminishFor } from '../../integrations/games/move-economy.mjs';
 import { recordMine, standingFor, epochNow, forgetAccount } from '../../integrations/games/move-ledger.mjs';
 import { recordDrive, driverStanding, forgetDriver } from '../../integrations/games/drive-ledger.mjs';
 import { driveEconomySummary, gasEquivalent } from '../../integrations/games/drive-economy.mjs';
@@ -70,12 +70,9 @@ export async function deleteAccount({ account: proven } = {}) {
 const liveMode = () => process.env.MOVE_LIVE === '1';
 
 // ── pure geo math (no keys, no EVM — moved off the attester/PoL path) ───────────────────────────────
-const GEO_REWARD = () => Math.max(0, Math.floor(Number(process.env.GEO_REWARD || 10)));
+// GEO_REWARD / STEP_BOOST_TIERS / stepBoost / diminishFor now live in move-economy.mjs, because MELEK
+// Ride pays a rider's trip distance into this same walk lane and two copies of a reward curve drift.
 const GEO_PRECISION = () => Number(process.env.GEO_PRECISION || 1000);
-const GEO_DIMINISH_K = () => Number(process.env.GEO_DIMINISH_K || 1);
-const STEP_BOOST_TIERS = [[1000, 1.2], [2000, 1.5], [5000, 2], [10000, 3], [15000, 4], [20000, 5], [25000, 6.5], [30000, 8], [40000, 11], [50000, 15]];
-function stepBoost(steps) { const s = Number(steps) || 0; let m = 1; for (const [t, x] of STEP_BOOST_TIERS) { if (s >= t) m = x; else break; } return m; }
-function diminishFor(mineIndex) { return 1 / (1 + GEO_DIMINISH_K() * Math.max(0, Number(mineIndex) || 0)); }
 function cellIdFor(lat, lng, p = GEO_PRECISION()) {
   const la = Math.floor((Number(lat) + 90) * p); const lo = Math.floor((Number(lng) + 180) * p);
   if (!Number.isFinite(la) || !Number.isFinite(lo)) return null;

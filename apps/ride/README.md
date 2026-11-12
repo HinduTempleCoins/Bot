@@ -31,6 +31,16 @@ So: three listings, one website, one MELEK account.
 A MELEK account. That is the whole thing — no application, no documents. Account creation happens on
 MELEK-Signer (`/signup`), and the rider signs in with it. Drivers are the ones who apply.
 
+## What a rider earns
+
+A finished ride credits the rider into the **MELEK Move walk lane** — the same hourly pool walking pays
+from — because they covered that distance. It is credited at 25% of the ride's step-equivalent
+(`min(miles, 25) × 2,000 steps/mi × 25%`), diminishing for repeat rides in one hour, and it lands when
+the fare is confirmed on-chain. A 10-mile ride is worth 5,000 step-equivalents; the cap is below what a
+walking day earns, so riding cannot out-earn walking. Operator directive, 2026-11-12.
+
+So the rider app has an earnings story of its own, and it shows in MELEK Move, not here.
+
 ## Fares
 
 The fare is quoted in MELEK from the rate card (`site/melek-ride/ride-core.mjs`) and **is not charged

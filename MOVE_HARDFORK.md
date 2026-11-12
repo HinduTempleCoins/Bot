@@ -110,7 +110,7 @@ flips together. No new operation type, no new fund, no new hardfork number.
 | `integrations/games/drive-ledger.mjs` | the hourly drive ledger, `buildDrivePay`, `settleDriveEpoch` |
 | `integrations/games/drive-settle-run.mjs` | the box runner that broadcasts one `drive_pay` per closed hour |
 | `site/move-miner/server.mjs` | the MELEK Drive card + `POST /api/drive`, `/api/drive-standing`, `/drive-economy`; mounts MELEK Ride at `/ride` |
-| `site/melek-ride/ride-core.mjs` | applications, matching, fares, the trip state machine, the market board |
+| `site/melek-ride/ride-core.mjs` | applications, matching, fares, the trip state machine, the market board, the rider's walk credit |
 | `site/melek-ride/server.mjs` | the MELEK Ride HTTP surface and page |
 
 **What a sample must survive to be paid.** A phone cannot tell a car from a bicycle from a train, and
@@ -165,6 +165,19 @@ miles" — not left watching a spinner. With nobody online at all it says so pla
 Drive tab, because a two-sided market has to admit which side it is short of. Counts and distances
 only; never a driver's position. A driver's state/country comes from their application (defaulting to
 the licence's state), which is a reasonable first guess and labeled as one.
+
+**A rider's trip counts as distance they covered.** Operator, 2026-11-12: *"Maybe getting a Ride Counts
+as Walking Distance also."* It does — a completed, payment-verified trip files a walk-lane claim for the
+**rider**, through the same `stepBoost` curve a walker's steps use and out of the same `"move"` pool, so
+it simply shows up in their MELEK Move earnings. Riding is not walking, so it is credited at a fraction
+and bounded: `min(miles, 25) × 2,000 steps/mi × 25%`. A 10-mile ride is worth 5,000 step-equivalents (a
+2× boost); the 25-mile cap tops out at 12,500 (3×), against a 50,000-step walker's 15×, so **no ride can
+out-earn walking**. Repeat rides inside one hour diminish exactly like repeat zone claims. The
+anti-farm property is the fare itself: this claim only exists because somebody was paid for the trip,
+on-chain, which makes it the one distance claim in the system that cannot be invented — and paying a
+10% platform fee to farm walk weight is self-defeating. It is also why `stepBoost`/`diminishFor` moved
+out of the Move server into `move-economy.mjs`: two lanes pay into that curve now, and two copies of a
+reward curve drift apart.
 
 **The market board** (`/ride/api/market`) publishes drivers online, riders looking, requests open and
 trips running — globally and within the match radius. Counts only: no account names, no positions. A

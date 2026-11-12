@@ -6,6 +6,7 @@ import {
   driverOnline, driverOffline, nearbyDrivers, driversNearSummary, riderPing, marketStatus,
   requestTrip, acceptTrip, advanceTrip, completeTrip, confirmPayment, cancelTrip, tripById,
   openRequests, driverDashboard, rideSummary, coverage, RIDE_FEE_ACCOUNT,
+  riderWalkCredit, RIDE_WALK_PCT, RIDE_WALK_MAX_MILES, RIDE_WALK_STEPS_PER_MILE,
 } from './ride-core.mjs';
 
 function memfs() {
@@ -446,4 +447,95 @@ test('a driver application records where they drive; the licence state is the de
   const b = applyDriver({ account: OTHER, ...APP, state: 'nm', country: 'mx' }, ctx(fs));
   assert.equal(b.driver.region.state, 'NM');
   assert.equal(b.driver.region.country, 'MX');
+});
+
+
+// ── the rider's trip counts into the WALK lane (operator, 2026-11-12) ─────────────────────────────
+
+test('riderWalkCredit converts ridden miles into discounted step-equivalents', () => {
+  const c = riderWalkCredit({ miles: 10 });
+  assert.equal(c.creditedMiles, 10);
+  assert.equal(c.stepEquivalent, 10 * RIDE_WALK_STEPS_PER_MILE() * RIDE_WALK_PCT());   // 5,000 at defaults
+  assert.equal(c.pct, 0.25, 'riding is credited at a fraction — it is not walking');
+  assert.equal(c.index, 0);
+  assert.match(c.note, /step-equivalents into the MELEK Move walk lane/);
+});
+
+test('riderWalkCredit caps one trip and never throws on junk', () => {
+  const long = riderWalkCredit({ miles: 400 });
+  assert.equal(long.creditedMiles, RIDE_WALK_MAX_MILES());
+  assert.equal(long.stepEquivalent, RIDE_WALK_MAX_MILES() * RIDE_WALK_STEPS_PER_MILE() * RIDE_WALK_PCT());
+  assert.match(long.note, /capped at/);
+  assert.equal(riderWalkCredit(null).stepEquivalent, 0);
+  assert.equal(riderWalkCredit({ miles: 'x' }).stepEquivalent, 0);
+  assert.equal(riderWalkCredit({ miles: -5 }).stepEquivalent, 0);
+  // a ride can never reach a serious walker's boost tier: the cap is below 15,000 step-equivalents
+  assert.ok(long.stepEquivalent < 15000, 'a capped ride stays under the 4x step tier');
+});
+
+test('riderWalkCredit diminishes repeat rides inside the same hour', () => {
+  assert.equal(riderWalkCredit({ miles: 5, ridesThisHour: 0 }).index, 0);
+  const second = riderWalkCredit({ miles: 5, ridesThisHour: 1 });
+  assert.equal(second.index, 1);
+  assert.match(second.note, /ride #2 this hour, so it diminishes/);
+});
+
+test('a verified fare credits the RIDER into the walk lane, on top of the driver\'s drive sample', async () => {
+  const fs = memfs();
+  approvedDriver(fs);
+  const t = requestTrip({ rider: RIDER, pickup: DALLAS, dropoff: NEARBY }, ctx(fs));
+  acceptTrip({ tripId: t.trip.id, driver: DRIVER }, ctx(fs));
+  completeTrip({ tripId: t.trip.id, driver: DRIVER, miles: 12, minutes: 24 }, ctx(fs));
+
+  const walks = [];
+  const r = await confirmPayment({ tripId: t.trip.id, trxId: 'tx-walk-1' }, {
+    verifyTransfer: async () => ({ ok: true }),
+    recordRiderWalk: (c) => { walks.push(c); return { ok: true, accountWeight: 1234 }; },
+  }, ctx(fs));
+
+  assert.equal(r.ok, true);
+  assert.equal(walks.length, 1, 'exactly one walk-lane claim per paid trip');
+  assert.equal(walks[0].account, RIDER, 'the credit goes to the RIDER, not the driver');
+  assert.equal(walks[0].tripId, t.trip.id);
+  assert.equal(walks[0].stepEquivalent, 12 * RIDE_WALK_STEPS_PER_MILE() * RIDE_WALK_PCT());
+  assert.equal(r.riderWalk.recorded, true);
+  assert.equal(r.riderWalk.index, 0);
+});
+
+test('with no walk recorder wired the trip still pays, and says the credit was not filed', async () => {
+  const fs = memfs();
+  approvedDriver(fs);
+  const t = requestTrip({ rider: RIDER, pickup: DALLAS, dropoff: NEARBY }, ctx(fs));
+  acceptTrip({ tripId: t.trip.id, driver: DRIVER }, ctx(fs));
+  completeTrip({ tripId: t.trip.id, driver: DRIVER, miles: 6, minutes: 15 }, ctx(fs));
+  const r = await confirmPayment({ tripId: t.trip.id, trxId: 'tx-walk-2' },
+    { verifyTransfer: async () => ({ ok: true }) }, ctx(fs));
+  assert.equal(r.ok, true);
+  assert.equal(r.riderWalk.recorded, false);
+  assert.match(r.riderWalk.reason, /no walk-lane recorder/);
+  assert.equal(tripById(t.trip.id, ctx(fs)).trip.status, 'completed', 'the fare is still paid');
+});
+
+test('a throwing walk recorder cannot un-pay a paid trip', async () => {
+  const fs = memfs();
+  approvedDriver(fs);
+  const t = requestTrip({ rider: RIDER, pickup: DALLAS, dropoff: NEARBY }, ctx(fs));
+  acceptTrip({ tripId: t.trip.id, driver: DRIVER }, ctx(fs));
+  completeTrip({ tripId: t.trip.id, driver: DRIVER, miles: 9, minutes: 18 }, ctx(fs));
+  const r = await confirmPayment({ tripId: t.trip.id, trxId: 'tx-walk-3' }, {
+    verifyTransfer: async () => ({ ok: true }),
+    recordRiderWalk: () => { throw new Error('ledger on fire'); },
+  }, ctx(fs));
+  assert.equal(r.ok, true);
+  assert.equal(r.riderWalk.recorded, false);
+  assert.match(r.riderWalk.reason, /ledger on fire/);
+  assert.equal(tripById(t.trip.id, ctx(fs)).trip.status, 'completed');
+});
+
+test('rideSummary publishes the rider walk lane, bounded and honest about the discount', () => {
+  const w = rideSummary().walkLane;
+  assert.equal(w.riderEarns, true);
+  assert.equal(w.pct, RIDE_WALK_PCT());
+  assert.equal(w.maxMilesPerTrip, RIDE_WALK_MAX_MILES());
+  assert.match(w.how, /riding can never out-earn walking/);
 });

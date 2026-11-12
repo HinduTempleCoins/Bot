@@ -3,6 +3,7 @@ import { test } from 'node:test';
 import assert from 'node:assert';
 import {
   dailyEmission, blogPoolDaily, moveBudgetDaily, moveBudgetForEpoch, moveWeight, settle, economySummary,
+  GEO_REWARD, stepBoost, diminishFor, STEP_BOOST_TIERS,
 } from './move-economy.mjs';
 
 test('emission + the 15%-of-blog-pool budget compute from the chain constants', () => {
@@ -60,4 +61,33 @@ test('economySummary reports the operator-set parameters', () => {
   assert.equal(s.moveCarvePct, 0.15);
   assert.equal(s.moveBudgetDaily, 2106);
   assert.equal(s.stakeWeighted, true);
+});
+
+
+// The walk lane's reward curve moved here from site/move-miner/server.mjs, because MELEK Ride credits
+// a rider's trip distance into this same lane and two copies of a reward curve drift apart.
+
+test('the walk-lane curve lives here now: zone base, step tiers and the repeat-claim diminish', () => {
+  assert.equal(GEO_REWARD(), 10);
+  assert.equal(stepBoost(0), 1, 'standing still earns the base');
+  assert.equal(stepBoost(999), 1);
+  assert.equal(stepBoost(1000), 1.2);
+  assert.equal(stepBoost(10000), 3);
+  assert.equal(stepBoost(50000), 15, 'a serious walker is worth 15x');
+  assert.equal(stepBoost(1e9), 15, 'the top tier is the ceiling');
+  assert.equal(stepBoost('junk'), 1);
+  assert.equal(STEP_BOOST_TIERS[0][0], 1000);
+  assert.equal(diminishFor(0), 1);
+  assert.equal(diminishFor(1), 0.5);
+  assert.ok(diminishFor(9) < diminishFor(1));
+  assert.equal(diminishFor(-3), 1);
+});
+
+test('a rider\'s credited ride cannot out-earn a walker on this curve', () => {
+  // the cap is 25 mi x 2,000 steps/mi x 25% = 12,500 step-equivalents
+  const rideWeight = moveWeight({ stake: 0, geoBase: GEO_REWARD(), stepBoost: stepBoost(12500) });
+  const walkerWeight = moveWeight({ stake: 0, geoBase: GEO_REWARD(), stepBoost: stepBoost(50000) });
+  assert.ok(rideWeight < walkerWeight, 'the longest credited ride is worth less than a 50k-step day');
+  assert.equal(stepBoost(12500), 3);
+  assert.equal(stepBoost(50000), 15);
 });
