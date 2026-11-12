@@ -45,6 +45,29 @@ export const moveBudgetForEpoch = () => moveBudgetDaily() * (EPOCH_SEC() / 86400
 // delegation new chain accounts get). Walk more (boost) + hold more (stake) → bigger share.
 export const STAKE_FLOOR = () => num('MOVE_STAKE_FLOOR', 100); // effective MELEK floor for new users
 
+// ── the walk lane's reward shape, shared ──────────────────────────────────────────────────────────
+// These three lived inside site/move-miner/server.mjs, which meant a second caller had to copy the
+// tier table to pay anything into the walk lane. MELEK Ride credits a RIDER's trip distance into this
+// same lane (operator, 2026-11-12: getting a ride counts as walking distance too), so the curve moved
+// here — one definition, one env name, no drift between two servers.
+/** Base weight granted for claiming a zone (env GEO_REWARD). */
+export const GEO_REWARD = () => Math.max(0, Math.floor(num('GEO_REWARD', 10)));
+/** How fast repeat claims inside one hour diminish (env GEO_DIMINISH_K). */
+export const GEO_DIMINISH_K = () => num('GEO_DIMINISH_K', 1);
+/** Step-count tiers → boost multiplier. A serious walker (50k steps) is worth 15x a standing one. */
+export const STEP_BOOST_TIERS = [[1000, 1.2], [2000, 1.5], [5000, 2], [10000, 3], [15000, 4], [20000, 5], [25000, 6.5], [30000, 8], [40000, 11], [50000, 15]];
+/** The boost a step count earns — the highest tier it reaches. */
+export function stepBoost(steps) {
+  const s = Number(steps) || 0;
+  let m = 1;
+  for (const [t, x] of STEP_BOOST_TIERS) { if (s >= t) m = x; else break; }
+  return m;
+}
+/** The nth claim in an hour is worth 1/(1+k·n) of the first. */
+export function diminishFor(mineIndex) {
+  return 1 / (1 + GEO_DIMINISH_K() * Math.max(0, Number(mineIndex) || 0));
+}
+
 /**
  * A player's move-weight for one mine — the rshares analog the budget is split by.
  *   weight = (stake + floor) × geoBase × stepBoost × diminish

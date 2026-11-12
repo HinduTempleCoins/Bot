@@ -25,6 +25,8 @@ import {
   RIDE_FEE_ACCOUNT, RIDE_FEE_PCT,
 } from './ride-core.mjs';
 import { recordDrive } from '../../integrations/games/drive-ledger.mjs';
+import { recordMine } from '../../integrations/games/move-ledger.mjs';
+import { moveWeight, GEO_REWARD, stepBoost, diminishFor } from '../../integrations/games/move-economy.mjs';
 import { currentAccount, signerSignupUrl, publicSignerUrl } from '../../integrations/melek-signer-session.mjs';
 
 const PORT = +(process.env.PORT || 8143);
@@ -53,6 +55,21 @@ let _verifyTransfer = null;
 export function __setVerifyTransfer(fn) { _verifyTransfer = typeof fn === 'function' ? fn : null; }
 let _recordDrive = (s) => recordDrive(s);
 export function __setRecordDrive(fn) { _recordDrive = typeof fn === 'function' ? fn : ((s) => recordDrive(s)); }
+
+// A rider's completed trip credited into the WALK lane (operator, 2026-11-12: getting a ride counts as
+// walking distance too). The step-equivalent goes through the SAME stepBoost curve a walker's steps
+// use, with no stake assumed (the move-economy floor covers a new rider) and the ordinary repeat-claim
+// diminish, then lands in the same hourly "move" ledger a zone claim does.
+function defaultRecordRiderWalk({ account, stepEquivalent, index } = {}) {
+  const weight = moveWeight({
+    stake: 0, geoBase: GEO_REWARD(),
+    stepBoost: stepBoost(stepEquivalent), diminish: diminishFor(index),
+  });
+  if (!(weight > 0)) return { ok: false, reason: 'no walk weight earned for this ride' };
+  return recordMine({ account, weight });
+}
+let _recordRiderWalk = (c) => defaultRecordRiderWalk(c);
+export function __setRecordRiderWalk(fn) { _recordRiderWalk = typeof fn === 'function' ? fn : ((c) => defaultRecordRiderWalk(c)); }
 
 const json = (res, code, obj) => { res.writeHead(code, { 'content-type': 'application/json', 'cache-control': 'no-store' }); res.end(JSON.stringify(obj)); };
 function readBody(req, max = 16 * 1024) {
@@ -113,6 +130,10 @@ export const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
   <div id=rideout></div>
  </div>
  <div class=card><h2>Rate card</h2><div id=rates>…</div></div>
+ <div class=card>
+  <h2>Your ride earns MELEK too</h2>
+  <p>A finished ride counts as distance you covered, so it credits you into the MELEK Move walk lane — the same hourly pool walking pays from. A ride is credited at <span id=wlpct>…</span> of its step-equivalent (riding is not walking), up to <span id=wlmax>…</span> miles per trip, and repeat rides in the same hour diminish like repeat zone claims. It lands when your fare is confirmed on-chain, and shows up in your MELEK Move earnings.</p>
+ </div>
 </section>
 
 <section id=pane-drive class=hide>
@@ -161,6 +182,9 @@ async function boot(){
   +kv('Per minute', r.rateCard.perMinute+' '+r.rateCard.symbol)+kv('Minimum fare', r.rateCard.minimum+' '+r.rateCard.symbol)
   +kv('Platform fee', Math.round(r.platformFeePct*100)+'% to @'+r.platformFeeAccount)
   +'<p style="margin-top:8px">'+r.custody+'</p>';
+ const wl=r.walkLane||{};
+ if($('wlpct'))$('wlpct').textContent=Math.round((wl.pct||0)*100)+'%';
+ if($('wlmax'))$('wlmax').textContent=String(wl.maxMilesPerTrip||0);
  if(ME){refreshApp();refreshDash()}
  board();
 }
@@ -430,7 +454,7 @@ export async function handler(req, res) {
       }
       if (path === '/api/confirm') {
         const r = await confirmPayment({ tripId: b.tripId, trxId: b.trxId },
-          { verifyTransfer: _verifyTransfer, recordDrive: _recordDrive });
+          { verifyTransfer: _verifyTransfer, recordDrive: _recordDrive, recordRiderWalk: _recordRiderWalk });
         return json(res, r.ok ? 200 : 422, r);
       }
       if (path === '/api/cancel') {

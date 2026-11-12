@@ -45,6 +45,55 @@ export const RIDE_DEFAULT_COUNTRY = () => String(env('RIDE_DEFAULT_COUNTRY', 'US
 /** A rider counts as "looking" for this long after their last ping. */
 export const RIDE_PRESENCE_STALE_SEC = () => num('RIDE_PRESENCE_STALE_SEC', 180);
 
+// ── a rider's trip counts into the WALK lane ──────────────────────────────────────────────────────
+// Operator, 2026-11-12: "Maybe getting a Ride Counts as Walking Distance also." It does — a rider
+// covered that ground, and a paid trip is the one distance claim in this whole system that cannot be
+// faked, because somebody had to be paid a fare for it to exist. So a completed, payment-VERIFIED trip
+// files a walk-lane claim for the RIDER, on the same curve a walker's steps use (move-economy's
+// stepBoost), from the same "move" pool. Riding is not walking, so it is credited at a fraction and
+// bounded:
+//   step-equivalent = min(miles, RIDE_WALK_MAX_MILES) x steps-per-mile x RIDE_WALK_PCT
+// At the defaults a 10-mile ride is worth 5,000 step-equivalents (a 2x boost) and the 25-mile cap tops
+// out at 12,500 (3x) — well under a walker's 50,000-step 15x, so no ride can out-earn walking. Each
+// further credited ride in the same hour diminishes exactly like a repeat zone claim.
+/** Fraction of a ride's step-equivalent distance that is credited to the walk lane. */
+export const RIDE_WALK_PCT = () => Math.min(1, Math.max(0, num('RIDE_WALK_PCT', 0.25)));
+/** Steps a walked mile is worth (the usual ~2,000). */
+export const RIDE_WALK_STEPS_PER_MILE = () => num('RIDE_WALK_STEPS_PER_MILE', 2000);
+/** Miles of one trip that can be credited. Past this it is a road trip, not a walk. */
+export const RIDE_WALK_MAX_MILES = () => num('RIDE_WALK_MAX_MILES', 25);
+
+/**
+ * The walk-lane credit a rider earns for one trip. Pure — no store, no chain.
+ * @param {{miles?:number, ridesThisHour?:number}} p
+ * @returns {{miles:number, creditedMiles:number, stepEquivalent:number, pct:number, index:number, note:string}}
+ */
+export function riderWalkCredit(p) {
+  const { miles = 0, ridesThisHour = 0 } = p || {};
+  const raw = Math.max(0, Number(miles) || 0);
+  const creditedMiles = Math.min(raw, RIDE_WALK_MAX_MILES());
+  const stepEquivalent = Math.round(creditedMiles * RIDE_WALK_STEPS_PER_MILE() * RIDE_WALK_PCT());
+  const index = Math.max(0, Math.round(Number(ridesThisHour) || 0));
+  return {
+    miles: round(raw, 2),
+    creditedMiles: round(creditedMiles, 2),
+    stepEquivalent,
+    pct: RIDE_WALK_PCT(),
+    index,
+    note: `${round(creditedMiles, 1)} mi ridden = ${stepEquivalent} step-equivalents into the MELEK Move walk lane`
+      + (raw > creditedMiles ? ` (capped at ${RIDE_WALK_MAX_MILES()} mi)` : '')
+      + (index > 0 ? ` — ride #${index + 1} this hour, so it diminishes` : ''),
+  };
+}
+
+/** How many payment-verified trips this rider has already closed inside the current hour. */
+function ridesThisHourFor(store, rider, now) {
+  const hourStart = Math.floor(Number(now) / 3600) * 3600;
+  return Object.values(store.trips || {}).filter((t) => t
+    && t.rider === rider && t.status === 'completed'
+    && Number(t.paidAt) >= hourStart).length;
+}
+
 // ── geo ────────────────────────────────────────────────────────────────────────────────────────────
 /** Great-circle distance in miles. Pure. */
 export function haversineMiles(aLat, aLng, bLat, bLng) {
@@ -557,6 +606,7 @@ export async function confirmPayment({ tripId, trxId } = {}, deps = {}, opts = {
   catch (e) { return { ok: false, reason: `could not verify the fare transaction: ${String((e && e.message) || e).slice(0, 140)}`, trip: publicTrip(trip) }; }
   if (!v || v.ok !== true) return { ok: false, reason: (v && v.reason) || 'the fare transaction did not check out on-chain', trip: publicTrip(trip) };
 
+  const alreadyThisHour = ridesThisHourFor(store, trip.rider, now);
   trip.status = 'completed'; trip.payment.confirmedTrxId = id; trip.paidAt = now; trip.updatedAt = now;
   const d = store.drivers[trip.driver];
   if (d) { d.trips = (Number(d.trips) || 0) + 1; d.milesDriven = (Number(d.milesDriven) || 0) + trip.fare.miles; d.earned = (Number(d.earned) || 0) + trip.fare.driverShare; }
@@ -572,7 +622,21 @@ export async function confirmPayment({ tripId, trxId } = {}, deps = {}, opts = {
       });
     } catch (e) { drive = { ok: false, reason: String((e && e.message) || e).slice(0, 140) }; }
   }
-  return { ok: true, trip: publicTrip(trip), paidTrxId: id, drive };
+  // ...and it is also a walk-lane claim for the RIDER: they covered that distance (operator,
+  // 2026-11-12). Soft-failed like the drive sample — a ledger problem must never un-pay a paid trip.
+  const credit = riderWalkCredit({ miles: trip.fare.miles, ridesThisHour: alreadyThisHour });
+  let riderWalk = { ...credit, recorded: false, reason: 'no walk-lane recorder wired' };
+  if (typeof deps.recordRiderWalk === 'function') {
+    try {
+      const r = deps.recordRiderWalk({ account: trip.rider, tripId: trip.id, ...credit });
+      riderWalk = { ...credit, recorded: !!(r && r.ok !== false), result: r || null };
+      if (r && r.ok === false) riderWalk.reason = r.reason || 'the walk lane refused the claim';
+      else delete riderWalk.reason;
+    } catch (e) {
+      riderWalk = { ...credit, recorded: false, reason: String((e && e.message) || e).slice(0, 140) };
+    }
+  }
+  return { ok: true, trip: publicTrip(trip), paidTrxId: id, drive, riderWalk };
 }
 
 /** Either party cancels. A trip already awaiting payment or completed cannot be cancelled. */
@@ -650,6 +714,13 @@ export function rideSummary() {
     matchRadiusMi: RIDE_MATCH_RADIUS_MI(), driverStaleSec: RIDE_DRIVER_STALE_SEC(),
     custody: 'Fares are signed by the rider on MELEK-Signer as one transaction with two transfers (driver + platform fee). MELEK Ride holds no keys and no escrow.',
     driveLane: 'A completed trip is recorded as a VERIFIED drive sample, so the driver also earns MELEK Drive weight for those miles.',
+    walkLane: {
+      riderEarns: true,
+      pct: RIDE_WALK_PCT(),
+      stepsPerMile: RIDE_WALK_STEPS_PER_MILE(),
+      maxMilesPerTrip: RIDE_WALK_MAX_MILES(),
+      how: 'A completed, payment-verified trip also credits the RIDER into the MELEK Move walk lane: the distance they rode, at ' + Math.round(RIDE_WALK_PCT() * 100) + '% of its step-equivalent, on the same curve a walker\'s steps use and out of the same "move" pool. Capped at ' + RIDE_WALK_MAX_MILES() + ' mi per trip and diminishing for repeat rides in one hour, so riding can never out-earn walking.',
+    },
     onboarding: {
       rider: 'A MELEK account. That is all — no application, no documents.',
       driver: 'An application: make, model, year, colour, plate, licence and insurance, reviewed before the driver is ever shown to a rider.',
