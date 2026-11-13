@@ -6,7 +6,7 @@
 // weight straight to each walker's liquid balance, and advances a monotonic epoch guard. No hathor liquid
 // is spent, no relay account, no transfer per walker. (The old per-walker `transfer` path is gone.)
 //
-// Key custody mirrors witness/hathor-welcome-live.mjs: the active key comes ONLY from env HATHOR_ACTIVE_KEY
+// Key custody mirrors witness/hathor-welcome-live.mjs: the active key comes ONLY from env MOVE_ATTESTER_KEY
 // (the wrapper JIT-fetches it from the vault per run, never on disk, never logged). settleEpochViaAttester
 // is idempotent + retry-safe: a failed broadcast leaves the hour OPEN; an epoch the chain already advanced
 // past is treated as settled.
@@ -15,7 +15,7 @@
 // can never sign against the wrong chain. Soft-fails to a printed report; never broadcasts without a key.
 //
 //   # hourly, just-closed epoch, from the live ledger:
-//   HATHOR_ACTIVE_KEY=… node integrations/games/move-settle-run.mjs
+//   MOVE_ATTESTER_KEY=… node integrations/games/move-settle-run.mjs
 //   # explicit epoch / dry-run / scratch ledger file / force an open hour:
 //   node integrations/games/move-settle-run.mjs <epoch> --dry --force --file=/tmp/x.json
 
@@ -25,7 +25,12 @@ const RPC = process.env.MELEK_RPC_URL || process.env.WELCOME_RPC || 'http://127.
 const CHAIN_ID = (process.env.MELEK_CHAIN_ID || '').trim();
 const PREFIX = (process.env.MELEK_ADDRESS_PREFIX || process.env.MELEK_PREFIX || 'TST').trim();
 const SYMBOL = (process.env.WELCOME_SYMBOL || process.env.MELEK_SYMBOL || 'TESTS').trim();
-const ATTESTER = (process.env.HATHOR_ACCOUNT || 'hathor').trim();  // MELEK_MOVE_ATTESTER on-chain
+// WHO SIGNS move_pay. The chain picks the attester by block time: MELEK_MOVE_ATTESTER (hathor) before
+// MELEK_MOVE_ATTESTER_SWITCH_TIME and MELEK_MOVE_ATTESTER_V2 (moveoracle) after it. That switch passed
+// on 2026-08-08, so the chain requires MOVEORACLE's ACTIVE authority today — this runner defaulted to
+// `hathor` and every move_pay it sent would have been rejected ("must be signed by the designated
+// attester"). The walk lane has never settled, so nothing was lost, but that was the blocker.
+const ATTESTER = (process.env.MOVE_ATTESTER || process.env.HATHOR_ACCOUNT || 'moveoracle').trim();
 
 const args = process.argv.slice(2);
 const flag = (name) => args.includes(`--${name}`);
@@ -51,8 +56,10 @@ function fail(msg, code = 1) { console.error(`move-settle: ${msg}`); process.exi
   if (DRY) {
     broadcastMovePay = async ({ epoch, pay }) => ({ id: `dry-move_pay-${epoch}-${pay.length}` });
   } else {
-    const key = (process.env.HATHOR_ACTIVE_KEY || '').trim();
-    if (!key) return fail('no HATHOR_ACTIVE_KEY in env (the wrapper must JIT-fetch it from the vault)');
+    // The attester's own ACTIVE key — moveoracle's today, not hathor's. Both names are accepted so an
+    // older wrapper keeps working, but the key must belong to ATTESTER or the chain rejects the op.
+    const key = (process.env.MOVE_ATTESTER_KEY || process.env.HATHOR_ACTIVE_KEY || '').trim();
+    if (!key) return fail('no MOVE_ATTESTER_KEY in env (the wrapper must JIT-fetch it from the vault)');
     if (!CHAIN_ID) return fail('no MELEK_CHAIN_ID in env');
     let dhive;
     try { dhive = await import('@hiveio/dhive'); } catch { dhive = await import('/opt/melek-bot/repo/node_modules/@hiveio/dhive/lib/index.js'); }
@@ -68,7 +75,7 @@ function fail(msg, code = 1) { console.error(`move-settle: ${msg}`); process.exi
   }
 
   const preview = buildMovePay(EPOCH, { file: FILE });
-  console.log(`[${new Date().toISOString()}] move-settle epoch ${EPOCH} — ${preview.claims} walker(s), totalWeight ${preview.totalWeight}${DRY ? ' (DRY)' : ''}${FORCE ? ' (FORCE)' : ''}`);
+  console.log(`[${new Date().toISOString()}] move-settle epoch ${EPOCH} — ${preview.claims} walker(s), totalWeight ${preview.totalWeight}, signing as @${ATTESTER}${DRY ? ' (DRY)' : ''}${FORCE ? ' (FORCE)' : ''}`);
 
   const out = await settleEpochViaAttester(EPOCH, { broadcastMovePay }, { file: FILE, force: FORCE });
   console.log(JSON.stringify(out, null, 2));
