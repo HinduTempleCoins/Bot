@@ -53,6 +53,9 @@ const ARTICLES_DIR = process.env.YONI_ARTICLES_DIR || path.join(__dir, 'articles
 // Library. See localizeLinks — renderWiki emits /wiki/<slug>, which this server does not route.
 const LIBRARY_URL = (process.env.YONI_LIBRARY_URL || 'https://wiki.soapbox.community').replace(/\/+$/, '');
 // Secure cookies always, except when explicitly checking the box over plain http.
+// The recruiting flier shown on the front page. The image lives on the host, never in this public repo.
+const AD_FILE = process.env.YONI_AD_FILE || path.join(__dir, '..', '..', 'data', 'yoni', 'flier.jpg');
+const adExists = () => { try { return fs.statSync(AD_FILE).isFile(); } catch { return false; } };
 const SECURE_COOKIES = process.env.YONI_INSECURE_COOKIES !== '1';
 
 export const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => (
@@ -173,7 +176,10 @@ function hubPage() {
       <td><b>${built.has(name) ? `<a href="/${esc(name)}">${esc(name)}</a>` : esc(name)}</b></td>
       <td><code>${esc(pol.level)}</code></td><td class=mut>${esc(pol.reason)}</td></tr>`).join('');
 
-  return shell('YoniShrine', `
+  const ad = adExists() ? `<p style="text-align:center;margin:0 0 18px"><a href="/apply"><img src="/flier.jpg" width="600" height="776"
+  style="max-width:100%;height:auto;border-radius:10px;border:1px solid var(--line)"
+  alt="YoniShrine.com — now casting models, dancers, actresses and porn actresses. Become a Goddess. Be seen."></a></p>` : '';
+  return shell('YoniShrine', `${ad}
 <h1>YoniShrine</h1>
 <p>An archive and a set of surfaces. The reading room is open. The media is not, and each surface
 declares the level of age assurance it requires rather than one gate covering the whole site.</p>
@@ -589,6 +595,12 @@ export async function handler(req, res) {
     const who = url.searchParams.get('subject') || '';
     res.writeHead(200, { 'content-type': 'application/json; charset=utf-8' });
     return res.end(JSON.stringify({ ok: true, surface, policy: policyFor(surface), state: gateCheck(who, surface) }));
+  }
+
+  if (p === '/flier.jpg') {
+    if (!adExists()) return html(404, shell('Not found — YoniShrine', '<h1>Not found</h1>'));
+    res.writeHead(200, { 'content-type': 'image/jpeg', 'cache-control': 'public, max-age=3600' });
+    return res.end(fs.readFileSync(AD_FILE));
   }
 
   if (p === '/') return html(200, hubPage());

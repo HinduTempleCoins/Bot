@@ -487,3 +487,20 @@ test('every page carries a nav link back to melek.salon', async () => {
     assert.match(res.body, /<header>[\s\S]*<a href="https:\/\/melek\.salon\/">MELEK<\/a>[\s\S]*<\/header>/, `${url} nav links to MELEK`);
   }
 });
+
+test('the front page shows the flier only when the image file exists on the host', async () => {
+  const get = async (url) => {
+    const req = { method: 'GET', url, headers: {} };
+    const res = { code: 0, headers: {}, body: '', writeHead(c, h) { this.code = c; this.headers = h || {}; }, end(b) { this.body = b || ''; } };
+    await handler(req, res); return res;
+  };
+  const home = await get('/');
+  const fl = await get('/flier.jpg');
+  if (fl.code === 200) {
+    assert.match(home.body, /<img src="\/flier\.jpg"/);
+    assert.equal(fl.headers['content-type'], 'image/jpeg');
+  } else {
+    assert.equal(fl.code, 404);
+    assert.doesNotMatch(home.body, /<img src="\/flier\.jpg"/, 'no broken image when the file is absent');
+  }
+});
