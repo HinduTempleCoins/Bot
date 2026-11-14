@@ -6,7 +6,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { homePage, roadmapPage, crestSvg, handler, esc, PHASES } from './server.mjs';
+import { homePage, roadmapPage, crestSvg, handler, esc, PHASES, PROPERTIES } from './server.mjs';
 
 // minimal mock response that captures status, headers and body for handler() tests.
 function mockRes() {
@@ -49,9 +49,9 @@ test('all five forward phases plus the soon-after block are present', () => {
   }
 });
 
-test('PHASES data has exactly the six expected phases in order', () => {
-  assert.equal(PHASES.length, 6);
-  assert.deepEqual(PHASES.map((p) => p.id), ['shipped', 'day0', 'after-day0', 'prana', 'soap', 'beyond']);
+test('PHASES data has exactly the seven expected phases in order', () => {
+  assert.equal(PHASES.length, 7);
+  assert.deepEqual(PHASES.map((p) => p.id), ['shipped', 'day0', 'after-day0', 'fall', 'prana', 'soap', 'beyond']);
   assert.equal(PHASES[0].kind, 'shipped'); // Phase 0 node styled as shipped
   assert.equal(PHASES[1].kind, 'shipped'); // Day 0 (MELEK) is now LIVE — shipped
   assert.equal(PHASES[2].kind, 'now'); // "MELEK maturing" is the current now-node
@@ -216,4 +216,16 @@ test('GET /properties.json returns the machine-readable list', async () => {
   const j = JSON.parse(res.body);
   assert.ok(Array.isArray(j.groups) && j.groups.length >= 4);
   assert.equal(j.updated, '2026-09-22');
+});
+
+test('YoniShrine is linked from the home doors, the property list, the footer and the roadmap', () => {
+  const home = homePage();
+  assert.match(home, /class=dest href="https:\/\/yonishrine\.com"/);
+  assert.ok(PROPERTIES.some((g) => g.items.some((i) => i.url === 'https://yonishrine.com')));
+  assert.match(home, /<footer>[\s\S]*href="https:\/\/yonishrine\.com"[\s\S]*<\/footer>/);
+  assert.match(roadmapPage(), /YoniShrine/);
+});
+
+test('the roadmap no longer links the auth-gated admin portal', () => {
+  assert.doesNotMatch(roadmapPage(), /soapy\.blog/);
 });
