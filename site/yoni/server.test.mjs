@@ -478,3 +478,12 @@ test('an uncleared viewer sees no items even when some are published', async () 
   assert.match(anon.body, /Age check/, 'an unverified viewer is sent to the check');
   assert.doesNotMatch(anon.body, /secret/, 'a published caption must not leak to an unverified viewer');
 });
+
+test('every page carries a nav link back to melek.salon', async () => {
+  for (const url of ['/', '/surfaces', '/archive']) {
+    const req = { method: 'GET', url, headers: {} };
+    const res = { code: 0, headers: {}, body: '', writeHead(c, h) { this.code = c; this.headers = h || {}; }, end(b) { this.body = b || ''; } };
+    await handler(req, res);
+    assert.match(res.body, /<header>[\s\S]*<a href="https:\/\/melek\.salon\/">MELEK<\/a>[\s\S]*<\/header>/, `${url} nav links to MELEK`);
+  }
+});

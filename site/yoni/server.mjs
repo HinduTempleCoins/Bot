@@ -117,7 +117,8 @@ const shell = (title, body, desc = '') => `<!doctype html><html lang=en><head><m
 <meta name=robots content="noindex,nofollow">
 ${STYLE}</head><body>
 <header><a href="/">YoniShrine</a><span><a href="/archive">Eidola</a> &middot;
-<a href="/surfaces">Surfaces</a> &middot; <a href="/upload">Publish</a></span></header>
+<a href="/surfaces">Surfaces</a> &middot; <a href="/upload">Publish</a> &middot;
+<a href="https://melek.salon/">MELEK</a></span></header>
 <main>${body}</main></body></html>`;
 
 // What each article actually is, for the front page. A slug with no note still lists, with its
