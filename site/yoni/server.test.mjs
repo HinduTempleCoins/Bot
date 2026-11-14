@@ -2,7 +2,7 @@
 // Library, that traversal is refused, and that the age gate is per surface rather than per site.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { handler, listArticles, readArticle, esc, policyFor, safeNext, localizeLinks } from './server.mjs';
+import { handler, listArticles, readArticle, esc, policyFor, safeNext, localizeLinks, __setNotify, applicationEmail } from './server.mjs';
 
 function call(url) {
   const req = { method: 'GET', url };
@@ -503,4 +503,44 @@ test('the front page shows the flier only when the image file exists on the host
     assert.equal(fl.code, 404);
     assert.doesNotMatch(home.body, /<img src="\/flier\.jpg"/, 'no broken image when the file is absent');
   }
+});
+
+test('a complete application is emailed to Guru and Ryan; an incomplete one is not', async () => {
+  __setIO({ read: () => '', append: () => true });
+  const sent = [];
+  __setNotify(async (m) => { sent.push(m); return { ok: true }; });
+  try {
+    await postCall('/apply', fullForm({ contact: '' }), await gateCookie());
+    assert.equal(sent.length, 0, 'rejected form sends nothing');
+    const r = await postCall('/apply', fullForm(), await gateCookie());
+    assert.match(r.body, /Application received/);
+    assert.equal(sent.length, 1);
+    assert.deepEqual(sent[0].to, ['Guru@SoapBox.Community', 'Ryan.VanKush@iCloud.com']);
+    assert.match(sent[0].subject, /^YoniShrine application/);
+  } finally { __setNotify(null); }
+});
+
+test('a failed email never breaks the application', async () => {
+  __setIO({ read: () => '', append: () => true });
+  __setNotify(async () => { throw new Error('mail down'); });
+  try {
+    const r = await postCall('/apply', fullForm(), await gateCookie());
+    assert.match(r.body, /Application received/);
+  } finally { __setNotify(null); }
+});
+
+test('applicationEmail lists only the fields that were filled', () => {
+  const m = applicationEmail({ contact: 'a@b.co', what: 'photos', name: '' });
+  assert.match(m.text, /Contact: a@b\.co/);
+  assert.match(m.text, /What they would produce: photos/);
+  assert.doesNotMatch(m.text, /Name:/);
+});
+
+test('/contact shows the support email, Kali Van Kush on Instagram and MELEK, and is in the nav', async () => {
+  const r = await call('/contact');
+  assert.equal(r.code, 200);
+  assert.match(r.body, /mailto:Ryan\.VanKush@iCloud\.com/);
+  assert.match(r.body, /href="https:\/\/www\.instagram\.com\/kalivankush\/"/);
+  assert.match(r.body, /<main>[\s\S]*href="https:\/\/melek\.salon\/"/);
+  assert.match((await call('/')).body, /<header>[\s\S]*href="\/contact"[\s\S]*<\/header>/);
 });
