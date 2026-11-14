@@ -56,6 +56,29 @@ const LIBRARY_URL = (process.env.YONI_LIBRARY_URL || 'https://wiki.soapbox.commu
 // The recruiting flier shown on the front page. The image lives on the host, never in this public repo.
 const AD_FILE = process.env.YONI_AD_FILE || path.join(__dir, '..', '..', 'data', 'yoni', 'flier.jpg');
 const adExists = () => { try { return fs.statSync(AD_FILE).isFile(); } catch { return false; } };
+// Where applications are emailed, and the public support address on /contact.
+const APPLY_NOTIFY = String(process.env.YONI_APPLY_NOTIFY || 'Guru@SoapBox.Community,Ryan.VanKush@iCloud.com')
+  .split(',').map((x) => x.trim()).filter(Boolean);
+const SUPPORT_EMAIL = process.env.YONI_SUPPORT_EMAIL || 'Ryan.VanKush@iCloud.com';
+// Emails one application to APPLY_NOTIFY. The log on disk stays the record; mail is a copy and soft-fails.
+// Loaded on demand: a host with an older email-verify.mjs must still serve the site, just without mail.
+const sendViaResend = async (msg) => {
+  const ev = await import('../../integrations/email-verify.mjs').catch(() => ({}));
+  return typeof ev.resendSend === 'function' ? ev.resendSend(msg) : { ok: false, error: 'no-mailer' };
+};
+let _notify = sendViaResend;
+export function __setNotify(fn) { _notify = fn || sendViaResend; }
+export function applicationEmail(form = {}) {
+  const f = (k) => String(form[k] || '').trim().slice(0, 2000);
+  const lines = [['Contact', f('contact')], ['Name', f('name')], ['What they would produce', f('what')],
+    ['Where', f('where')], ['Links', f('links')], ['Anything else', f('notes')]]
+    .filter(([, v]) => v).map(([k, v]) => `${k}: ${v}`);
+  return { to: APPLY_NOTIFY, subject: `YoniShrine application — ${f('name') || f('contact') || 'new'}`.slice(0, 150),
+    text: `A new application came in on yonishrine.com/apply.\n\n${lines.join('\n\n')}\n` };
+}
+async function notifyApplication(form) {
+  try { return await _notify(applicationEmail(form)); } catch { return { ok: false }; }
+}
 const SECURE_COOKIES = process.env.YONI_INSECURE_COOKIES !== '1';
 
 export const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => (
@@ -121,6 +144,7 @@ const shell = (title, body, desc = '') => `<!doctype html><html lang=en><head><m
 ${STYLE}</head><body>
 <header><a href="/">YoniShrine</a><span><a href="/archive">Eidola</a> &middot;
 <a href="/surfaces">Surfaces</a> &middot; <a href="/upload">Publish</a> &middot;
+<a href="/apply">Apply</a> &middot; <a href="/contact">Contact</a> &middot;
 <a href="https://melek.salon/">MELEK</a></span></header>
 <main>${body}</main></body></html>`;
 
@@ -605,6 +629,19 @@ export async function handler(req, res) {
 
   if (p === '/') return html(200, hubPage());
 
+  if (p === '/contact') {
+    return html(200, shell('Contact — YoniShrine', `
+<h1>Contact</h1>
+<div class=card><b>Support</b><br><a href="mailto:${esc(SUPPORT_EMAIL)}">${esc(SUPPORT_EMAIL)}</a>
+<p class=mut>Questions about the site, your account, your photos or a takedown request.</p></div>
+<div class=card><b>Find us</b>
+<p><a href="https://www.instagram.com/kalivankush/" rel="noopener">Kali Van Kush on Instagram</a><br>
+<a href="https://melek.salon/" rel="noopener">MELEK</a> <span class=mut>&mdash; our social chain</span></p></div>
+<div class=card><b>Want to be on YoniShrine?</b>
+<p class=mut>Models, dancers, actresses and porn actresses: <a href="/apply">apply here</a>.</p></div>`,
+      'Contact YoniShrine.'));
+  }
+
   if (p === '/archive') return html(200, archivePage());
 
   if (p === '/surfaces') return html(200, surfacesPage());
@@ -685,6 +722,7 @@ export async function handler(req, res) {
     const form = Object.fromEntries(new URLSearchParams(raw));
     const out = appendApplication(form);
     if (!out.ok) return html(200, applyPage({ error: out.reason, values: form }));
+    await notifyApplication(form);
     return html(200, applyPage({ done: true }));
   }
 
