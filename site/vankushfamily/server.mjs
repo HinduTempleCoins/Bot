@@ -108,6 +108,10 @@ export const PROPERTIES = [
     { name: 'Herald', url: 'https://herald.soapbox.community', desc: 'The growth engine.' },
     { name: 'KULA Arcade', url: 'https://arcade.soapbox.community', desc: 'Free, provably-fair, play-token games.' },
   ] },
+  // yonishrine.com checked HTTP 200 on 2026-11-14.
+  { group: 'Adult (18+)', items: [
+    { name: 'YoniShrine', url: 'https://yonishrine.com', desc: 'Models, dancers, actresses and porn actresses — your own page, the street-level wiki and the shrine. 18+.' },
+  ] },
 ];
 
 // Newsletter opt-in: file store + the Resend double-opt-in confirm mailer (soft-fails to no-send).
@@ -187,8 +191,7 @@ const FOOTER = `<footer>
   <b>Credit first</b>.
   <div style="margin-top:8px">
     <a href="${esc(DATA)}">Data</a> · <a href="${esc(LAW)}">Law</a> · <a href="${esc(POLITICS)}">Politics</a> ·
-    <a href="${esc(HEMP)}">Hemp</a> · <a href="${esc(SEARCH)}">Search</a> · <a href="${esc(WIKI)}">Library</a> ·
-    <a href="${esc(ADMIN)}">Admin</a>
+    <a href="${esc(HEMP)}">Hemp</a> · <a href="${esc(SEARCH)}">Search</a> · <a href="${esc(WIKI)}">Library</a>
   </div></footer>`;
 
 function page(title, body, opts = {}) {
@@ -206,7 +209,7 @@ function page(title, body, opts = {}) {
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://soapbox.community/#org","name":"Van Kush Family","url":"https://soapbox.community"},{"@type":"WebSite","@id":"${BASE_URL}/#website","url":"${BASE_URL}","name":"Van Kush Family","publisher":{"@id":"https://soapbox.community/#org"}}]}</script>${STYLE}${NAV_STYLE}</head><body>
 <div class=enav-strip style="background:var(--panel,#14181d);border-bottom:1px solid var(--line2,#222a33);padding:7px 18px">${navDrawer({ current: 'roadmap' })}</div>
 <header class=topbar><a class=brand href="/">Van Kush Family <span>roadmap</span></a>
-  <div class=topbar-r><a href="#shipped">Shipped</a><a href="#day0">MELEK&nbsp;live</a><a href="#prana">PRANA</a><a href="#soap">SOAP</a><a href="#beyond">Beyond</a></div></header>
+  <div class=topbar-r><a href="#shipped">Shipped</a><a href="#day0">MELEK&nbsp;live</a><a href="#fall">New</a><a href="#prana">PRANA</a><a href="#soap">SOAP</a><a href="#beyond">Beyond</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}${NAV_DRAWER_JS}</body></html>`;
 }
@@ -259,7 +262,6 @@ export const PHASES = [
       { status: 'shipped', title: 'Discord + Telegram community', detail: 'The Van Kush Family Discord community bot and the Telegram front desk are live and in use today.' },
       { status: 'shipped', title: 'Research corpus + published papers', detail: 'The scholarship: published genealogy and mythology-as-history papers plus the assembled scripture canon — the meaning the technology serves.' },
       { status: 'shipped', title: 'Knowledge base + library / RAG', detail: 'A searchable corpus with retrieval, feeding the library vertical and the AI members.' },
-      { status: 'shipped', title: 'soapy.blog admin portal', detail: 'The public admin and features catalog is live, with front-page ticker, world clocks and a Claude chat bridge.' },
     ],
   },
   {
@@ -274,7 +276,7 @@ export const PHASES = [
       { status: 'shipped', title: 'On-chain Publisher', detail: "Hathor's articles and updates post on-chain as standard comments — the corpus written into the public record." },
       { status: 'shipped', title: 'On-chain Onboarder', detail: 'Guided signup with delegated account creation, email verification and a staged tutorial is live — newcomers join the chain with help.' },
       { status: 'shipped', title: 'Witness School', detail: 'A public school that teaches people to run and vote for witnesses is live, with a live Hathor status page and a CryptoKannon-style tutor.' },
-      { status: 'progress', title: 'Public Wiki', detail: 'The searchable knowledge corpus and library are live; a fuller public wiki is being populated from them.' },
+      { status: 'shipped', title: 'Public Wiki', detail: 'The Library of Ashurbanipal is live at wiki.soapbox.community — the cited reference wiki, with new shelves added every week.' },
     ],
   },
   {
@@ -287,6 +289,26 @@ export const PHASES = [
       { status: 'progress', title: 'Conversational Hathor', detail: 'Hathor already answers on community surfaces; the full Witness persona — teaching the corpus and welcoming people as a member, not a tool — is being brought online.' },
       { status: 'progress', title: 'On-chain Curator', detail: 'Community karma signals feed on-chain curation votes that surface and reward good work; auto-curation is running and being tuned.' },
       { status: 'shipped', title: 'Cheetah fair-attribution', detail: 'The credit-first librarian runs alongside Hathor: credit first, point you to the shelf, resolve attribution fairly.' },
+    ],
+  },
+  {
+    id: 'fall',
+    kind: 'shipped',
+    title: 'Fall 2026 — the family grows',
+    when: 'shipped · Sep–Nov 2026',
+    desc: 'After launch the rooms kept opening: messaging, groups, a token market, games, a free AI studio, the law and the library — and YoniShrine.',
+    milestones: [
+      { status: 'shipped', title: 'YoniShrine', detail: 'yonishrine.com is live for models, dancers, actresses and porn actresses (18+): the street-level wiki on doing it legally, the shrine, an age-verified gate, and a way for approved models to publish their own work.' },
+      { status: 'progress', title: 'YoniShrine model pages', detail: 'The first model\u2019s photo and video sets are watermarked and being prepared to go up, with more models soon after.' },
+      { status: 'shipped', title: 'Pentecaust + Pact', detail: 'MELEK messaging — direct and group chat over the chain at pentecaust.com — and Pact, the groups and clubs built on it.' },
+      { status: 'shipped', title: 'The Writing Room', detail: 'A drafting studio at pentecaust.com/metatron where your words never leave your browser — no account, export first-class.' },
+      { status: 'shipped', title: 'MELEK-Engine on mainnet', detail: 'Side tokens on MELEK, now on mainnet with a market at engine.melek.salon — issue and trade a token without deploying a contract.' },
+      { status: 'shipped', title: 'Karma', detail: 'Standing that rises when you lift someone — it cannot be bought or sent. Live at karma.melek.salon.' },
+      { status: 'shipped', title: 'KULA Arcade + KULA Farm', detail: 'Free, provably-fair play-token games, and yield farming on the MELEK ecosystem.' },
+      { status: 'shipped', title: 'Hathor Studio', detail: 'Make with the Witness at hathor.soapbox.community — free AI images, a photo editor, effects, business cards and a GenAI school. No account, no card.' },
+      { status: 'shipped', title: 'hathor.live + the 40 Hz library', detail: 'Hathor\u2019s own surface, with the binaural-beat and entrainment session library at hathor.live/40hz.' },
+      { status: 'shipped', title: 'The Case Law of Us + our free books', detail: 'American history read through the case reporters at caselaw.soapbox.community, and our own books free to read or download at library.soapbox.community/our-books.' },
+      { status: 'shipped', title: 'Congress + Herald', detail: 'Congress, the on-chain town square (alpha), and Herald, the growth engine that carries the news out.' },
     ],
   },
   {
@@ -303,7 +325,7 @@ export const PHASES = [
   {
     id: 'soap',
     title: 'SOAP — the Beauty Economy',
-    when: 'later this year',
+    when: 'later',
     desc: '"A legal Silk Road, but a Beauty Economy." Its own chain and marketplace — the least-built of the three, deliberately kept soft.',
     milestones: [
       { status: 'planned', title: 'SOAP chain launch', detail: 'SOAP launches as its own chain into the live ecosystem, anchoring the Beauty Economy marketplace.' },
@@ -387,6 +409,7 @@ const DEST = [
   ['Witness School', 'Learn to run a witness, mine, make a token, write the wiki — and earn.', 'https://witness.melek.salon', '🎓'],
   ['KulaSwap', 'The PRANA DEX — swap, provide liquidity, farm.', 'https://kula.money', '💧'],
   ['The Library', 'Ashurbanipal — the cited reference wiki behind it all.', 'https://wiki.soapbox.community', '📜'],
+  ['YoniShrine', 'Models, dancers and actresses — become a Goddess, be seen. 18+.', 'https://yonishrine.com', '✦'],
   ['Roadmap', 'What is live now, next, and later — the honest timeline.', '/roadmap', '🗺'],
 ];
 
@@ -456,7 +479,7 @@ function landing(title, body, opts = {}) {
  .pgroup li .muted{display:block;color:var(--mut);font-size:.88rem}
 </style></head><body>
 <main class=wrap>${body}</main>
-<footer>© Van Kush Family · <a href="/roadmap">roadmap</a> · <a href="https://melek.salon">melek.salon</a></footer>
+<footer>© Van Kush Family · <a href="/roadmap">roadmap</a> · <a href="https://melek.salon">melek.salon</a> · <a href="https://yonishrine.com">YoniShrine</a></footer>
 </body></html>`;
 }
 
