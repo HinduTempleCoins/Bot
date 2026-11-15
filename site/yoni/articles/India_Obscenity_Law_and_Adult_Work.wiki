@@ -1,0 +1,94 @@
+'''India: obscenity law and adult work''' sets out what Indian law allows and forbids for models, dancers, actresses and anyone thinking about adult work in India, with short notes on Pakistan, Bangladesh and Sri Lanka. The short version is very different from the United States. '''Nudity and art are protected in context. Sex work by an adult, by itself, is not a crime. But making, publishing or sending sexually explicit material electronically is a crime, and a performer who appears in it can be charged.''' That is why this property's casting call for South Asia asks for models, dancers and actresses only.
+
+''Legal education, not legal advice. Statutes as in force on 15 November 2026; the Bharatiya Nyaya Sanhita, 2023 (BNS) replaced the Indian Penal Code (IPC) from 1 July 2024, and older cases cite the IPC section numbers. Anyone with real exposure needs an Indian advocate.''
+
+== The statutes ==
+
+=== Information Technology Act, 2000 — the one that reaches online porn ===
+
+{| class="wikitable"
+! Section !! What it covers !! First conviction !! Later conviction
+|-
+| '''§ 67''' || Publishing or transmitting in electronic form material that is "lascivious or appeals to the prurient interest" or tends to deprave and corrupt || Up to 3 years and fine up to ₹5 lakh || Up to 5 years and fine up to ₹10 lakh
+|-
+| '''§ 67A''' || Publishing or transmitting material containing a "sexually explicit act or conduct" || Up to 5 years and fine up to ₹10 lakh || Up to 7 years and fine up to ₹10 lakh
+|-
+| '''§ 67B''' || Sexually explicit material depicting children, including creating, browsing, downloading or collecting it || Up to 5 years and fine up to ₹10 lakh || Up to 7 years and fine up to ₹10 lakh
+|}
+
+'''§ 67A is the provision that makes adult porn production unlawful in India.''' "Publishes or transmits or causes to be published or transmitted" is wide enough to reach the producer, the platform, the uploader and the performer who knowingly makes material for publication. There is no adult-consent defence and no records regime that makes it lawful — unlike the United States, where § 2257 records are the price of a lawful production, in India there is no lawful explicit production to keep records for.
+
+'''The exception that matters to this property.''' The proviso to §§ 67A and 67B excludes any book, pamphlet, paper, writing, drawing, painting, representation or figure in electronic form whose publication is '''justified as being for the public good''' because it is '''in the interest of science, literature, art or learning''' or other objects of general concern, or which is kept or used '''for bona fide heritage or religious purposes'''. Anatomical teaching material, art and religious imagery sit in that exception.
+
+=== Bharatiya Nyaya Sanhita, 2023 ===
+
+* '''§ 294''' (formerly IPC § 292) — sale, distribution, public exhibition and circulation of obscene books, drawings, figures and objects, now expressly including '''the display of any content in electronic form'''. Obscene means "lascivious or appeals to the prurient interest" or tending to deprave and corrupt. Punishment on first conviction up to 2 years and fine up to ₹5,000; on a later conviction up to 5 years and fine up to ₹10,000. '''Its exceptions''' cover material justified as for the public good in the interest of science, literature, art or learning; material kept or used bona fide for religious purposes; and '''any representation sculptured, engraved, painted or otherwise represented on or in any ancient monument, or any temple, or any car used to convey idols, or kept or used for any religious purpose'''. That last exception is why Khajuraho and Konark are lawful, and it is the statute's own recognition that the sacred erotic is not obscenity.
+* '''§ 296''' (formerly IPC § 294) — obscene acts or songs in a public place to the annoyance of others: up to 3 months, or fine up to ₹1,000, or both. This is the provision used against bar and stage dancing.
+
+=== Indecent Representation of Women (Prohibition) Act, 1986 ===
+
+Prohibits advertisements, publications, writings, paintings and figures that depict a woman's figure or body "in such a way as to have the effect of being indecent, or derogatory to, or denigrating, women", or likely to deprave or corrupt public morality. It carries its own exceptions for material justified as for the public good (science, literature, art, learning), material kept for religious purposes, and temple and monument sculpture. First conviction up to 2 years and fine up to ₹2,000; later convictions 6 months to 5 years and fine of ₹10,000 to ₹1 lakh.
+
+=== POCSO Act, 2012 — the age floor ===
+
+The age floor is eighteen, as in the US. In ''Just Rights for Children Alliance v. S. Harish'' (2024) the Supreme Court held that storing or viewing child sexual abuse material is itself an offence under § 15 of POCSO, and asked that the term "child sexual exploitative and abuse material" be used instead of "child pornography".
+
+=== Immoral Traffic (Prevention) Act, 1956 — sex work ===
+
+The ITPA does not make sex work by an adult a crime. It criminalises '''running or keeping a brothel''', '''living on the earnings''' of another's prostitution, '''procuring''' or detaining a person for prostitution, and '''soliciting in a public place'''. In ''Budhadev Karmaskar v. State of West Bengal'' the Supreme Court, by its orders of May 2022, directed that '''adult sex workers who consent are entitled to equal protection of the law''', that police should not arrest, penalise or harass a consenting adult sex worker, and that voluntary sex work is not illegal — only running a brothel is.
+
+== The cases: how courts tell art from obscenity ==
+
+* '''''Ranjit D. Udeshi v. State of Maharashtra''''', AIR 1965 SC 881 — upheld a conviction for selling ''Lady Chatterley's Lover'' using the old English ''Hicklin'' test, whether the material tends to corrupt those whose minds are open to it.
+* '''''Samaresh Bose v. Amal Mitra''''' (1985) — a novel is judged as a whole, from the standpoint of an ordinary reader; vulgarity is not obscenity.
+* '''''Bobby Art International v. Om Pal Singh Hoon''''' (1996) — the nude scene in ''Bandit Queen'' was not obscene: nudity used to show humiliation and violence, in context, is not intended to arouse.
+* '''''Ajay Goswami v. Union of India''''' (2007) — material is judged by the standards of an ordinary person of common sense, not the most sensitive reader.
+* '''''Khushboo v. Kanniammal''''' (2010) — speaking publicly in favour of premarital sex is protected speech; morality and criminality are not the same thing.
+* '''''Aveek Sarkar v. State of West Bengal''''' (2014) — the Supreme Court '''abandoned ''Hicklin''''' for a '''contemporary community standards''' test, holding that a photograph of Boris Becker nude with his fiancée, covering her breasts with his arm, was not obscene: '''a nude or semi-nude picture is not obscene by itself''', and must be judged in context and as a whole.
+
+The through-line matches the American position on the nude: '''nudity is not obscenity; purpose and context decide.''' Where Indian law parts company with American law is the explicit act. In the US an explicit scene between adults is lawful with records; in India § 67A makes publishing it a crime regardless of consent.
+
+== Enforcement in practice ==
+
+* '''Production rings.''' In 2021 Mumbai police arrested the businessman Raj Kundra and others in a case over app-distributed explicit films, under IT Act § 67A and the then IPC § 292. Actresses and models who appeared in such films were among those arrested or questioned in related cases. '''Performers are not treated as bystanders.'''
+* '''"Bold" OTT platforms.''' The Ministry of Information and Broadcasting ordered the blocking of 18 OTT platforms for obscene content in March 2024, and of a further group of apps, reported as 25 including Ullu and ALTT, in July 2025. Soft-core "bold web series" work that sits just short of explicit has been the main target.
+* '''Private viewing.''' No statute makes it a crime for an adult to watch adult pornography privately; the Kerala High Court said as much in 2023. Child sexual abuse material is the exception, as above.
+
+== What this means for someone in India ==
+
+{| class="wikitable"
+! Work !! Position in India
+|-
+| Fashion, glamour and figure modeling, clothed or implied nude || Lawful
+|-
+| Artistic nude in a serious context || Defensible under ''Aveek Sarkar'' and the art exceptions; still exposed to complaint, and publication online engages § 67 if alleged lascivious
+|-
+| Anatomical and sexual-health teaching images || Inside the science and learning exceptions to §§ 67A and BNS 294
+|-
+| Religious and temple imagery, the yoni and lingam || Expressly excepted by BNS 294 and the § 67A proviso
+|-
+| Dance performance || Lawful; obscene public acts under BNS 296 and state bar-dance rules are the risk
+|-
+| Acting, including bold scenes in certified films || Lawful within certification; uncertified explicit streaming content has been blocked and prosecuted
+|-
+| Sexually explicit content, even for a foreign site, made or uploaded from India || '''Criminal under IT Act § 67A''' for producer and, in practice, performer
+|-
+| Adult sex work, independently || Not itself a crime; brothels, pimping and public soliciting are
+|}
+
+This property's position follows from that table. '''From South Asia it casts models, dancers and actresses only.''' It does not ask anyone in India to make explicit material, and it does not publish explicit material made there.
+
+== Neighbouring countries in brief ==
+
+* '''Pakistan''' — Pakistan Penal Code § 292 (obscene materials) and § 294 (obscene acts), and the Prevention of Electronic Crimes Act, 2016. Explicit material is criminal and enforcement is stricter than India's.
+* '''Bangladesh''' — the Pornography Control Act, 2012 criminalises producing, distributing and possessing pornography, with up to 7 years' imprisonment for production. Separately, licensed brothels operate lawfully in some places for adults.
+* '''Sri Lanka''' — the Obscene Publications Ordinance, 1927 and Penal Code §§ 285–286A. Explicit material is criminal.
+
+''Flagged: the neighbouring-country notes give the governing statutes only and have not been worked through to current case law. Treat them as a starting point, not a conclusion.''
+
+== See also ==
+
+* [[Art Nudity and Porn Where the Line Is]] — the US lines between nude, teaching image and porn
+* [[The Federal Age Floor for Filming]] — the eighteen-year floor and § 2257 records
+* [[Actress or Prostitute The Legal Line]] — the US acting-fee line
+* [[The Womb the Fish and the Phallus]] — the sacred generative image in history
