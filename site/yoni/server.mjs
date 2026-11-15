@@ -152,6 +152,10 @@ ${STYLE}</head><body>
 // title only — the front page must never silently drop an article just because nobody wrote a line
 // for it. Keep these to one clause; the article itself is the long version.
 const ARTICLE_NOTES = {
+  Art_Nudity_and_Porn_Where_the_Line_Is:
+    ['law', 'nude, teaching image and porn are three different legal objects — penetration and acts, the Dost factors, and why a labelled anatomical plate is not porn'],
+  India_Obscenity_Law_and_Adult_Work:
+    ['law', 'IT Act § 67A, BNS § 294 and its temple exception, Aveek Sarkar, and why the South Asia casting call is models, dancers and actresses only'],
   Actress_or_Prostitute_The_Legal_Line:
     ['law', 'what makes a payment an acting fee instead of a sex-work offence — People v. Freeman, and why it does not travel'],
   Paid_for_Her_Time_Fee_Agreement_and_Transport:

@@ -1,0 +1,107 @@
+'''Art, nudity and porn — where the line is''' sets out what actually separates a nude, an anatomical teaching image, and pornography in law, and how this property is built across all three. The popular test — "you can see everything, so it's porn" — is not the legal test anywhere in the United States. The legal tests look at '''what is happening''' in the image and '''what the image is for''', not at how much skin is visible. A labelled anatomical plate built on a real photograph is a different legal object from a sex scene even when the anatomy shown is the same, and an artistic nude is a different object again.
+
+''Legal education, not legal advice. United States federal law is the baseline; state law, platform rules and other countries differ — see [[India Obscenity Law and Adult Work]] for South Asia. Anyone with real exposure needs a lawyer admitted where they are.''
+
+== Three things this property publishes ==
+
+{| class="wikitable"
+! Shelf !! What it is !! Example !! Where it lives here
+|-
+| '''Art and modeling''' || The body as subject: the nude, the figure, glamour and fashion work || A back-and-figure shot, a classical nude, a fashion editorial || Open shelves and the clothed or obscured preview
+|-
+| '''Teaching''' || The body as information: anatomy, health, history, religion || A labelled vulva diagram on a real photograph; the yoni in temple sculpture || The reading room (Eidola), open, no check
+|-
+| '''Adult''' || The body in sexual activity, made to arouse || A scene, a solo masturbation clip, a live show || Gallery, video and live surfaces behind a verified age check, with producer records
+|}
+
+The rest of this article is why those three are legally different, and what moves an image from one shelf to another.
+
+== The law draws three lines, not one ==
+
+=== Line 1 — obscenity: may it be published at all? ===
+
+''Miller v. California'', 413 U.S. 15 (1973), is the only test for whether sexual material loses First Amendment protection. All three prongs must be met:
+
+# the average person, applying contemporary community standards, would find the work taken as a whole appeals to the prurient interest;
+# it depicts or describes, in a patently offensive way, sexual conduct specifically defined by the applicable law; and
+# the work taken as a whole lacks serious literary, artistic, political or scientific value.
+
+Prong 3 is judged by a reasonable person, not by local community standards (''Pope v. Illinois'', 481 U.S. 497 (1987)). '''Nudity alone is not obscene''' — ''Jenkins v. Georgia'', 418 U.S. 153 (1974) (the film ''Carnal Knowledge''); ''Erznoznik v. City of Jacksonville'', 422 U.S. 205 (1975) (a drive-in screen showing bare buttocks and breasts could not be banned for nudity alone). Hard-core material between adults is almost never prosecuted as obscene today, but the test is still the law, and teaching material and art are protected by prong 3 directly.
+
+=== Line 2 — "sexually explicit conduct": does the record-keeping law attach? ===
+
+This is the line that matters most in day-to-day production. 18 U.S.C. § 2256(2)(A) defines sexually explicit conduct as actual or simulated:
+
+<code>(i) sexual intercourse, including genital-genital, oral-genital, anal-genital, or oral-anal ...</code>
+<code>(ii) bestiality;</code>
+<code>(iii) masturbation;</code>
+<code>(iv) sadistic or masochistic abuse; or</code>
+<code>(v) lascivious exhibition of the anus, genitals, or pubic area of any person;</code>
+
+Read that list against the operator's working description of porn — '''orifices being penetrated, and things coming out of them'''. Clauses (i)–(iii) are acts: penetration and contact of the kinds listed, and masturbation. Fluids are not named anywhere in the statute; a scene showing ejaculation or squirting is caught because of the act that produced it, not because of the fluid. '''An image with no act in it can only be caught by clause (v)''', and clause (v) needs the exhibition to be ''lascivious'' — nudity is not enough. Where material falls in the list, 18 U.S.C. § 2257 requires the producer to check and keep government ID for every performer, keep the records at a business address, and label every copy. See [[The Federal Age Floor for Filming]].
+
+=== Line 3 — harmful to minors: must viewers be age-checked? ===
+
+The state age-verification statutes use the ''Ginsberg v. New York'', 390 U.S. 629 (1968), "harmful to minors" standard — obscenity measured against minors rather than adults. Several states define the nudity in that standard to include the buttocks and the female breast. Those laws were upheld in ''Free Speech Coalition v. Paxton'', 606 U.S. 461 (2025). This is a duty on '''who may view''', not on '''what may exist''', and it is why the adult surfaces here demand a real check while the reading room does not. See [[Blurring Click to Reveal and Per Surface Thresholds]].
+
+== Nudity is not porn ==
+
+A nude with no act in it is outside clauses (i)–(iv) by definition. Whether it is inside clause (v) is decided on the six ''Dost'' factors (''United States v. Dost'', 636 F. Supp. 828 (S.D. Cal. 1986)):
+
+# whether the focal point is the genitals or pubic area;
+# whether the setting is sexually suggestive — a place or pose generally associated with sexual activity;
+# whether the pose is unnatural or the attire inappropriate;
+# whether the subject is fully or partially nude;
+# whether the image suggests sexual coyness or a willingness to engage in sexual activity;
+# whether it is intended or designed to elicit a sexual response in the viewer.
+
+No single factor decides it and not all six need be present (''United States v. Amirault'', 173 F.3d 28 (1st Cir. 1999)). Nudity is factor 4 of 6. A figure shot from behind — back, hips and buttocks, no genitals and no anus in frame — has no clause (v) subject matter at all: the statute lists the anus, genitals and pubic area, and the buttocks are not on it. That is why the casting poster for this property is a nude and not porn, and why it still falls inside the state "harmful to minors" definitions that include buttocks and is not handed to children.
+
+== The labelled diagram: teaching is not porn, even wide open ==
+
+The operator's position, which this shelf is built on: '''a labelled anatomical diagram with a real photograph as its base is not pornography, even when the vulva is held fully open.''' The law supports it, for these reasons and with these conditions.
+
+* '''It is outside clauses (i)–(iv).''' Holding the labia apart to show structure is not intercourse, not masturbation and not sadomasochism. There is no act.
+* '''It fails the ''Dost'' factors that matter most.''' Factor 1 is met by design — the genitals are the focal point, because they are the subject. But a teaching plate has a neutral, clinical setting (factor 2), a functional rather than a suggestive pose (factor 3), no suggestion of coyness or sexual willingness (factor 5), and a purpose that is plainly to inform rather than to arouse (factor 6). Labels, leader lines, the names of each structure and an accompanying text are evidence of that purpose on the face of the image. This is the same reason medical atlases, the Our Bodies, Ourselves tradition and gynaecological teaching photographs circulate lawfully.
+* '''It has serious scientific and educational value''', which ends any obscenity analysis at ''Miller'' prong 3.
+
+'''The conditions — this is where an anatomical plate turns into something else:'''
+* '''Framing must be clinical.''' A bedroom, lingerie, a come-hither face, a caption written to arouse, or a sequence of shots that build like a scene all push factors 2, 5 and 6 back toward lascivious.
+* '''No act.''' Touching that becomes stimulation is clause (iii). Insertion of anything is clause (i) territory or close to it. A diagram may name the vaginal opening; it does not show something entering it.
+* '''The labels must be real teaching.''' A token label stuck on an explicit image does not convert it. The test runs on the material, not the caption — "fine art" or "education" written over an image that is doing something else changes nothing.
+* '''Keep the records anyway.''' Whether clause (v) is met is decided after the fact by someone else, and ''Dost'' is not applied uniformly — the D.C. Circuit and the Tennessee Supreme Court have declined to adopt it, and the Seventh Circuit held full nudity is not required (''United States v. Donoho'', 2023). The model's ID, age record and signed release for every real-photograph plate cost nothing at the shoot and cannot be created later.
+* '''Platforms are stricter than the law.''' Card networks and app stores apply their own rules regardless of the statute. Mastercard's 2021 adult-content standards require the merchant to verify the age and identity of every person depicted and to review content before it is published, whatever its legal classification.
+
+== Art is not porn — and art can contain porn ==
+
+The art defence lives in ''Miller'' prong 3 and in the ''Dost'' purpose factor. It protects the nude, the classical erotic corpus and the religious image — the yoni and lingam in stone, the temple carving, the fertility figure — because their value is serious and their purpose is not simply arousal. See [[Fine Art Nude Sources and Rights]] and [[Classical Erotology Corpus and Rights]].
+
+Two cautions. '''Art does not exempt anyone from § 2257''': there is no artistic exemption to the record-keeping duty, so an art film with a real sex act in it is a covered production. And '''art does not change the age floor''': nothing makes a depiction of a person under eighteen lawful.
+
+== Porn is lawful too ==
+
+None of this treats pornography as illegal. Sexually explicit material between consenting adults is lawful to make, sell and watch in the United States, subject to the age floor, the records, the age checks on viewers and the platform rules. This property teaches it and, behind the right gates, carries it. The point of the lines above is not to avoid porn. It is to know which shelf a piece of work is on, so that each one carries the duties that belong to it and no more.
+
+== How a piece moves between shelves ==
+
+{| class="wikitable"
+! Change !! Effect
+|-
+| Add a sexual act, real or simulated || Adult shelf: § 2257 or § 2257A records, verified age check, adult card rules
+|-
+| Close-crop the genitals with a sexual setting or pose || Likely clause (v): treat as adult
+|-
+| Same anatomy, clinical framing, real labels and text || Teaching shelf
+|-
+| Full figure, no genital focus, no act || Art and modeling shelf; still "harmful to minors" in many states if buttocks or breasts are shown
+|-
+| Clothed or obscured || Preview; open
+|}
+
+== See also ==
+
+* [[The Federal Age Floor for Filming]] — § 2256 in full, § 2257 records, and the eighteen-year floor
+* [[Blurring Click to Reveal and Per Surface Thresholds]] — the four tests side by side and what each surface here triggers
+* [[Actress or Prostitute The Legal Line]] — when a payment is an acting fee
+* [[Fine Art Nude Sources and Rights]] — the nude in public collections and what may be reused
+* [[India Obscenity Law and Adult Work]] — the same questions under Indian law
