@@ -57,6 +57,38 @@ A nude with no act in it is outside clauses (i)–(iv) by definition. Whether it
 
 No single factor decides it and not all six need be present (''United States v. Amirault'', 173 F.3d 28 (1st Cir. 1999)). Nudity is factor 4 of 6. A figure shot from behind — back, hips and buttocks, no genitals and no anus in frame — has no clause (v) subject matter at all: the statute lists the anus, genitals and pubic area, and the buttocks are not on it. That is why the casting poster for this property is a nude and not porn, and why it still falls inside the state "harmful to minors" definitions that include buttocks and is not handed to children.
 
+== Posing is not porn ==
+
+'''A pose does not make an image porn.''' Every nude in the museum is posed. Titian's ''Venus of Urbino'' (1538) reclines on a bed, looking straight at the viewer with her hand at her pubis; Goya's ''Naked Maja'' (c. 1797–1800) lies back with her arms behind her head; Manet's ''Olympia'' (1863) was a scandal because of her gaze, not her body. Courbet's ''L'Origine du monde'' (1866) is a close-up of a woman's open thighs and vulva, with the genitals as the whole subject, and it hangs in the Musée d'Orsay. Posing, reclining, looking at the camera, showing the body off, even putting the genitals at the centre of the frame — none of that, by itself, is the legal line.
+
+What the law looks at is '''what kind of posing it is'''. In the ''Dost'' factors, the pose shows up three ways: whether the setting or pose is one "generally associated with sexual activity" (factor 2), whether it is unnatural (factor 3), and whether it suggests sexual coyness or a willingness to have sex (factor 5). A pose crosses toward the line when it '''acts out sex''' — seductive movement, presenting the body as available, miming what comes next — not when it simply holds the body for the eye.
+
+=== The ladder ===
+
+{| class="wikitable"
+! Image !! Genitals or anus shown? !! Sexual act? !! Legal position (US) !! What people will call it
+|-
+| Clothed twerking, grinding or a lap-dance routine || No || No — dance || '''Not porn and not nudity.''' Dance is protected expression. Not "simulated" sexual conduct either: 28 C.F.R. § 75.1 defines that as conduct depicted so a reasonable viewer would believe actual sex took place, and it expressly excludes conduct that is "merely suggested". Nobody believes a clothed twerk is sex || "Too sexy" to some; platforms may label or limit it as sexually suggestive
+|-
+| Nude from behind, standing or kneeling, back and buttocks, nothing between the legs visible || No || No || '''Nudity, not sexually explicit conduct.''' The buttocks are not on the § 2256 list. No records duty from the statute. Still "harmful to minors" in states whose definition includes the buttocks, so age-gate it || Many will call it porn; legally it is a nude
+|-
+| Nude twerking, or seductive nude posing, with nothing between the legs visible || No || No act, but the pose acts out sex || '''Usually still outside clause (v)''', because no anus, genitals or pubic area is exhibited. The seductive pose raises factors 2, 5 and 6 but there is nothing on the list for them to attach to. Harmful-to-minors applies; keep records anyway || '''Questionable''' — many will say porn, and a prosecutor or platform may push the line
+|-
+| Classical reclining nude, pubic area visible, calm pose || Pubic area || No || Factor 4 only. '''Not lascivious''' on any ordinary reading || Art
+|-
+| Labelled anatomical plate, vulva held open, clinical framing || Yes, as the subject || No || '''Teaching, not porn''' — see the next section || Divided; the labels and setting decide it
+|-
+| Spread-eagle, genitals displayed, licking her own nipples, bedroom setting, eyes to camera || Yes || Self-touching for arousal || '''Lascivious exhibition — clause (v).''' Genital focus (1), sexual setting (2), unnatural pose (3), nudity (4), sexual willingness (5), made to arouse (6): every factor is met. Sexually explicit conduct; § 2257 records apply || Porn
+|-
+| Any penetration, oral contact, or masturbation, real or simulated || — || Yes || '''Clauses (i)–(iii).''' Sexually explicit conduct whatever the framing; § 2257 or § 2257A records apply || Porn
+|}
+
+=== "I know it when I see it" ===
+
+The phrase comes from Justice Potter Stewart's concurrence in ''Jacobellis v. Ohio'', 378 U.S. 184 (1964), where he said he could not define hard-core pornography "but I know it when I see it." It was one justice's opinion, not the holding of the Court, and it '''is not the test'''. Nine years later ''Miller v. California'' replaced the guesswork with the three-prong test above, and § 2256 replaced it with a list of acts. The phrase survives because it describes how people actually react: the spread-eagle-and-nipples image is one almost anyone would call porn on sight, and the law agrees with them, but for listed reasons, not because of the reaction.
+
+The middle of the ladder is where the gut reaction and the law part company. A nude twerk with nothing between the legs on view will strike many people as porn, and the statute does not reach it. That gap is real, and it cuts both ways: it is why such an image is lawful to make without § 2257 records, and it is also why '''the producer should keep them anyway''' — the clause (v) call is made after the fact by someone else, and the Third Circuit has held that clause (v) does not even require nudity where the genitals are the clear focus through thin clothing (''United States v. Knox'', 32 F.3d 733 (3d Cir. 1994)).
+
 == The labelled diagram: teaching is not porn, even wide open ==
 
 The operator's position, which this shelf is built on: '''a labelled anatomical diagram with a real photograph as its base is not pornography, even when the vulva is held fully open.''' The law supports it, for these reasons and with these conditions.
